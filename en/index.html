@@ -83,7 +83,7 @@
   </div>
 
   <div class="wrap">
-    <div class="flow reveal" id="flow" role="img" aria-label="Three servers send backups to a Mac, and every file gets verified">
+    <div class="flow reveal" id="flow" role="img" aria-label="Three servers send backups to a Mac, every file gets verified, and a copy goes on to Yandex Disk">
       <svg class="flow-lines" id="flow-lines" aria-hidden="true"></svg>
       <div class="flow-servers">
         <div class="srv" data-files='[["mysql-shop.sql.zst","412 MB"],["mysql-shop_logs.sql.zst","38 MB"],["dir-var-www-shop-uploads.tar.gz","1.1 GB"]]'>
@@ -112,7 +112,12 @@
           <li><span class="f-name">dir-srv-crm-storage.tar.gz</span><span class="f-size">240 MB</span><span class="f-ok">verified</span></li>
           <li><span class="f-name">mysql-blog.sql.gz</span><span class="f-size">21 MB</span><span class="f-ok">verified</span></li>
         </ul>
-        <div class="home-cloud"><span class="cloud-dot"></span> A copy goes to Yandex Disk</div>
+      </div>
+      <div class="flow-clouds">
+        <p class="clouds-label">Cloud copy</p>
+        <div class="cl live"><span class="p-logo ya">Я</span><div><b>Yandex Disk</b><span class="cl-stat">sha256 ✓</span></div></div>
+        <div class="cl"><span class="p-logo gd">G</span><div><b>Google Drive</b><span>soon</span></div></div>
+        <div class="cl"><span class="p-logo s3">S3</span><div><b>S3 and WebDAV</b><span>planned</span></div></div>
       </div>
     </div>
   </div>

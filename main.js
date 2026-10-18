@@ -118,7 +118,10 @@
   const home = flow.querySelector('.flow-home');
   const homeIcon = flow.querySelector('.home-icon');
   const list = document.getElementById('home-files');
+  const clouds = [...flow.querySelectorAll('.cl')];
+  const cloudStat = flow.querySelector('.cl.live .cl-stat');
   let paths = [];
+  let cloudPath = '';
 
   function layout() {
     const box = flow.getBoundingClientRect();
@@ -152,6 +155,28 @@
       lines.querySelectorAll('.ln').forEach((p, i) => { if (i < paths.length - 1) p.remove(); });
       paths = paths.map(() => last);
     }
+    // Mac → cloud storages: the live one gets the animated line, planned ones a faint one.
+    const below = clouds[0].getBoundingClientRect().top > h.bottom;
+    clouds.forEach((c, i) => {
+      const r = c.getBoundingClientRect();
+      let d;
+      if (below) {
+        const x1 = h.left + h.width * (0.3 + 0.2 * i) - box.left, y1 = h.bottom - box.top;
+        const x2 = r.left + r.width / 2 - box.left, y2 = r.top - box.top;
+        const my = (y1 + y2) / 2;
+        d = `M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}`;
+      } else {
+        const x1 = h.right - box.left, y1 = h.top + h.height * (0.42 + 0.1 * i) - box.top;
+        const x2 = r.left - box.left, y2 = r.top + r.height / 2 - box.top;
+        const mx = (x1 + x2) / 2;
+        d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
+      }
+      const p = document.createElementNS(SVG, 'path');
+      p.setAttribute('d', d);
+      p.setAttribute('class', c.classList.contains('live') ? 'ln' : 'ln soon');
+      lines.append(p);
+      if (c.classList.contains('live')) cloudPath = d;
+    });
   }
 
   function arrive(name, size) {
@@ -165,23 +190,36 @@
     while (list.children.length > 3) list.lastElementChild.remove();
     homeIcon.classList.add('got');
     setTimeout(() => homeIcon.classList.remove('got'), 350);
-    setTimeout(() => { li.classList.remove('checking'); li.lastElementChild.textContent = T.verified; }, 900);
+    setTimeout(() => {
+      li.classList.remove('checking');
+      li.lastElementChild.textContent = T.verified;
+      upload(name);
+    }, 900);
   }
 
-  function send(i) {
-    const s = servers[i];
-    const files = JSON.parse(s.dataset.files);
-    const [name, size] = files[Math.floor(Math.random() * files.length)];
-    s.classList.add('sending');
+  // A verified file continues from the Mac to the cloud; the storage card shows it, then the checksum.
+  function upload(name) {
+    if (!cloudPath) return;
+    const live = clouds.find((c) => c.classList.contains('live'));
+    fly(cloudPath, 1100, () => {
+      live.classList.add('got');
+      cloudStat.classList.add('busy');
+      cloudStat.textContent = `↑ ${name}`;
+      setTimeout(() => live.classList.remove('got'), 400);
+      setTimeout(() => { cloudStat.classList.remove('busy'); cloudStat.textContent = 'sha256 ✓'; }, 1000);
+    });
+  }
+
+  // Moves a glowing dot along a path, then calls done.
+  function fly(d, dur, done) {
     const dot = document.createElementNS(SVG, 'circle');
     dot.setAttribute('r', '4');
     dot.setAttribute('class', 'packet');
     const trail = document.createElementNS(SVG, 'path');
-    trail.setAttribute('d', paths[i]);
+    trail.setAttribute('d', d);
     trail.setAttribute('class', 'ln-glow');
     lines.append(trail, dot);
     const len = trail.getTotalLength();
-    const dur = 1500;
     const t0 = performance.now();
     const step = (t) => {
       const k = Math.min((t - t0) / dur, 1);
@@ -192,9 +230,17 @@
       trail.style.opacity = String(Math.sin(k * Math.PI) * 0.9);
       trail.style.strokeDasharray = `${e * len} ${len}`;
       if (k < 1) requestAnimationFrame(step);
-      else { dot.remove(); trail.remove(); s.classList.remove('sending'); arrive(name, size); }
+      else { dot.remove(); trail.remove(); done(); }
     };
     requestAnimationFrame(step);
+  }
+
+  function send(i) {
+    const s = servers[i];
+    const files = JSON.parse(s.dataset.files);
+    const [name, size] = files[Math.floor(Math.random() * files.length)];
+    s.classList.add('sending');
+    fly(paths[i], 1500, () => { s.classList.remove('sending'); arrive(name, size); });
   }
 
   layout();

@@ -83,7 +83,7 @@
   </div>
 
   <div class="wrap">
-    <div class="flow reveal" id="flow" role="img" aria-label="Три сервера отправляют бекапы на Mac, каждый файл проходит проверку">
+    <div class="flow reveal" id="flow" role="img" aria-label="Три сервера отправляют бекапы на Mac, каждый файл проходит проверку, а копия уходит в Яндекс Диск">
       <svg class="flow-lines" id="flow-lines" aria-hidden="true"></svg>
       <div class="flow-servers">
         <div class="srv" data-files='[["mysql-shop.sql.zst","412 МБ"],["mysql-shop_logs.sql.zst","38 МБ"],["dir-var-www-shop-uploads.tar.gz","1,1 ГБ"]]'>
@@ -112,7 +112,12 @@
           <li><span class="f-name">dir-srv-crm-storage.tar.gz</span><span class="f-size">240 МБ</span><span class="f-ok">проверен</span></li>
           <li><span class="f-name">mysql-blog.sql.gz</span><span class="f-size">21 МБ</span><span class="f-ok">проверен</span></li>
         </ul>
-        <div class="home-cloud"><span class="cloud-dot"></span> Копия уходит в Яндекс Диск</div>
+      </div>
+      <div class="flow-clouds">
+        <p class="clouds-label">Копия в облаке</p>
+        <div class="cl live"><span class="p-logo ya">Я</span><div><b>Яндекс Диск</b><span class="cl-stat">sha256 ✓</span></div></div>
+        <div class="cl"><span class="p-logo gd">G</span><div><b>Google Drive</b><span>скоро</span></div></div>
+        <div class="cl"><span class="p-logo s3">S3</span><div><b>S3 и WebDAV</b><span>в планах</span></div></div>
       </div>
     </div>
   </div>
