@@ -5,8 +5,8 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const SVG = 'http://www.w3.org/2000/svg';
 
-  // Put the real .dmg link here when the build is published.
-  const DOWNLOAD_URL = '';
+  // Always the newest GitHub release: every release uploads its build under the same name.
+  const DOWNLOAD_URL = 'https://github.com/ilyabazhenov/copyhome/releases/latest/download/CopyHome.dmg';
 
   const STRINGS = {
     ru: {
