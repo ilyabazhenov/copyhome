@@ -155,6 +155,9 @@
   }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
+  // Guide pages stop here: the hero flow, chart and terminal live only on the home pages.
+  if (!document.getElementById('flow')) return;
+
   // ---------- hero flow ----------
   const flow = document.getElementById('flow');
   const lines = document.getElementById('flow-lines');

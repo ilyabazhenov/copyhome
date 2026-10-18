@@ -35,7 +35,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "CopyHome", "url": "https://copyhome.app/en/", "description": "A macOS app that dumps MySQL databases and archives folders over SSH, downloads them to your Mac, verifies every file and uploads a copy to Yandex Disk.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "macOS 13 or later", "inLanguage": "en", "image": "https://copyhome.app/assets/icon-512.png", "downloadUrl": "https://github.com/ilyabazhenov/copyhome/releases/latest/download/CopyHome.dmg"}</script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I need to install anything on the server?", "acceptedAnswer": {"@type": "Answer", "text": "No. It only needs bash, gzip, tar and mysqldump, which are almost always there already. If no database password is set, CopyHome uses ~/.my.cnf on the server."}}, {"@type": "Question", "name": "Where are backups stored on the Mac?", "acceptedAnswer": {"@type": "Answer", "text": "In ~/Backups/fast-backup/<Project>/<date-time>/ as plain .sql.gz, .sql.zst and .tar.gz files that open without CopyHome. No proprietary formats."}}, {"@type": "Question", "name": "What if the Mac was asleep or off?", "acceptedAnswer": {"@type": "Answer", "text": "A missed scheduled backup (from the last 7 days) runs right away once the Mac wakes up or CopyHome starts. A failed scheduled backup is retried automatically after 15 and 60 minutes. And if there has been no good copy for too long, you get a \"No recent backup\" notification."}}, {"@type": "Question", "name": "What if the window is closed?", "acceptedAnswer": {"@type": "Answer", "text": "CopyHome stays in the menu bar and keeps running on schedule. Turn on \"Open at login\" and the window won't even appear."}}, {"@type": "Question", "name": "What about a huge database?", "acceptedAnswer": {"@type": "Answer", "text": "The dump runs with --single-transaction, so InnoDB tables aren't locked, and zstd or pigz compression uses every core on the server. Large log tables can be saved as structure only."}}, {"@type": "Question", "name": "Is PostgreSQL supported?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet. PostgreSQL is next on the roadmap, along with incremental folder backups via rsync and one-click restore."}}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I need to install anything on the server?", "acceptedAnswer": {"@type": "Answer", "text": "No. It only needs bash, gzip, tar and mysqldump, which are almost always there already. If no database password is set, CopyHome uses ~/.my.cnf on the server."}}, {"@type": "Question", "name": "Where are backups stored on the Mac?", "acceptedAnswer": {"@type": "Answer", "text": "In ~/Backups/fast-backup/<Project>/<date-time>/ as plain .sql.gz, .sql.zst and .tar.gz files that open without CopyHome. No proprietary formats."}}, {"@type": "Question", "name": "What if the Mac was asleep or off?", "acceptedAnswer": {"@type": "Answer", "text": "A missed scheduled backup (from the last 7 days) runs right away once the Mac wakes up or CopyHome starts. A failed scheduled backup is retried automatically after 15 and 60 minutes. And if there has been no good copy for too long, you get a \"No recent backup\" notification."}}, {"@type": "Question", "name": "What if the window is closed?", "acceptedAnswer": {"@type": "Answer", "text": "CopyHome stays in the menu bar and keeps running on schedule. Turn on \"Open at login\" and the window won't even appear."}}, {"@type": "Question", "name": "What about a huge database?", "acceptedAnswer": {"@type": "Answer", "text": "The dump runs with --single-transaction, so InnoDB tables aren't locked, and zstd or pigz compression uses every core on the server. Large log tables can be saved as structure only."}}, {"@type": "Question", "name": "How do I back up a WordPress, Laravel or other PHP site?", "acceptedAnswer": {"@type": "Answer", "text": "A website is a MySQL database plus a folder of files. Add both to one project: CopyHome dumps the database and archives the folder, for example /var/www/site, and repeats it on schedule. The CMS or framework doesn't matter."}}, {"@type": "Question", "name": "Why not just cron and mysqldump on the server?", "acceptedAnswer": {"@type": "Answer", "text": "A cron script usually keeps copies on the same server and stays silent when it breaks. CopyHome pulls copies to your Mac, verifies every file, deletes old ones only after a good copy, uploads them to the cloud and tells you when something goes wrong."}}, {"@type": "Question", "name": "Does shared hosting work, or do I need a VPS?", "acceptedAnswer": {"@type": "Answer", "text": "Any server or hosting plan with SSH access works, as long as it has bash, tar and mysqldump. No root needed: a user with access to the database and the site files is enough."}}, {"@type": "Question", "name": "How do I restore a site from a backup?", "acceptedAnswer": {"@type": "Answer", "text": "Copies are plain files. Load the database back with mysql and unpack the folder with tar -xzf. One-click restore from CopyHome is coming in a future version."}}, {"@type": "Question", "name": "Is PostgreSQL supported?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet. PostgreSQL is next on the roadmap, along with incremental folder backups via rsync and one-click restore."}}]}</script>
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -63,6 +63,7 @@
       <a href="#how">How it works</a>
       <a href="#cloud">Cloud</a>
       <a href="#security">Security</a>
+      <a href="#guides">Guides</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-tools">
@@ -85,7 +86,7 @@
   <div class="wrap hero-copy">
     <p class="eyebrow reveal"><span class="pulse"></span> Server backups for macOS</p>
     <h1 class="reveal">Servers fail. <em>Your copy is already home.</em></h1>
-    <p class="lead reveal">CopyHome dumps your MySQL databases and archives folders over SSH, downloads them to your Mac, verifies every file and puts a copy in the cloud. Quietly, on schedule, from the menu bar.</p>
+    <p class="lead reveal">Automatic website and MySQL backups to your Mac. CopyHome dumps your databases and archives folders over SSH, downloads them, verifies every file and puts a copy in the cloud. Quietly, on schedule, from the menu bar.</p>
     <div class="cta-row reveal">
       <a class="btn btn-primary" href="#download" data-download>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>
@@ -286,7 +287,7 @@
 <section class="section how" id="how">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="kicker">How it works</p>
+      <p class="kicker">How to set up backups over SSH</p>
       <h2>Three steps to <em>peace of mind</em></h2>
     </div>
     <ol class="steps">
@@ -319,7 +320,7 @@
 <section class="section cloud" id="cloud">
   <div class="wrap cloud-inner">
     <div class="cloud-copy reveal">
-      <p class="kicker">Cloud copy</p>
+      <p class="kicker">Backups to Yandex Disk</p>
       <h2>One copy at home, <em>one more</em> in the cloud</h2>
       <p class="sub">The 3-2-1 rule without the chores. After every backup CopyHome uploads the snapshot to your storage and checks the checksums.</p>
       <ul class="ticks">
@@ -351,7 +352,7 @@
 <section class="section security" id="security">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="kicker">Security</p>
+      <p class="kicker">Backup security</p>
       <h2>Your data <em>stays yours</em></h2>
     </div>
     <div class="sec-grid">
@@ -366,10 +367,25 @@
 </section>
 
 <!-- ============ FAQ ============ -->
+<section class="section guides" id="guides">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Guides</p>
+      <h2>Backups <em>by hand</em>, step by step</h2>
+      <p class="sub">With Terminal commands you can copy. Useful even if you never use CopyHome.</p>
+    </div>
+    <div class="guide-grid">
+      <a class="guide-card reveal" href="/en/guides/mysql-backup-ssh/"><h3>MySQL backup over SSH to a Mac</h3><p>One Terminal command dumps the database on the server and writes it straight into a file on your Mac. Nothing stays on the server, and nothing needs installing there.</p><span class="guide-more">Read →</span></a>
+      <a class="guide-card reveal" href="/en/guides/website-backup/"><h3>Back up a website to your computer</h3><p>A website has two parts: a database and a folder of files. A full website backup is a copy of both, taken at the same time and kept somewhere other than the same server.</p><span class="guide-more">Read →</span></a>
+      <a class="guide-card reveal" href="/en/guides/mysqldump-cron/"><h3>mysqldump on a schedule</h3><p>The most common way to automate MySQL backups is a mysqldump script in cron. It works until it breaks, and it usually breaks silently.</p><span class="guide-more">Read →</span></a>
+    </div>
+  </div>
+</section>
+
 <section class="section faq" id="faq">
   <div class="wrap faq-inner">
     <div class="section-head left reveal">
-      <p class="kicker">FAQ</p>
+      <p class="kicker">Backup FAQ</p>
       <h2>The short answers</h2>
     </div>
     <div class="faq-list">
@@ -394,6 +410,22 @@
         <p>The dump runs with <code>--single-transaction</code>, so InnoDB tables aren't locked, and zstd or pigz compression uses every core on the server. Large log tables can be saved as structure only.</p>
       </details>
       <details class="reveal">
+        <summary>How do I back up a WordPress, Laravel or other PHP site?</summary>
+        <p>A website is a MySQL database plus a folder of files. Add both to one project: CopyHome dumps the database and archives the folder, for example <code>/var/www/site</code>, and repeats it on schedule. The CMS or framework doesn't matter.</p>
+      </details>
+      <details class="reveal">
+        <summary>Why not just cron and mysqldump on the server?</summary>
+        <p>A cron script usually keeps copies on the same server and stays silent when it breaks. CopyHome pulls copies to your Mac, verifies every file, deletes old ones only after a good copy, uploads them to the cloud and tells you when something goes wrong.</p>
+      </details>
+      <details class="reveal">
+        <summary>Does shared hosting work, or do I need a VPS?</summary>
+        <p>Any server or hosting plan with SSH access works, as long as it has <code>bash</code>, <code>tar</code> and <code>mysqldump</code>. No root needed: a user with access to the database and the site files is enough.</p>
+      </details>
+      <details class="reveal">
+        <summary>How do I restore a site from a backup?</summary>
+        <p>Copies are plain files. Load the database back with <code>mysql</code> and unpack the folder with <code>tar -xzf</code>. One-click restore from CopyHome is coming in a future version.</p>
+      </details>
+      <details class="reveal">
         <summary>Is PostgreSQL supported?</summary>
         <p>Not yet. PostgreSQL is next on the roadmap, along with incremental folder backups via rsync and one-click restore.</p>
       </details>
@@ -407,7 +439,7 @@
   <div class="wrap final-inner reveal">
     <img class="final-icon" src="../assets/icon-512.png" width="160" height="160" alt="CopyHome icon" loading="lazy" decoding="async">
     <h2>Let your backups <em>find their way home</em></h2>
-    <p class="lead">An app for macOS. Your backups stay with you.</p>
+    <p class="lead">Website and MySQL backups to your Mac. Your backups stay with you.</p>
     <div class="cta-row center">
       <a class="btn btn-primary" href="#" data-download>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>

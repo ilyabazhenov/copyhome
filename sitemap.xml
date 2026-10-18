@@ -14,4 +14,46 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/"/>
   </url>
+  <url>
+    <loc>https://copyhome.app/guides/mysql-backup-ssh/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/mysql-backup-ssh/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/mysql-backup-ssh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/mysql-backup-ssh/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/en/guides/mysql-backup-ssh/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/mysql-backup-ssh/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/mysql-backup-ssh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/mysql-backup-ssh/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/guides/website-backup/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/website-backup/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/website-backup/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/website-backup/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/en/guides/website-backup/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/website-backup/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/website-backup/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/website-backup/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/guides/mysqldump-cron/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/mysqldump-cron/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/mysqldump-cron/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/mysqldump-cron/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/en/guides/mysqldump-cron/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/mysqldump-cron/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/mysqldump-cron/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/mysqldump-cron/"/>
+  </url>
 </urlset>

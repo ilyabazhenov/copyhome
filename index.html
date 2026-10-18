@@ -35,7 +35,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "CopyHome", "url": "https://copyhome.app/", "description": "Приложение для macOS, которое по SSH снимает дампы MySQL и архивы каталогов, скачивает их на Mac, проверяет каждый файл и выгружает копию в Яндекс Диск.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "macOS 13 or later", "inLanguage": "ru", "image": "https://copyhome.app/assets/icon-512.png", "downloadUrl": "https://github.com/ilyabazhenov/copyhome/releases/latest/download/CopyHome.dmg"}</script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Нужно ли что-то устанавливать на сервер?", "acceptedAnswer": {"@type": "Answer", "text": "Нет. Нужны только bash, gzip, tar и mysqldump, которые почти всегда уже есть. Если пароль базы не задан, CopyHome возьмёт его из ~/.my.cnf на сервере."}}, {"@type": "Question", "name": "Где хранятся бекапы на Mac?", "acceptedAnswer": {"@type": "Answer", "text": "В ~/Backups/fast-backup/<Проект>/<дата-время>/: обычные .sql.gz, .sql.zst и .tar.gz, которые открываются без CopyHome. Никаких закрытых форматов."}}, {"@type": "Question", "name": "А если Mac спал или был выключен?", "acceptedAnswer": {"@type": "Answer", "text": "Пропущенный по расписанию бекап (за последние 7 дней) выполнится сразу, как только Mac проснётся или CopyHome запустится. Неудачный бекап по расписанию CopyHome сам повторит через 15 и через 60 минут. А если хорошей копии давно нет, придёт уведомление «Давно не было бекапа»."}}, {"@type": "Question", "name": "Что если окно закрыто?", "acceptedAnswer": {"@type": "Answer", "text": "CopyHome остаётся в строке меню и продолжает работать по расписанию. Можно включить запуск при входе в систему, тогда окно даже не откроется."}}, {"@type": "Question", "name": "А если база огромная?", "acceptedAnswer": {"@type": "Answer", "text": "Дамп снимается с --single-transaction и не блокирует таблицы InnoDB, а сжатие zstd или pigz работает на всех ядрах сервера. Большие таблицы логов можно забирать только структурой."}}, {"@type": "Question", "name": "PostgreSQL поддерживается?", "acceptedAnswer": {"@type": "Answer", "text": "Пока нет. PostgreSQL следующий в планах, вместе с инкрементальными бекапами каталогов через rsync и восстановлением в один клик."}}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Нужно ли что-то устанавливать на сервер?", "acceptedAnswer": {"@type": "Answer", "text": "Нет. Нужны только bash, gzip, tar и mysqldump, которые почти всегда уже есть. Если пароль базы не задан, CopyHome возьмёт его из ~/.my.cnf на сервере."}}, {"@type": "Question", "name": "Где хранятся бекапы на Mac?", "acceptedAnswer": {"@type": "Answer", "text": "В ~/Backups/fast-backup/<Проект>/<дата-время>/: обычные .sql.gz, .sql.zst и .tar.gz, которые открываются без CopyHome. Никаких закрытых форматов."}}, {"@type": "Question", "name": "А если Mac спал или был выключен?", "acceptedAnswer": {"@type": "Answer", "text": "Пропущенный по расписанию бекап (за последние 7 дней) выполнится сразу, как только Mac проснётся или CopyHome запустится. Неудачный бекап по расписанию CopyHome сам повторит через 15 и через 60 минут. А если хорошей копии давно нет, придёт уведомление «Давно не было бекапа»."}}, {"@type": "Question", "name": "Что если окно закрыто?", "acceptedAnswer": {"@type": "Answer", "text": "CopyHome остаётся в строке меню и продолжает работать по расписанию. Можно включить запуск при входе в систему, тогда окно даже не откроется."}}, {"@type": "Question", "name": "А если база огромная?", "acceptedAnswer": {"@type": "Answer", "text": "Дамп снимается с --single-transaction и не блокирует таблицы InnoDB, а сжатие zstd или pigz работает на всех ядрах сервера. Большие таблицы логов можно забирать только структурой."}}, {"@type": "Question", "name": "Как сделать бекап сайта на WordPress, Bitrix или Laravel?", "acceptedAnswer": {"@type": "Answer", "text": "Сайт — это база MySQL и папка с файлами. Добавьте обе в один проект: CopyHome снимет дамп базы и архив каталога, например /var/www/site, и будет повторять это по расписанию. Движок сайта значения не имеет."}}, {"@type": "Question", "name": "Чем это лучше cron и mysqldump на сервере?", "acceptedAnswer": {"@type": "Answer", "text": "Скрипт по cron обычно хранит копии на том же сервере и молчит, когда ломается. CopyHome забирает копии на ваш Mac, проверяет каждый файл, удаляет старые только после удачной копии, выгружает их в облако и пишет, если что-то пошло не так."}}, {"@type": "Question", "name": "Подойдёт обычный хостинг или нужен VPS?", "acceptedAnswer": {"@type": "Answer", "text": "Подойдёт любой сервер или хостинг с доступом по SSH, где есть bash, tar и mysqldump. Root-доступ не нужен: хватает пользователя, у которого есть доступ к базе и файлам сайта."}}, {"@type": "Question", "name": "Как восстановить сайт из бекапа?", "acceptedAnswer": {"@type": "Answer", "text": "Копии лежат в обычных форматах. Базу можно залить обратно командой mysql, а каталог распаковать через tar -xzf. Восстановление в один клик прямо из CopyHome появится в одной из следующих версий."}}, {"@type": "Question", "name": "PostgreSQL поддерживается?", "acceptedAnswer": {"@type": "Answer", "text": "Пока нет. PostgreSQL следующий в планах, вместе с инкрементальными бекапами каталогов через rsync и восстановлением в один клик."}}]}</script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -63,6 +63,7 @@
       <a href="#how">Как устроено</a>
       <a href="#cloud">Облако</a>
       <a href="#security">Безопасность</a>
+      <a href="#guides">Инструкции</a>
       <a href="#faq">Вопросы</a>
     </nav>
     <div class="nav-tools">
@@ -85,7 +86,7 @@
   <div class="wrap hero-copy">
     <p class="eyebrow reveal"><span class="pulse"></span> Бекапы серверов для macOS</p>
     <h1 class="reveal">Сервер может упасть. <em>Копия уже дома.</em></h1>
-    <p class="lead reveal">CopyHome по&nbsp;SSH снимает дампы MySQL и&nbsp;архивы каталогов, скачивает их на&nbsp;Mac, проверяет каждый файл и&nbsp;кладёт копию в&nbsp;облако. Тихо, по&nbsp;расписанию, из&nbsp;строки меню.</p>
+    <p class="lead reveal">Резервное копирование сайтов и&nbsp;баз MySQL на&nbsp;ваш Mac. CopyHome по&nbsp;SSH снимает дампы и&nbsp;архивы каталогов, скачивает их, проверяет каждый файл и&nbsp;кладёт копию в&nbsp;облако. Тихо, по&nbsp;расписанию, из&nbsp;строки меню.</p>
     <div class="cta-row reveal">
       <a class="btn btn-primary" href="#download" data-download>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>
@@ -286,7 +287,7 @@
 <section class="section how" id="how">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="kicker">Как устроено</p>
+      <p class="kicker">Как настроить бекап по SSH</p>
       <h2>Три шага до <em>спокойного сна</em></h2>
     </div>
     <ol class="steps">
@@ -319,7 +320,7 @@
 <section class="section cloud" id="cloud">
   <div class="wrap cloud-inner">
     <div class="cloud-copy reveal">
-      <p class="kicker">Копия в облаке</p>
+      <p class="kicker">Бекап в Яндекс Диск</p>
       <h2>Одна копия дома, <em>ещё одна</em> в&nbsp;облаке</h2>
       <p class="sub">Правило «3-2-1» без ручной работы. После каждого бекапа CopyHome выгружает снимок в ваше хранилище и сверяет контрольные суммы.</p>
       <ul class="ticks">
@@ -351,7 +352,7 @@
 <section class="section security" id="security">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="kicker">Безопасность</p>
+      <p class="kicker">Безопасность бекапов</p>
       <h2>Ваши данные <em>остаются у вас</em></h2>
     </div>
     <div class="sec-grid">
@@ -366,10 +367,25 @@
 </section>
 
 <!-- ============ FAQ ============ -->
+<section class="section guides" id="guides">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Инструкции</p>
+      <h2>Как делать бекапы <em>своими руками</em></h2>
+      <p class="sub">Пошагово, с командами для Терминала. Пригодится, даже если вы не пользуетесь CopyHome.</p>
+    </div>
+    <div class="guide-grid">
+      <a class="guide-card reveal" href="/guides/mysql-backup-ssh/"><h3>Бекап MySQL по SSH на Mac</h3><p>Одна команда в Терминале снимает дамп базы на сервере и сразу пишет его в файл на вашем Mac. На сервере ничего не остаётся, и ставить туда ничего не нужно.</p><span class="guide-more">Читать →</span></a>
+      <a class="guide-card reveal" href="/guides/website-backup/"><h3>Бекап сайта на свой компьютер</h3><p>Сайт состоит из двух частей: базы данных и папки с файлами. Полный бекап сайта — это копия обеих, снятая в одно время и сохранённая не на том же сервере.</p><span class="guide-more">Читать →</span></a>
+      <a class="guide-card reveal" href="/guides/mysqldump-cron/"><h3>mysqldump по расписанию</h3><p>Самый частый способ автоматизировать бекап MySQL — скрипт с mysqldump в cron. Он работает, пока не сломается, и обычно ломается молча.</p><span class="guide-more">Читать →</span></a>
+    </div>
+  </div>
+</section>
+
 <section class="section faq" id="faq">
   <div class="wrap faq-inner">
     <div class="section-head left reveal">
-      <p class="kicker">Вопросы</p>
+      <p class="kicker">Вопросы о резервном копировании</p>
       <h2>Коротко о&nbsp;главном</h2>
     </div>
     <div class="faq-list">
@@ -394,6 +410,22 @@
         <p>Дамп снимается с <code>--single-transaction</code> и не блокирует таблицы InnoDB, а сжатие zstd или pigz работает на всех ядрах сервера. Большие таблицы логов можно забирать только структурой.</p>
       </details>
       <details class="reveal">
+        <summary>Как сделать бекап сайта на WordPress, Bitrix или Laravel?</summary>
+        <p>Сайт — это база MySQL и&nbsp;папка с&nbsp;файлами. Добавьте обе в&nbsp;один проект: CopyHome снимет дамп базы и&nbsp;архив каталога, например <code>/var/www/site</code>, и&nbsp;будет повторять это по&nbsp;расписанию. Движок сайта значения не&nbsp;имеет.</p>
+      </details>
+      <details class="reveal">
+        <summary>Чем это лучше cron и mysqldump на сервере?</summary>
+        <p>Скрипт по&nbsp;cron обычно хранит копии на&nbsp;том&nbsp;же сервере и&nbsp;молчит, когда ломается. CopyHome забирает копии на&nbsp;ваш Mac, проверяет каждый файл, удаляет старые только после удачной копии, выгружает их в&nbsp;облако и&nbsp;пишет, если что-то пошло не&nbsp;так.</p>
+      </details>
+      <details class="reveal">
+        <summary>Подойдёт обычный хостинг или нужен VPS?</summary>
+        <p>Подойдёт любой сервер или хостинг с&nbsp;доступом по&nbsp;SSH, где есть <code>bash</code>, <code>tar</code> и&nbsp;<code>mysqldump</code>. Root-доступ не&nbsp;нужен: хватает пользователя, у&nbsp;которого есть доступ к&nbsp;базе и&nbsp;файлам сайта.</p>
+      </details>
+      <details class="reveal">
+        <summary>Как восстановить сайт из бекапа?</summary>
+        <p>Копии лежат в&nbsp;обычных форматах. Базу можно залить обратно командой <code>mysql</code>, а&nbsp;каталог распаковать через <code>tar -xzf</code>. Восстановление в&nbsp;один клик прямо из&nbsp;CopyHome появится в&nbsp;одной из&nbsp;следующих версий.</p>
+      </details>
+      <details class="reveal">
         <summary>PostgreSQL поддерживается?</summary>
         <p>Пока нет. PostgreSQL следующий в планах, вместе с инкрементальными бекапами каталогов через rsync и восстановлением в один клик.</p>
       </details>
@@ -407,7 +439,7 @@
   <div class="wrap final-inner reveal">
     <img class="final-icon" src="assets/icon-512.png" width="160" height="160" alt="Иконка CopyHome" loading="lazy" decoding="async">
     <h2>Пусть копии <em>едут домой</em> сами</h2>
-    <p class="lead">Приложение для macOS. Ваши бекапы хранятся у вас.</p>
+    <p class="lead">Резервное копирование сайтов и баз MySQL на ваш Mac. Ваши бекапы хранятся у вас.</p>
     <div class="cta-row center">
       <a class="btn btn-primary" href="#" data-download>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>
