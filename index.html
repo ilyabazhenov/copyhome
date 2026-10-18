@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CopyHome — резервное копирование MySQL, PostgreSQL и файлов сервера на Mac</title>
-  <meta name="description" content="Приложение для macOS: бекапы MySQL, PostgreSQL и каталогов сервера по SSH прямо на Mac, в том числе баз в Docker. Проверка каждого файла, копия в Яндекс Диске, S3 или на NAS, расписание и уведомления в строке меню.">
+  <meta name="description" content="Приложение для macOS: бекапы MySQL, PostgreSQL и каталогов сервера по SSH прямо на Mac, в том числе баз в Docker. Проверка каждого файла, копия в Яндекс Диске, Google Диске, S3, WebDAV или на NAS, восстановление на Mac, расписание и уведомления в строке меню.">
   <meta property="og:title" content="CopyHome — бекапы серверов на ваш Mac">
   <meta property="og:description" content="Дампы MySQL и PostgreSQL и каталоги по SSH, проверка каждого файла, копия в облаке. Тихо, по расписанию, из строки меню.">
   <meta property="og:image" content="https://copyhome.app/assets/og.png">
@@ -34,8 +34,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "CopyHome", "url": "https://copyhome.app/", "description": "Приложение для macOS, которое по SSH снимает дампы MySQL и PostgreSQL и архивы каталогов, скачивает их на Mac, проверяет каждый файл и выгружает копию в Яндекс Диск, S3-хранилище или на NAS.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "macOS 13 or later", "inLanguage": ["ru", "en"], "image": "https://copyhome.app/assets/icon-512.png", "downloadUrl": "https://github.com/ilyabazhenov/copyhome/releases/latest/download/CopyHome.dmg"}</script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Нужно ли что-то устанавливать на сервер?", "acceptedAnswer": {"@type": "Answer", "text": "Нет. Нужны только bash, gzip, tar и mysqldump или pg_dump, которые почти всегда уже есть. Для базы в Docker-контейнере хватит доступа к команде docker. Если пароль MySQL не задан, CopyHome возьмёт его из ~/.my.cnf на сервере."}}, {"@type": "Question", "name": "Где хранятся бекапы на Mac?", "acceptedAnswer": {"@type": "Answer", "text": "В ~/Backups/fast-backup/<Проект>/<дата-время>/: обычные .sql.gz, .sql.zst и .tar.gz, которые открываются без CopyHome. Никаких закрытых форматов."}}, {"@type": "Question", "name": "А если Mac спал или был выключен?", "acceptedAnswer": {"@type": "Answer", "text": "Пропущенный по расписанию бекап (за последние 7 дней) выполнится сразу, как только Mac проснётся или CopyHome запустится. Неудачный бекап по расписанию CopyHome сам повторит через 15 и через 60 минут. А если хорошей копии давно нет, придёт уведомление «Давно не было бекапа»."}}, {"@type": "Question", "name": "Что если окно закрыто?", "acceptedAnswer": {"@type": "Answer", "text": "CopyHome остаётся в строке меню и продолжает работать по расписанию. Можно включить запуск при входе в систему, тогда окно даже не откроется."}}, {"@type": "Question", "name": "А если база огромная?", "acceptedAnswer": {"@type": "Answer", "text": "Дамп снимается с --single-transaction и не блокирует таблицы InnoDB, а сжатие zstd или pigz работает на всех ядрах сервера. Большие таблицы логов можно забирать только структурой."}}, {"@type": "Question", "name": "Как сделать бекап сайта на WordPress, Bitrix или Laravel?", "acceptedAnswer": {"@type": "Answer", "text": "Сайт — это база MySQL или PostgreSQL и папка с файлами. Добавьте обе в один проект: CopyHome снимет дамп базы и архив каталога, например /var/www/site, и будет повторять это по расписанию. Движок сайта значения не имеет."}}, {"@type": "Question", "name": "Чем это лучше cron и mysqldump на сервере?", "acceptedAnswer": {"@type": "Answer", "text": "Скрипт по cron обычно хранит копии на том же сервере и молчит, когда ломается. CopyHome забирает копии на ваш Mac, проверяет каждый файл, удаляет старые только после удачной копии, выгружает их в облако и пишет, если что-то пошло не так."}}, {"@type": "Question", "name": "Подойдёт обычный хостинг или нужен VPS?", "acceptedAnswer": {"@type": "Answer", "text": "Подойдёт любой сервер или хостинг с доступом по SSH, где есть bash, tar и mysqldump или pg_dump. Root-доступ не нужен: хватает пользователя, у которого есть доступ к базе и файлам сайта."}}, {"@type": "Question", "name": "Как восстановить сайт из бекапа?", "acceptedAnswer": {"@type": "Answer", "text": "Копии лежат в обычных форматах. Базу можно залить обратно командой mysql, а каталог распаковать через tar -xzf. Восстановление в один клик прямо из CopyHome появится в одной из следующих версий."}}, {"@type": "Question", "name": "Можно хранить копии на NAS или внешнем диске?", "acceptedAnswer": {"@type": "Answer", "text": "Да. Хранилище «Папка» отправляет копии в любую папку: на внешний диск, NAS по SMB или в папку iCloud Drive, Dropbox и Google Drive. Каждый файл сверяется по sha256, а если диск не подключён, выгрузка подождёт его. Ещё есть S3-совместимые хранилища: Yandex Object Storage, Selectel, VK Cloud, Cloudflare R2, Backblaze B2 и AWS."}}, {"@type": "Question", "name": "На каком языке интерфейс?", "acceptedAnswer": {"@type": "Answer", "text": "На русском или английском. CopyHome берёт язык системы, а в Настройках можно выбрать «Как в системе», «Русский» или «English»."}}, {"@type": "Question", "name": "Как обновляется CopyHome?", "acceptedAnswer": {"@type": "Answer", "text": "Сам. Приложение проверяет новые версии, скачивает их в фоне и ставит при выходе или по кнопке «Перезапустить и обновить». Автообновление можно выключить в Настройках."}}, {"@type": "Question", "name": "PostgreSQL и Docker поддерживаются?", "acceptedAnswer": {"@type": "Answer", "text": "Да. Дамп PostgreSQL снимается через pg_dump по SSH тем же потоком, что и MySQL, и проверяется, что он дописан до конца. Нужен pg_dump той же версии, что и сервер, или новее. Базы MySQL, MariaDB и PostgreSQL в Docker-контейнерах тоже поддерживаются: контейнер выбирается из списка. Следующими в планах инкрементальные бекапы каталогов через rsync и восстановление в один клик."}}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "CopyHome", "url": "https://copyhome.app/", "description": "Приложение для macOS, которое по SSH снимает дампы MySQL и PostgreSQL и архивы каталогов, скачивает их на Mac, проверяет каждый файл и выгружает копию в Яндекс Диск, Google Диск, S3, WebDAV или на NAS.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "macOS 13 or later", "inLanguage": ["ru", "en"], "image": "https://copyhome.app/assets/icon-512.png", "downloadUrl": "https://github.com/ilyabazhenov/copyhome/releases/latest/download/CopyHome.dmg"}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Нужно ли что-то устанавливать на сервер?", "acceptedAnswer": {"@type": "Answer", "text": "Нет. Нужны только bash, gzip, tar и mysqldump или pg_dump, которые почти всегда уже есть. Для базы в Docker-контейнере хватит доступа к команде docker. Если пароль MySQL не задан, CopyHome возьмёт его из ~/.my.cnf на сервере."}}, {"@type": "Question", "name": "Где хранятся бекапы на Mac?", "acceptedAnswer": {"@type": "Answer", "text": "В ~/Backups/fast-backup/<Проект>/<дата-время>/: обычные .sql.gz, .sql.zst и .tar.gz, которые открываются без CopyHome. Никаких закрытых форматов."}}, {"@type": "Question", "name": "А если Mac спал или был выключен?", "acceptedAnswer": {"@type": "Answer", "text": "Пропущенный по расписанию бекап (за последние 7 дней) выполнится сразу, как только Mac проснётся или CopyHome запустится. Неудачный бекап по расписанию CopyHome сам повторит через 15 и через 60 минут. А если хорошей копии давно нет, придёт уведомление «Давно не было бекапа»."}}, {"@type": "Question", "name": "Что если окно закрыто?", "acceptedAnswer": {"@type": "Answer", "text": "CopyHome остаётся в строке меню и продолжает работать по расписанию. Можно включить запуск при входе в систему, тогда окно даже не откроется."}}, {"@type": "Question", "name": "А если база огромная?", "acceptedAnswer": {"@type": "Answer", "text": "Дамп снимается с --single-transaction и не блокирует таблицы InnoDB, а сжатие zstd или pigz работает на всех ядрах сервера. Большие таблицы логов можно забирать только структурой."}}, {"@type": "Question", "name": "Как сделать бекап сайта на WordPress, Bitrix или Laravel?", "acceptedAnswer": {"@type": "Answer", "text": "Сайт — это база MySQL или PostgreSQL и папка с файлами. Добавьте обе в один проект: CopyHome снимет дамп базы и архив каталога, например /var/www/site, и будет повторять это по расписанию. Движок сайта значения не имеет."}}, {"@type": "Question", "name": "Чем это лучше cron и mysqldump на сервере?", "acceptedAnswer": {"@type": "Answer", "text": "Скрипт по cron обычно хранит копии на том же сервере и молчит, когда ломается. CopyHome забирает копии на ваш Mac, проверяет каждый файл, удаляет старые только после удачной копии, выгружает их в облако и пишет, если что-то пошло не так."}}, {"@type": "Question", "name": "Подойдёт обычный хостинг или нужен VPS?", "acceptedAnswer": {"@type": "Answer", "text": "Подойдёт любой сервер или хостинг с доступом по SSH, где есть bash, tar и mysqldump или pg_dump. Root-доступ не нужен: хватает пользователя, у которого есть доступ к базе и файлам сайта."}}, {"@type": "Question", "name": "Как восстановить сайт из бекапа?", "acceptedAnswer": {"@type": "Answer", "text": "Прямо в CopyHome, на этом Mac: дамп загружается в локальную базу или в базу в Docker-контейнере, архив распаковывается в папку, а нужный файл можно достать из архива отдельно. Таблицы и файлы копии видно ещё до восстановления. На сервер CopyHome копии не заливает: живую базу безопаснее восстанавливать вручную, командами mysql или psql и tar."}}, {"@type": "Question", "name": "Как проверить, что бекап восстановится?", "acceptedAnswer": {"@type": "Answer", "text": "Включите пробное восстановление. Раз в неделю CopyHome загрузит дампы из свежей копии во временную базу в Docker на этом Mac, сверит число таблиц и удалит базу. Для этого на Mac должен работать контейнер MySQL или PostgreSQL."}}, {"@type": "Question", "name": "Можно бекапить только изменения?", "acceptedAnswer": {"@type": "Answer", "text": "Да, для каталогов. В режиме «Только изменения (rsync)» CopyHome скачивает по SSH только изменённые файлы. Каждый снимок выглядит как полная копия папки, а неизменённые файлы в нём — жёсткие ссылки на прошлый снимок, так что место занимает только разница. На сервере нужен rsync, а в облако снимок уходит архивом tar.zst."}}, {"@type": "Question", "name": "Как перенести CopyHome на новый Mac?", "acceptedAnswer": {"@type": "Answer", "text": "Сохраните настройки в файл. Если взять в него пароли, файл шифруется паролем в формате age. На новом Mac откройте файл и заново подключите Яндекс Диск и Google Диск: их доступы в файл не попадают. Если файла нет, CopyHome найдёт проекты по копиям, которые уже лежат в хранилище."}}, {"@type": "Question", "name": "Можно хранить копии на NAS или внешнем диске?", "acceptedAnswer": {"@type": "Answer", "text": "Да. Хранилище «Папка» отправляет копии в любую папку: на внешний диск, NAS по SMB или в папку iCloud Drive, Dropbox и Google Drive. Каждый файл сверяется по sha256, а если диск не подключён, выгрузка подождёт его. Для Synology, Nextcloud и других серверов с WebDAV есть отдельное хранилище WebDAV. Ещё есть Яндекс Диск, Google Диск и S3-совместимые хранилища: Yandex Object Storage, Selectel, VK Cloud, Cloudflare R2, Backblaze B2 и AWS."}}, {"@type": "Question", "name": "На каком языке интерфейс?", "acceptedAnswer": {"@type": "Answer", "text": "На русском или английском. CopyHome берёт язык системы, а в Настройках можно выбрать «Как в системе», «Русский» или «English»."}}, {"@type": "Question", "name": "Как обновляется CopyHome?", "acceptedAnswer": {"@type": "Answer", "text": "Сам. Приложение проверяет новые версии, скачивает их в фоне и ставит при выходе или по кнопке «Перезапустить и обновить». Автообновление можно выключить в Настройках."}}, {"@type": "Question", "name": "PostgreSQL и Docker поддерживаются?", "acceptedAnswer": {"@type": "Answer", "text": "Да. Дамп PostgreSQL снимается через pg_dump по SSH тем же потоком, что и MySQL, и проверяется, что он дописан до конца. Нужен pg_dump той же версии, что и сервер, или новее. Базы MySQL, MariaDB и PostgreSQL в Docker-контейнерах тоже поддерживаются: контейнер выбирается из списка."}}]}</script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -132,9 +132,9 @@
         <p class="home-foot"><span class="dot"></span>3 проекта · следующий запуск в 03:00</p>
       </div>
       <div class="flow-clouds">
-        <div class="cl live"><span class="p-logo ya">Я</span><div><b>Яндекс Диск</b><span class="cl-stat">sha256 ✓</span></div></div>
-        <div class="cl"><span class="p-logo s3">S3</span><div><b>S3-хранилище</b><span>Selectel, R2, B2</span></div></div>
-        <div class="cl"><span class="p-logo fd"><svg viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.4l2 2h8.6A1.5 1.5 0 0 1 21 9.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg></span><div><b>Папка или NAS</b><span>диск, iCloud, Dropbox</span></div></div>
+        <div class="cl live"><span class="p-logo ya">Я</span><div><b>Яндекс Диск</b><span>Приложения/CopyHome</span></div><i class="cl-ok" aria-hidden="true">✓</i></div>
+        <div class="cl live"><span class="p-logo gd">G</span><div><b>Google Диск</b><span>только файлы CopyHome</span></div><i class="cl-ok" aria-hidden="true">✓</i></div>
+        <div class="cl live"><span class="p-logo fd"><svg viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.4l2 2h8.6A1.5 1.5 0 0 1 21 9.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg></span><div><b>S3, WebDAV, NAS</b><span>R2, Nextcloud, Synology</span></div><i class="cl-ok" aria-hidden="true">✓</i></div>
       </div>
     </div>
   </div>
@@ -258,9 +258,9 @@
       </article>
 
       <article class="card c-rotate reveal">
-        <p class="kicker">Ротация</p>
-        <h3>Хранит последние N копий</h3>
-        <p>Старые снимки удаляются сами, на Mac и в облаке отдельно. И только после удачной полной копии, так что упавший сервер не съест хорошие бекапы.</p>
+        <p class="kicker">Хранение</p>
+        <h3>Последние N копий или по&nbsp;календарю</h3>
+        <p>Например, 7 ежедневных, 4 еженедельных и&nbsp;12 ежемесячных. Старые снимки удаляются сами, на&nbsp;Mac и&nbsp;в&nbsp;облаке отдельно. Неудачные копии в&nbsp;счёт не&nbsp;идут, так что упавший сервер не&nbsp;съест хорошие бекапы.</p>
         <div class="stack" aria-hidden="true">
           <i class="gone"></i><i class="gone"></i><i></i><i></i><i></i><i></i><i></i><i class="new"></i>
         </div>
@@ -279,6 +279,21 @@
         <div class="seg" aria-hidden="true"><span class="on">авто</span><span>zstd</span><span>pigz</span><span>gzip</span></div>
         <p class="small">CopyHome сам выберет самое быстрое сжатие на сервере. Логи и сессии можно забирать только структурой.</p>
       </article>
+
+      <article class="card c-restore reveal">
+        <p class="kicker">Восстановление</p>
+        <h3>Копия оживает на&nbsp;этом Mac</h3>
+        <p>Дамп загружается в&nbsp;базу на&nbsp;Mac или в&nbsp;Docker, архив распаковывается в&nbsp;папку, а&nbsp;один файл можно достать отдельно. Сначала можно заглянуть внутрь копии. На&nbsp;сервер CopyHome ничего не&nbsp;заливает.</p>
+        <ul class="checks" aria-label="Пробное восстановление"><li><i>✓</i><span>mysql-shop.sql.zst → Docker</span><code>таблиц 48 из 48</code></li></ul>
+        <p class="small">Если включить пробное восстановление, раз в&nbsp;неделю CopyHome сам загрузит свежий дамп во&nbsp;временную базу в&nbsp;Docker и&nbsp;сверит таблицы.</p>
+      </article>
+
+      <article class="card c-move reveal">
+        <p class="kicker">Новый Mac</p>
+        <h3>Переезд без настройки с&nbsp;нуля</h3>
+        <p>Настройки сохраняются в&nbsp;файл, а&nbsp;вместе с&nbsp;паролями он шифруется паролем age. На&nbsp;новом Mac откройте файл и&nbsp;заново подключите Яндекс и&nbsp;Google Диск. А&nbsp;если файла нет, CopyHome найдёт проекты по&nbsp;копиям в&nbsp;хранилище.</p>
+        <code class="pill">CopyHome 2026-10-18.copyhome</code>
+      </article>
     </div>
   </div>
 </section>
@@ -294,17 +309,17 @@
       <li class="reveal">
         <span class="num">01</span>
         <h3>Добавьте сервер</h3>
-        <p>Хост и пользователь, вход по ключу или паролю. Работают ваши <code>~/.ssh/config</code> и&nbsp;<code>ssh-agent</code>. Кнопка «Проверить SSH» покажет, есть ли на сервере всё нужное.</p>
+        <p>Хост и пользователь, вход по ключу или паролю. Хосты из&nbsp;<code>~/.ssh/config</code> добавляются списком, работает <code>ssh-agent</code>, а&nbsp;готовый проект можно продублировать. Кнопка «Проверить SSH» покажет, есть ли на сервере всё нужное.</p>
       </li>
       <li class="reveal">
         <span class="num">02</span>
         <h3>Выберите, что беречь</h3>
-        <p>Базы MySQL и PostgreSQL, в том числе в Docker, и каталоги с исключениями вроде <code>cache/</code> или <code>node_modules</code>. Каждый источник можно забекапить отдельно.</p>
+        <p>Базы MySQL и PostgreSQL, в том числе в Docker, и каталоги с исключениями вроде <code>cache/</code> или <code>node_modules</code>. Каталог можно забирать целиком или только изменения через rsync.</p>
       </li>
       <li class="reveal">
         <span class="num">03</span>
         <h3>Задайте расписание</h3>
-        <p>Сколько копий хранить и&nbsp;куда отправить ещё одну: в&nbsp;Яндекс Диск, S3 или на&nbsp;NAS. Дальше CopyHome всё делает сам и пишет, если что-то не так.</p>
+        <p>Сколько копий хранить и&nbsp;куда отправить ещё одну: в&nbsp;Яндекс Диск, Google Диск, S3, WebDAV или на&nbsp;NAS. Дальше CopyHome всё делает сам и пишет, если что-то не так.</p>
       </li>
     </ol>
 
@@ -320,7 +335,7 @@
 <section class="section cloud" id="cloud">
   <div class="wrap cloud-inner">
     <div class="cloud-copy reveal">
-      <p class="kicker">Бекап в Яндекс Диск, S3 и на NAS</p>
+      <p class="kicker">Бекап в Яндекс Диск, Google Диск, S3 и на NAS</p>
       <h2>Одна копия дома, <em>ещё одна</em> в&nbsp;облаке</h2>
       <p class="sub">Правило «3-2-1» без ручной работы. После каждого бекапа CopyHome выгружает снимок в&nbsp;выбранные хранилища и&nbsp;сверяет контрольные суммы. Хранилищ может быть несколько, и&nbsp;у&nbsp;каждого своё число копий.</p>
       <ul class="ticks">
@@ -334,8 +349,10 @@
     <div class="cloud-side reveal">
       <div class="providers">
         <div class="prov live"><span class="p-logo ya" aria-hidden="true">Я</span><div><b>Яндекс Диск</b><span>Вход через страницу Яндекса</span></div><em>Готово</em></div>
+        <div class="prov live"><span class="p-logo gd" aria-hidden="true">G</span><div><b>Google Диск</b><span>Доступ только к&nbsp;файлам, которые создал CopyHome</span></div><em>Готово</em></div>
         <div class="prov live"><span class="p-logo s3" aria-hidden="true">S3</span><div><b>S3-совместимые</b><span>Yandex Object Storage, Selectel, VK Cloud, Cloudflare R2, Backblaze B2, AWS</span></div><em>Готово</em></div>
-        <div class="prov live"><span class="p-logo fd" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.4l2 2h8.6A1.5 1.5 0 0 1 21 9.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg></span><div><b>Папка</b><span>На Mac, внешнем диске, NAS по SMB или в папке iCloud Drive, Dropbox, Google Drive</span></div><em>Готово</em></div>
+        <div class="prov live"><span class="p-logo wd" aria-hidden="true">⇅</span><div><b>WebDAV</b><span>Nextcloud, ownCloud, Synology, Koofr и&nbsp;другие серверы</span></div><em>Готово</em></div>
+        <div class="prov live"><span class="p-logo fd" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.4l2 2h8.6A1.5 1.5 0 0 1 21 9.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg></span><div><b>Папка</b><span>На Mac, внешнем диске, NAS по SMB или в папке iCloud Drive, Dropbox</span></div><em>Готово</em></div>
       </div>
       <pre class="tree" aria-label="Раскладка папок в облаке"><span class="t-dim">Диск / Приложения /</span> CopyHome/
 └─ Магазин/
@@ -423,11 +440,23 @@
       </details>
       <details class="reveal">
         <summary>Как восстановить сайт из бекапа?</summary>
-        <p>Копии лежат в&nbsp;обычных форматах. Базу можно залить обратно командой <code>mysql</code>, а&nbsp;каталог распаковать через <code>tar -xzf</code>. Восстановление в&nbsp;один клик прямо из&nbsp;CopyHome появится в&nbsp;одной из&nbsp;следующих версий.</p>
+        <p>Прямо в&nbsp;CopyHome, на&nbsp;этом Mac: дамп загружается в&nbsp;локальную базу или в&nbsp;базу в&nbsp;Docker-контейнере, архив распаковывается в&nbsp;папку, а&nbsp;нужный файл можно достать из&nbsp;архива отдельно. Таблицы и&nbsp;файлы копии видно ещё до&nbsp;восстановления. На&nbsp;сервер CopyHome копии не&nbsp;заливает: живую базу безопаснее восстанавливать вручную, командами <code>mysql</code> или <code>psql</code> и&nbsp;<code>tar</code>.</p>
+      </details>
+      <details class="reveal">
+        <summary>Как проверить, что бекап восстановится?</summary>
+        <p>Включите пробное восстановление. Раз в&nbsp;неделю CopyHome загрузит дампы из&nbsp;свежей копии во&nbsp;временную базу в&nbsp;Docker на&nbsp;этом Mac, сверит число таблиц и&nbsp;удалит базу. Для этого на&nbsp;Mac должен работать контейнер MySQL или PostgreSQL.</p>
+      </details>
+      <details class="reveal">
+        <summary>Можно бекапить только изменения?</summary>
+        <p>Да, для каталогов. В&nbsp;режиме «Только изменения (rsync)» CopyHome скачивает по&nbsp;SSH только изменённые файлы. Каждый снимок выглядит как полная копия папки, а&nbsp;неизменённые файлы в&nbsp;нём — жёсткие ссылки на&nbsp;прошлый снимок, так что место занимает только разница. На&nbsp;сервере нужен rsync, а&nbsp;в&nbsp;облако снимок уходит архивом tar.zst.</p>
+      </details>
+      <details class="reveal">
+        <summary>Как перенести CopyHome на новый Mac?</summary>
+        <p>Сохраните настройки в&nbsp;файл. Если взять в&nbsp;него пароли, файл шифруется паролем в&nbsp;формате age. На&nbsp;новом Mac откройте файл и&nbsp;заново подключите Яндекс Диск и&nbsp;Google Диск: их доступы в&nbsp;файл не&nbsp;попадают. Если файла нет, CopyHome найдёт проекты по&nbsp;копиям, которые уже лежат в&nbsp;хранилище.</p>
       </details>
       <details class="reveal">
         <summary>Можно хранить копии на NAS или внешнем диске?</summary>
-        <p>Да. Хранилище «Папка» отправляет копии в&nbsp;любую папку: на&nbsp;внешний диск, NAS по&nbsp;SMB или в&nbsp;папку iCloud Drive, Dropbox и&nbsp;Google Drive. Каждый файл сверяется по&nbsp;sha256, а&nbsp;если диск не&nbsp;подключён, выгрузка подождёт его. Ещё есть S3-совместимые хранилища: Yandex Object Storage, Selectel, VK Cloud, Cloudflare R2, Backblaze B2 и&nbsp;AWS.</p>
+        <p>Да. Хранилище «Папка» отправляет копии в&nbsp;любую папку: на&nbsp;внешний диск, NAS по&nbsp;SMB или в&nbsp;папку iCloud Drive, Dropbox и&nbsp;Google Drive. Каждый файл сверяется по&nbsp;sha256, а&nbsp;если диск не&nbsp;подключён, выгрузка подождёт его. Для Synology, Nextcloud и&nbsp;других серверов с&nbsp;WebDAV есть отдельное хранилище WebDAV. Ещё есть Яндекс Диск, Google Диск и&nbsp;S3-совместимые хранилища: Yandex Object Storage, Selectel, VK Cloud, Cloudflare R2, Backblaze B2 и&nbsp;AWS.</p>
       </details>
       <details class="reveal">
         <summary>На каком языке интерфейс?</summary>
@@ -439,7 +468,7 @@
       </details>
       <details class="reveal">
         <summary>PostgreSQL и Docker поддерживаются?</summary>
-        <p>Да. Дамп PostgreSQL снимается через <code>pg_dump</code> по&nbsp;SSH тем&nbsp;же потоком, что и&nbsp;MySQL, и&nbsp;проверяется, что он дописан до&nbsp;конца. Нужен <code>pg_dump</code> той&nbsp;же версии, что и&nbsp;сервер, или новее. Базы MySQL, MariaDB и&nbsp;PostgreSQL в&nbsp;Docker-контейнерах тоже поддерживаются: контейнер выбирается из&nbsp;списка. Следующими в&nbsp;планах инкрементальные бекапы каталогов через rsync и&nbsp;восстановление в&nbsp;один клик.</p>
+        <p>Да. Дамп PostgreSQL снимается через <code>pg_dump</code> по&nbsp;SSH тем&nbsp;же потоком, что и&nbsp;MySQL, и&nbsp;проверяется, что он дописан до&nbsp;конца. Нужен <code>pg_dump</code> той&nbsp;же версии, что и&nbsp;сервер, или новее. Базы MySQL, MariaDB и&nbsp;PostgreSQL в&nbsp;Docker-контейнерах тоже поддерживаются: контейнер выбирается из&nbsp;списка.</p>
       </details>
     </div>
   </div>
@@ -469,7 +498,7 @@
 <footer class="footer">
   <div class="wrap foot-inner">
     <a class="brand" href="#top" aria-label="CopyHome"><svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg><span class="brand-word">Copy<b>Home</b></span></a>
-    <div class="foot-links"><a href="en/" hreflang="en" lang="en">English</a><span>Бекапы серверов на ваш Mac · © 2026</span></div>
+    <div class="foot-links"><a href="privacy/">Конфиденциальность</a><a href="en/" hreflang="en" lang="en">English</a><span>Бекапы серверов на ваш Mac · © 2026</span></div>
   </div>
 </footer>
 

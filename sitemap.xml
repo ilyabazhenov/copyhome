@@ -56,4 +56,18 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/mysqldump-cron/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/mysqldump-cron/"/>
   </url>
+  <url>
+    <loc>https://copyhome.app/privacy/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/privacy/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/en/privacy/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/privacy/"/>
+  </url>
 </urlset>

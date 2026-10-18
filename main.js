@@ -166,9 +166,8 @@
   const homeIcon = flow.querySelector('.home-icon');
   const list = document.getElementById('home-files');
   const clouds = [...flow.querySelectorAll('.cl')];
-  const cloudStat = flow.querySelector('.cl.live .cl-stat');
   let paths = [];
-  let cloudPath = '';
+  let cloudPaths = [];
 
   function layout() {
     const box = flow.getBoundingClientRect();
@@ -202,9 +201,9 @@
       lines.querySelectorAll('.ln').forEach((p, i) => { if (i < paths.length - 1) p.remove(); });
       paths = paths.map(() => last);
     }
-    // Mac → cloud storages: the live one gets the animated line, planned ones a faint one.
+    // Mac → every storage: each verified file is uploaded to all of them.
     const below = clouds[0].getBoundingClientRect().top > h.bottom;
-    clouds.forEach((c, i) => {
+    cloudPaths = clouds.map((c, i) => {
       const r = c.getBoundingClientRect();
       let d;
       if (below) {
@@ -220,9 +219,9 @@
       }
       const p = document.createElementNS(SVG, 'path');
       p.setAttribute('d', d);
-      p.setAttribute('class', c.classList.contains('live') ? 'ln' : 'ln soon');
+      p.setAttribute('class', 'ln');
       lines.append(p);
-      if (c.classList.contains('live')) cloudPath = d;
+      return d;
     });
   }
 
@@ -240,20 +239,20 @@
     setTimeout(() => {
       li.classList.remove('checking');
       li.lastElementChild.textContent = T.verified;
-      upload(name);
+      upload();
     }, 900);
   }
 
-  // A verified file continues from the Mac to the cloud; the storage card shows it, then the checksum.
-  function upload(name) {
-    if (!cloudPath) return;
-    const live = clouds.find((c) => c.classList.contains('live'));
-    fly(cloudPath, 1100, () => {
-      live.classList.add('got');
-      cloudStat.classList.add('busy');
-      cloudStat.textContent = `↑ ${name}`;
-      setTimeout(() => live.classList.remove('got'), 400);
-      setTimeout(() => { cloudStat.classList.remove('busy'); cloudStat.textContent = 'sha256 ✓'; }, 1000);
+  // A verified file continues from the Mac to every storage; each card shows the upload, then its check mark.
+  function upload() {
+    clouds.forEach((c, i) => {
+      const badge = c.querySelector('.cl-ok');
+      setTimeout(() => fly(cloudPaths[i], 1100, () => {
+        c.classList.add('got', 'busy');
+        badge.textContent = '↑';
+        setTimeout(() => c.classList.remove('got'), 400);
+        setTimeout(() => { c.classList.remove('busy'); badge.textContent = '✓'; }, 900);
+      }), i * 160);
     });
   }
 

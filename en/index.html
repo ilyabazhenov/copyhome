@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CopyHome — MySQL, PostgreSQL and server backups to your Mac over SSH</title>
-  <meta name="description" content="A macOS app that backs up MySQL and PostgreSQL databases, Docker included, and server folders over SSH straight to your Mac, verifies every file and keeps a copy in Yandex Disk, S3 or on a NAS. On schedule, from the menu bar.">
+  <meta name="description" content="A macOS app that backs up MySQL and PostgreSQL databases, Docker included, and server folders over SSH straight to your Mac, verifies every file and keeps a copy in Yandex Disk, Google Drive, S3, WebDAV or on a NAS, and restores on your Mac. On schedule, from the menu bar.">
   <meta property="og:title" content="CopyHome — server backups, delivered to your Mac">
   <meta property="og:description" content="MySQL and PostgreSQL dumps and folders over SSH, every file verified, a copy in the cloud. Quietly, on schedule, from the menu bar.">
   <meta property="og:image" content="https://copyhome.app/assets/og-en.png">
@@ -34,8 +34,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "CopyHome", "url": "https://copyhome.app/en/", "description": "A macOS app that dumps MySQL and PostgreSQL databases and archives folders over SSH, downloads them to your Mac, verifies every file and uploads a copy to Yandex Disk, S3 storage or a NAS.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "macOS 13 or later", "inLanguage": ["en", "ru"], "image": "https://copyhome.app/assets/icon-512.png", "downloadUrl": "https://github.com/ilyabazhenov/copyhome/releases/latest/download/CopyHome.dmg"}</script>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I need to install anything on the server?", "acceptedAnswer": {"@type": "Answer", "text": "No. It only needs bash, gzip, tar and mysqldump or pg_dump, which are almost always there already. For a database in a Docker container, access to the docker command is enough. If no MySQL password is set, CopyHome uses ~/.my.cnf on the server."}}, {"@type": "Question", "name": "Where are backups stored on the Mac?", "acceptedAnswer": {"@type": "Answer", "text": "In ~/Backups/fast-backup/<Project>/<date-time>/ as plain .sql.gz, .sql.zst and .tar.gz files that open without CopyHome. No proprietary formats."}}, {"@type": "Question", "name": "What if the Mac was asleep or off?", "acceptedAnswer": {"@type": "Answer", "text": "A missed scheduled backup (from the last 7 days) runs right away once the Mac wakes up or CopyHome starts. A failed scheduled backup is retried automatically after 15 and 60 minutes. And if there has been no good copy for too long, you get a \"No recent backup\" notification."}}, {"@type": "Question", "name": "What if the window is closed?", "acceptedAnswer": {"@type": "Answer", "text": "CopyHome stays in the menu bar and keeps running on schedule. Turn on \"Open at login\" and the window won't even appear."}}, {"@type": "Question", "name": "What about a huge database?", "acceptedAnswer": {"@type": "Answer", "text": "The dump runs with --single-transaction, so InnoDB tables aren't locked, and zstd or pigz compression uses every core on the server. Large log tables can be saved as structure only."}}, {"@type": "Question", "name": "How do I back up a WordPress, Laravel or other PHP site?", "acceptedAnswer": {"@type": "Answer", "text": "A website is a MySQL or PostgreSQL database plus a folder of files. Add both to one project: CopyHome dumps the database and archives the folder, for example /var/www/site, and repeats it on schedule. The CMS or framework doesn't matter."}}, {"@type": "Question", "name": "Why not just cron and mysqldump on the server?", "acceptedAnswer": {"@type": "Answer", "text": "A cron script usually keeps copies on the same server and stays silent when it breaks. CopyHome pulls copies to your Mac, verifies every file, deletes old ones only after a good copy, uploads them to the cloud and tells you when something goes wrong."}}, {"@type": "Question", "name": "Does shared hosting work, or do I need a VPS?", "acceptedAnswer": {"@type": "Answer", "text": "Any server or hosting plan with SSH access works, as long as it has bash, tar and mysqldump or pg_dump. No root needed: a user with access to the database and the site files is enough."}}, {"@type": "Question", "name": "How do I restore a site from a backup?", "acceptedAnswer": {"@type": "Answer", "text": "Copies are plain files. Load the database back with mysql and unpack the folder with tar -xzf. One-click restore from CopyHome is coming in a future version."}}, {"@type": "Question", "name": "Can I keep backups on a NAS or an external drive?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The Folder storage sends copies to any folder: an external drive, a NAS over SMB, or your iCloud Drive, Dropbox or Google Drive folder. Every file is checked with sha256, and if the drive isn’t connected, the upload waits for it. There are also S3-compatible storages: Yandex Object Storage, Selectel, VK Cloud, Cloudflare R2, Backblaze B2 and AWS."}}, {"@type": "Question", "name": "Which languages does the app speak?", "acceptedAnswer": {"@type": "Answer", "text": "English and Russian. CopyHome follows your system language, and you can pick System Default, Русский or English in Settings."}}, {"@type": "Question", "name": "How does CopyHome update?", "acceptedAnswer": {"@type": "Answer", "text": "By itself. It checks for new versions, downloads them in the background and installs them when you quit or click “Restart to Update”. You can turn automatic updates off in Settings."}}, {"@type": "Question", "name": "Are PostgreSQL and Docker supported?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. PostgreSQL is dumped with pg_dump over SSH in the same stream as MySQL, and CopyHome checks the dump ran to the end. You need a pg_dump of the same version as the server or newer. MySQL, MariaDB and PostgreSQL databases in Docker containers work too: pick the container from a list. Next on the roadmap are incremental folder backups via rsync and one-click restore."}}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "CopyHome", "url": "https://copyhome.app/en/", "description": "A macOS app that dumps MySQL and PostgreSQL databases and archives folders over SSH, downloads them to your Mac, verifies every file and uploads a copy to Yandex Disk, Google Drive, S3, WebDAV or a NAS.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "macOS 13 or later", "inLanguage": ["en", "ru"], "image": "https://copyhome.app/assets/icon-512.png", "downloadUrl": "https://github.com/ilyabazhenov/copyhome/releases/latest/download/CopyHome.dmg"}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I need to install anything on the server?", "acceptedAnswer": {"@type": "Answer", "text": "No. It only needs bash, gzip, tar and mysqldump or pg_dump, which are almost always there already. For a database in a Docker container, access to the docker command is enough. If no MySQL password is set, CopyHome uses ~/.my.cnf on the server."}}, {"@type": "Question", "name": "Where are backups stored on the Mac?", "acceptedAnswer": {"@type": "Answer", "text": "In ~/Backups/fast-backup/<Project>/<date-time>/ as plain .sql.gz, .sql.zst and .tar.gz files that open without CopyHome. No proprietary formats."}}, {"@type": "Question", "name": "What if the Mac was asleep or off?", "acceptedAnswer": {"@type": "Answer", "text": "A missed scheduled backup (from the last 7 days) runs right away once the Mac wakes up or CopyHome starts. A failed scheduled backup is retried automatically after 15 and 60 minutes. And if there has been no good copy for too long, you get a \"No recent backup\" notification."}}, {"@type": "Question", "name": "What if the window is closed?", "acceptedAnswer": {"@type": "Answer", "text": "CopyHome stays in the menu bar and keeps running on schedule. Turn on \"Open at login\" and the window won't even appear."}}, {"@type": "Question", "name": "What about a huge database?", "acceptedAnswer": {"@type": "Answer", "text": "The dump runs with --single-transaction, so InnoDB tables aren't locked, and zstd or pigz compression uses every core on the server. Large log tables can be saved as structure only."}}, {"@type": "Question", "name": "How do I back up a WordPress, Laravel or other PHP site?", "acceptedAnswer": {"@type": "Answer", "text": "A website is a MySQL or PostgreSQL database plus a folder of files. Add both to one project: CopyHome dumps the database and archives the folder, for example /var/www/site, and repeats it on schedule. The CMS or framework doesn't matter."}}, {"@type": "Question", "name": "Why not just cron and mysqldump on the server?", "acceptedAnswer": {"@type": "Answer", "text": "A cron script usually keeps copies on the same server and stays silent when it breaks. CopyHome pulls copies to your Mac, verifies every file, deletes old ones only after a good copy, uploads them to the cloud and tells you when something goes wrong."}}, {"@type": "Question", "name": "Does shared hosting work, or do I need a VPS?", "acceptedAnswer": {"@type": "Answer", "text": "Any server or hosting plan with SSH access works, as long as it has bash, tar and mysqldump or pg_dump. No root needed: a user with access to the database and the site files is enough."}}, {"@type": "Question", "name": "How do I restore a site from a backup?", "acceptedAnswer": {"@type": "Answer", "text": "Right in CopyHome, on this Mac: a dump loads into a local database or one in a Docker container, an archive unpacks into a folder, and you can pull a single file out of an archive. You see a copy’s tables and files before restoring anything. CopyHome doesn’t push copies to the server: a live database is safer to restore by hand, with mysql or psql and tar."}}, {"@type": "Question", "name": "How do I know a backup will restore?", "acceptedAnswer": {"@type": "Answer", "text": "Turn on the trial restore. Once a week CopyHome loads the dumps of the latest copy into a temporary database in Docker on this Mac, compares the table count and drops the database. A MySQL or PostgreSQL container needs to be running on the Mac."}}, {"@type": "Question", "name": "Can I back up only the changes?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, for folders. In “Changes only (rsync)” mode CopyHome downloads only the changed files over SSH. Every snapshot looks like a full copy of the folder, with unchanged files as hard links to the previous one, so only the difference takes space. The server needs rsync; to the cloud, a snapshot goes as a tar.zst archive."}}, {"@type": "Question", "name": "How do I move CopyHome to a new Mac?", "acceptedAnswer": {"@type": "Answer", "text": "Save your settings to a file. If you include passwords, the file is encrypted with a password in the age format. On the new Mac open the file and connect Yandex Disk and Google Drive again: their access doesn’t go into the file. No file? CopyHome finds your projects from the copies already in a storage."}}, {"@type": "Question", "name": "Can I keep backups on a NAS or an external drive?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The Folder storage sends copies to any folder: an external drive, a NAS over SMB, or your iCloud Drive, Dropbox or Google Drive folder. Every file is checked with sha256, and if the drive isn’t connected, the upload waits for it. Synology, Nextcloud and other WebDAV servers have a WebDAV storage of their own. There are also Yandex Disk, Google Drive and S3-compatible storages: Yandex Object Storage, Selectel, VK Cloud, Cloudflare R2, Backblaze B2 and AWS."}}, {"@type": "Question", "name": "Which languages does the app speak?", "acceptedAnswer": {"@type": "Answer", "text": "English and Russian. CopyHome follows your system language, and you can pick System Default, Русский or English in Settings."}}, {"@type": "Question", "name": "How does CopyHome update?", "acceptedAnswer": {"@type": "Answer", "text": "By itself. It checks for new versions, downloads them in the background and installs them when you quit or click “Restart to Update”. You can turn automatic updates off in Settings."}}, {"@type": "Question", "name": "Are PostgreSQL and Docker supported?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. PostgreSQL is dumped with pg_dump over SSH in the same stream as MySQL, and CopyHome checks the dump ran to the end. You need a pg_dump of the same version as the server or newer. MySQL, MariaDB and PostgreSQL databases in Docker containers work too: pick the container from a list."}}]}</script>
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -132,9 +132,9 @@
         <p class="home-foot"><span class="dot"></span>3 projects · next run at 3:00 AM</p>
       </div>
       <div class="flow-clouds">
-        <div class="cl live"><span class="p-logo ya">Я</span><div><b>Yandex Disk</b><span class="cl-stat">sha256 ✓</span></div></div>
-        <div class="cl"><span class="p-logo s3">S3</span><div><b>S3 storage</b><span>R2, B2, AWS</span></div></div>
-        <div class="cl"><span class="p-logo fd"><svg viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.4l2 2h8.6A1.5 1.5 0 0 1 21 9.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg></span><div><b>Folder or NAS</b><span>drive, iCloud, Dropbox</span></div></div>
+        <div class="cl live"><span class="p-logo ya">Я</span><div><b>Yandex Disk</b><span>Applications/CopyHome</span></div><i class="cl-ok" aria-hidden="true">✓</i></div>
+        <div class="cl live"><span class="p-logo gd">G</span><div><b>Google Drive</b><span>CopyHome files only</span></div><i class="cl-ok" aria-hidden="true">✓</i></div>
+        <div class="cl live"><span class="p-logo fd"><svg viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.4l2 2h8.6A1.5 1.5 0 0 1 21 9.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg></span><div><b>S3, WebDAV, NAS</b><span>R2, Nextcloud, Synology</span></div><i class="cl-ok" aria-hidden="true">✓</i></div>
       </div>
     </div>
   </div>
@@ -258,9 +258,9 @@
       </article>
 
       <article class="card c-rotate reveal">
-        <p class="kicker">Rotation</p>
-        <h3>Keeps the last N copies</h3>
-        <p>Old snapshots are removed automatically, on the Mac and in the cloud separately. And only after a successful full backup, so a server that goes down never eats your good copies.</p>
+        <p class="kicker">Retention</p>
+        <h3>The last N copies, or by the calendar</h3>
+        <p>For example, 7 daily, 4 weekly and 12 monthly. Old snapshots are removed automatically, on the Mac and in the cloud separately. Failed copies don’t count, so a server that goes down never eats your good backups.</p>
         <div class="stack" aria-hidden="true">
           <i class="gone"></i><i class="gone"></i><i></i><i></i><i></i><i></i><i></i><i class="new"></i>
         </div>
@@ -279,6 +279,21 @@
         <div class="seg" aria-hidden="true"><span class="on">auto</span><span>zstd</span><span>pigz</span><span>gzip</span></div>
         <p class="small">CopyHome picks the fastest compressor available on the server. Logs and sessions can be saved as structure only.</p>
       </article>
+
+      <article class="card c-restore reveal">
+        <p class="kicker">Restore</p>
+        <h3>Your copy comes back on this Mac</h3>
+        <p>Load a dump into a database on the Mac or in Docker, unpack an archive into a folder, or pull out a single file. You can look inside a copy first. CopyHome never pushes anything to the server.</p>
+        <ul class="checks" aria-label="Trial restore"><li><i>✓</i><span>mysql-shop.sql.zst → Docker</span><code>48 of 48 tables</code></li></ul>
+        <p class="small">Turn on the trial restore and once a week CopyHome loads the latest dump into a temporary database in Docker and checks the tables.</p>
+      </article>
+
+      <article class="card c-move reveal">
+        <p class="kicker">New Mac</p>
+        <h3>Move without setting up again</h3>
+        <p>Settings save to a file, encrypted with an age password when it includes your passwords. Open it on the new Mac and connect Yandex Disk and Google Drive again. No file? CopyHome finds your projects from the copies in a storage.</p>
+        <code class="pill">CopyHome 2026-10-18.copyhome</code>
+      </article>
     </div>
   </div>
 </section>
@@ -294,17 +309,17 @@
       <li class="reveal">
         <span class="num">01</span>
         <h3>Add a server</h3>
-        <p>Host and user, sign in with a key or a password. Your <code>~/.ssh/config</code> and <code>ssh-agent</code> just work. "Check SSH" shows whether the server has everything needed.</p>
+        <p>Host and user, sign in with a key or a password. Hosts from <code>~/.ssh/config</code> come in as a list, <code>ssh-agent</code> just works, and a finished project can be duplicated. "Check SSH" shows whether the server has everything needed.</p>
       </li>
       <li class="reveal">
         <span class="num">02</span>
         <h3>Pick what to keep</h3>
-        <p>MySQL and PostgreSQL databases, Docker included, and folders, with exclusions like <code>cache/</code> or <code>node_modules</code>. Each source can be backed up on its own.</p>
+        <p>MySQL and PostgreSQL databases, Docker included, and folders, with exclusions like <code>cache/</code> or <code>node_modules</code>. A folder can come whole or as changes only, via rsync.</p>
       </li>
       <li class="reveal">
         <span class="num">03</span>
         <h3>Set a schedule</h3>
-        <p>How many copies to keep and where to send one more: Yandex Disk, S3 or a&nbsp;NAS. From there CopyHome does the rest and tells you if anything is off.</p>
+        <p>How many copies to keep and where to send one more: Yandex Disk, Google Drive, S3, WebDAV or a&nbsp;NAS. From there CopyHome does the rest and tells you if anything is off.</p>
       </li>
     </ol>
 
@@ -320,7 +335,7 @@
 <section class="section cloud" id="cloud">
   <div class="wrap cloud-inner">
     <div class="cloud-copy reveal">
-      <p class="kicker">Backups to Yandex Disk, S3 and NAS</p>
+      <p class="kicker">Backups to Yandex Disk, Google Drive, S3 and NAS</p>
       <h2>One copy at home, <em>one more</em> in the cloud</h2>
       <p class="sub">The 3-2-1 rule without the chores. After every backup CopyHome uploads the snapshot to the storages you picked and checks the checksums. Use several at once, each keeping its own number of copies.</p>
       <ul class="ticks">
@@ -334,8 +349,10 @@
     <div class="cloud-side reveal">
       <div class="providers">
         <div class="prov live"><span class="p-logo ya" aria-hidden="true">Я</span><div><b>Yandex Disk</b><span>Sign in on Yandex's own page</span></div><em>Ready</em></div>
+        <div class="prov live"><span class="p-logo gd" aria-hidden="true">G</span><div><b>Google Drive</b><span>Access only to the files CopyHome created</span></div><em>Ready</em></div>
         <div class="prov live"><span class="p-logo s3" aria-hidden="true">S3</span><div><b>S3-compatible</b><span>Yandex Object Storage, Selectel, VK Cloud, Cloudflare R2, Backblaze B2, AWS</span></div><em>Ready</em></div>
-        <div class="prov live"><span class="p-logo fd" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.4l2 2h8.6A1.5 1.5 0 0 1 21 9.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg></span><div><b>Folder</b><span>On the Mac, an external drive, a NAS over SMB, or your iCloud Drive, Dropbox or Google Drive folder</span></div><em>Ready</em></div>
+        <div class="prov live"><span class="p-logo wd" aria-hidden="true">⇅</span><div><b>WebDAV</b><span>Nextcloud, ownCloud, Synology, Koofr and other servers</span></div><em>Ready</em></div>
+        <div class="prov live"><span class="p-logo fd" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.4l2 2h8.6A1.5 1.5 0 0 1 21 9.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/></svg></span><div><b>Folder</b><span>On the Mac, an external drive, a NAS over SMB, or your iCloud Drive or Dropbox folder</span></div><em>Ready</em></div>
       </div>
       <pre class="tree" aria-label="Folder layout in the cloud"><span class="t-dim">Disk / Applications /</span> CopyHome/
 └─ Shop/
@@ -423,11 +440,23 @@
       </details>
       <details class="reveal">
         <summary>How do I restore a site from a backup?</summary>
-        <p>Copies are plain files. Load the database back with <code>mysql</code> and unpack the folder with <code>tar -xzf</code>. One-click restore from CopyHome is coming in a future version.</p>
+        <p>Right in CopyHome, on this Mac: a dump loads into a local database or one in a Docker container, an archive unpacks into a folder, and you can pull a single file out of an archive. You see a copy’s tables and files before restoring anything. CopyHome doesn’t push copies to the server: a live database is safer to restore by hand, with <code>mysql</code> or <code>psql</code> and <code>tar</code>.</p>
+      </details>
+      <details class="reveal">
+        <summary>How do I know a backup will restore?</summary>
+        <p>Turn on the trial restore. Once a week CopyHome loads the dumps of the latest copy into a temporary database in Docker on this Mac, compares the table count and drops the database. A MySQL or PostgreSQL container needs to be running on the Mac.</p>
+      </details>
+      <details class="reveal">
+        <summary>Can I back up only the changes?</summary>
+        <p>Yes, for folders. In “Changes only (rsync)” mode CopyHome downloads only the changed files over SSH. Every snapshot looks like a full copy of the folder, with unchanged files as hard links to the previous one, so only the difference takes space. The server needs rsync; to the cloud, a snapshot goes as a tar.zst archive.</p>
+      </details>
+      <details class="reveal">
+        <summary>How do I move CopyHome to a new Mac?</summary>
+        <p>Save your settings to a file. If you include passwords, the file is encrypted with a password in the age format. On the new Mac open the file and connect Yandex Disk and Google Drive again: their access doesn’t go into the file. No file? CopyHome finds your projects from the copies already in a storage.</p>
       </details>
       <details class="reveal">
         <summary>Can I keep backups on a NAS or an external drive?</summary>
-        <p>Yes. The Folder storage sends copies to any folder: an external drive, a NAS over SMB, or your iCloud Drive, Dropbox or Google Drive folder. Every file is checked with sha256, and if the drive isn’t connected, the upload waits for it. There are also S3-compatible storages: Yandex Object Storage, Selectel, VK Cloud, Cloudflare R2, Backblaze B2 and AWS.</p>
+        <p>Yes. The Folder storage sends copies to any folder: an external drive, a NAS over SMB, or your iCloud Drive, Dropbox or Google Drive folder. Every file is checked with sha256, and if the drive isn’t connected, the upload waits for it. Synology, Nextcloud and other WebDAV servers have a WebDAV storage of their own. There are also Yandex Disk, Google Drive and S3-compatible storages: Yandex Object Storage, Selectel, VK Cloud, Cloudflare R2, Backblaze B2 and AWS.</p>
       </details>
       <details class="reveal">
         <summary>Which languages does the app speak?</summary>
@@ -439,7 +468,7 @@
       </details>
       <details class="reveal">
         <summary>Are PostgreSQL and Docker supported?</summary>
-        <p>Yes. PostgreSQL is dumped with <code>pg_dump</code> over SSH in the same stream as MySQL, and CopyHome checks the dump ran to the end. You need a <code>pg_dump</code> of the same version as the server or newer. MySQL, MariaDB and PostgreSQL databases in Docker containers work too: pick the container from a list. Next on the roadmap are incremental folder backups via rsync and one-click restore.</p>
+        <p>Yes. PostgreSQL is dumped with <code>pg_dump</code> over SSH in the same stream as MySQL, and CopyHome checks the dump ran to the end. You need a <code>pg_dump</code> of the same version as the server or newer. MySQL, MariaDB and PostgreSQL databases in Docker containers work too: pick the container from a list.</p>
       </details>
     </div>
   </div>
@@ -469,7 +498,7 @@
 <footer class="footer">
   <div class="wrap foot-inner">
     <a class="brand" href="#top" aria-label="CopyHome"><svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg><span class="brand-word">Copy<b>Home</b></span></a>
-    <div class="foot-links"><a href="../" hreflang="ru" lang="ru">Русский</a><span>Server backups, delivered to your Mac · © 2026</span></div>
+    <div class="foot-links"><a href="privacy/">Privacy</a><a href="../" hreflang="ru" lang="ru">Русский</a><span>Server backups, delivered to your Mac · © 2026</span></div>
   </div>
 </footer>
 
