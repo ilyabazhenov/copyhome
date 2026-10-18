@@ -383,7 +383,6 @@ p { margin: 0; }
 .cl b { display: block; font-size: 15px; color: var(--heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cl span:not(.p-logo) { display: block; margin-top: 3px; font: 12px/1.4 var(--mono); color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cl .p-logo { width: 36px; height: 36px; border-radius: 10px; font-size: 14px; }
-.cl:not(.live) { opacity: .6; }
 .cl.live { box-shadow: 0 0 0 1px rgba(43,198,180,.55) inset, 0 14px 34px -22px rgba(14,140,130,.7); }
 .cl.live .cl-stat { color: var(--ok-text); }
 .cl.live .cl-stat.busy { color: var(--accent-text); }
@@ -597,6 +596,8 @@ p { margin: 0; }
 .p-logo.gd { background: linear-gradient(135deg, #1FA463 0 33%, #FFD04B 33% 66%, #4688F4 66%); }
 .p-logo.s3 { background: #3E4C59; font-size: 14px; }
 .p-logo.wd { background: #6B7C93; }
+.p-logo.fd { background: #2F7FD8; }
+.p-logo svg { width: 54%; height: 54%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
 .tree { margin: 16px 0 0; padding: 18px 20px; border-radius: 16px; background: var(--code-bg-panel); color: var(--code-text-panel); font: 13px/1.7 var(--mono); overflow-x: auto; box-shadow: 0 0 0 1px var(--line); }
 .t-dim { color: rgba(207,237,232,.5); } .t-ok { color: #7CF0A0; }
 
