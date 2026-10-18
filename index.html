@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CopyHome — бекапы серверов на ваш Mac</title>
+  <meta name="description" content="CopyHome снимает дампы MySQL и архивы каталогов по SSH, скачивает их на Mac, проверяет каждый файл и выгружает копию в Яндекс Диск. По расписанию, из строки меню.">
+  <meta property="og:title" content="CopyHome — бекапы серверов на ваш Mac">
+  <meta property="og:description" content="Дампы MySQL и каталоги по SSH, проверка каждого файла, копия в облаке. Тихо, по расписанию, из строки меню.">
+  <meta property="og:image" content="assets/og.png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <link rel="alternate" hreflang="ru" href="./">
+  <link rel="alternate" hreflang="en" href="en/">
+  <meta name="theme-color" content="#F3F7F6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#061A18" media="(prefers-color-scheme: dark)">
+  <script>
+    document.documentElement.classList.add('js');
+    try { var t = localStorage.getItem('copyhome-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <link rel="icon" type="image/png" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/icon-512.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <mask id="ch-arrow" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="#fff"/>
+      <path transform="translate(0 6)" d="M500.69,678.69 A16,16 0 0 0 523.31,678.69 L601.51,600.49 A12,12 0 0 0 593.03,580.00 L567.00,580.00 A5,5 0 0 1 562.00,575.00 L562.00,462.00 A14,14 0 0 0 548.00,448.00 L476.00,448.00 A14,14 0 0 0 462.00,462.00 L462.00,575.00 A5,5 0 0 1 457.00,580.00 L430.97,580.00 A12,12 0 0 0 422.49,600.49Z" fill="#000"/>
+    </mask>
+    <symbol id="mark" viewBox="236 240 552 524">
+      <path d="M258.0 478.0 L512.0 262.0 L626.0 358.9 L626.0 316.0 L674.0 316.0 L674.0 399.8 L766.0 478.0 L720.0 478.0 L720.0 742.0 L304.0 742.0 L304.0 478.0 Z" fill="currentColor" stroke="currentColor" stroke-width="40" stroke-linejoin="round" mask="url(#ch-arrow)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="nav" id="top">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="CopyHome">
+      <svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg>
+      <span class="brand-word">Copy<b>Home</b></span>
+    </a>
+    <nav class="nav-links" aria-label="Разделы">
+      <a href="#features">Возможности</a>
+      <a href="#how">Как устроено</a>
+      <a href="#cloud">Облако</a>
+      <a href="#security">Безопасность</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <div class="nav-tools">
+      <a class="tool" href="en/index.html" hreflang="en" lang="en" title="English version" aria-label="English version">EN</a>
+      <button class="tool" type="button" data-theme-toggle title="Сменить тему" aria-label="Сменить тему">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+      <a class="btn btn-small btn-nav" href="#download">Скачать</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="wrap hero-copy">
+    <p class="eyebrow reveal"><span class="pulse"></span> Бекапы серверов для macOS</p>
+    <h1 class="reveal">Каждую ночь ваши серверы <em>возвращаются домой</em></h1>
+    <p class="lead reveal">CopyHome по&nbsp;SSH снимает дампы MySQL и&nbsp;архивы каталогов, скачивает их на&nbsp;Mac, проверяет каждый файл и&nbsp;кладёт копию в&nbsp;облако. Тихо, по&nbsp;расписанию, из&nbsp;строки меню.</p>
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="#download">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>
+        Скачать для macOS
+      </a>
+      <a class="btn btn-ghost" href="#how">Как это работает</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="flow reveal" id="flow" role="img" aria-label="Три сервера отправляют бекапы на Mac, каждый файл проходит проверку">
+      <svg class="flow-lines" id="flow-lines" aria-hidden="true"></svg>
+      <div class="flow-servers">
+        <div class="srv" data-files='[["mysql-shop.sql.zst","412 МБ"],["mysql-shop_logs.sql.zst","38 МБ"],["dir-var-www-shop-uploads.tar.gz","1,1 ГБ"]]'>
+          <div class="srv-top"><span class="dot"></span><b>Магазин</b><span class="srv-host">shop.example.ru</span></div>
+          <div class="srv-tags"><span>MySQL · 2 базы</span><span>/var/www/uploads</span></div>
+        </div>
+        <div class="srv" data-files='[["mysql-crm.sql.zst","96 МБ"],["dir-srv-crm-storage.tar.gz","240 МБ"]]'>
+          <div class="srv-top"><span class="dot"></span><b>CRM</b><span class="srv-host">crm.internal</span></div>
+          <div class="srv-tags"><span>MySQL</span><span>/srv/crm/storage</span></div>
+        </div>
+        <div class="srv" data-files='[["mysql-blog.sql.gz","21 МБ"],["dir-var-www-blog.tar.gz","580 МБ"]]'>
+          <div class="srv-top"><span class="dot"></span><b>Блог</b><span class="srv-host">blog.example.com</span></div>
+          <div class="srv-tags"><span>MySQL</span><span>/var/www/blog</span></div>
+        </div>
+      </div>
+      <div class="flow-home">
+        <div class="home-head">
+          <div class="home-icon"><svg aria-hidden="true"><use href="#mark"/></svg></div>
+          <div>
+            <b>Ваш Mac</b>
+            <span>~/Backups/fast-backup</span>
+          </div>
+        </div>
+        <ul class="home-files" id="home-files">
+          <li><span class="f-name">mysql-shop.sql.zst</span><span class="f-size">412 МБ</span><span class="f-ok">проверен</span></li>
+          <li><span class="f-name">dir-srv-crm-storage.tar.gz</span><span class="f-size">240 МБ</span><span class="f-ok">проверен</span></li>
+          <li><span class="f-name">mysql-blog.sql.gz</span><span class="f-size">21 МБ</span><span class="f-ok">проверен</span></li>
+        </ul>
+        <div class="home-cloud"><span class="cloud-dot"></span> Копия уходит в Яндекс Диск</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STRIP ============ -->
+<section class="strip" aria-label="Коротко">
+  <div class="wrap strip-inner">
+    <div class="fact reveal"><b>0</b><span>агентов и скриптов на сервере: только ssh, mysqldump и tar</span></div>
+    <div class="fact reveal"><b>100%</b><span>файлов по умолчанию проверяются после скачивания</span></div>
+    <div class="fact reveal"><b>1&nbsp;клик</b><span>из строки меню, чтобы снять бекап прямо сейчас</span></div>
+    <div class="fact reveal"><b>sha256</b><span>сверяется для каждого файла, ушедшего в облако</span></div>
+  </div>
+</section>
+
+<!-- ============ APP WINDOW ============ -->
+<section class="section showcase" id="features">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Всё про проект на одном экране</p>
+      <h2>Видно, что бекап <em>есть</em>, а&nbsp;не&nbsp;кажется</h2>
+      <p class="sub">Статус последнего запуска, следующий бекап, сколько места занято и&nbsp;как растёт база. Если что-то пошло не так, CopyHome скажет об этом простыми словами.</p>
+    </div>
+
+    <div class="mac reveal" role="img" aria-label="Окно CopyHome: обзор проекта «Магазин» со статусом последнего бекапа, плитками, графиком и списком источников">
+      <div class="mac-side" aria-hidden="true">
+        <div class="lights"><i></i><i></i><i></i></div>
+        <div class="side-label">Проекты</div>
+        <div class="side-item active"><span class="av" style="--c:#0E8C82">М</span>Магазин<span class="dot"></span></div>
+        <div class="side-item"><span class="av" style="--c:#5B6CF0">C</span>CRM<span class="dot"></span></div>
+        <div class="side-item"><span class="av" style="--c:#E08A1E">Б</span>Блог<span class="dot run"></span></div>
+        <div class="side-item"><span class="av" style="--c:#C2457A">Л</span>Лендинги<span class="dot warn"></span></div>
+        <div class="side-foot">Настройки</div>
+      </div>
+      <div class="mac-main" aria-hidden="true">
+        <div class="mac-bar">
+          <div class="mac-title"><span class="av lg" style="--c:#0E8C82">М</span><div><b>Магазин</b><span>deploy@shop.example.ru</span></div></div>
+          <div class="mac-actions"><span class="mbtn">Открыть папку</span><span class="mbtn primary">Запустить бекап ▾</span></div>
+        </div>
+        <div class="tabs"><span class="on">Обзор</span><span>Источники</span><span>Расписание</span><span>История</span><span>Настройки</span></div>
+        <div class="mac-body">
+          <div class="status-card">
+            <div class="status-ic">✓</div>
+            <div class="status-txt"><b>Последний бекап прошёл успешно</b><span>Сегодня в 03:00 · 4 мин 12 с · все 3 файла проверены · выгружен в Яндекс Диск</span></div>
+            <div class="status-next"><span>Следующий бекап</span><b>Завтра в 03:00</b></div>
+          </div>
+          <div class="tiles">
+            <div class="tile"><span>На диске</span><b>14 бекапов · 6,2 ГБ</b></div>
+            <div class="tile"><span>Среднее время</span><b>4 мин 05 с</b></div>
+            <div class="tile"><span>Рост размера за 30 дней</span><b>+8%</b></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-head"><b>Размер и время</b><span><i class="lg-a"></i>размер <i class="lg-b"></i>время</span></div>
+            <div class="chart" id="chart"></div>
+          </div>
+          <div class="list-card">
+            <div class="list-head"><b>Что бекапим</b><span>Источники ›</span></div>
+            <div class="row"><span class="ty db">MySQL</span>shop<em>zstd · проверка</em><b>412 МБ</b></div>
+            <div class="row"><span class="ty db">MySQL</span>shop_logs<em>без данных: sessions</em><b>38 МБ</b></div>
+            <div class="row"><span class="ty dir">Каталог</span>/var/www/shop/uploads<em>кроме cache/</em><b>1,1 ГБ</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENTO ============ -->
+<section class="section bento-sec" aria-label="Возможности">
+  <div class="wrap">
+    <div class="bento">
+      <article class="card c-schedule reveal">
+        <p class="kicker">Расписание</p>
+        <h3>Как вам удобно, без&nbsp;cron в голове</h3>
+        <p>Вручную, каждый час, день или неделю. Если хочется точнее, есть своё cron-выражение.</p>
+        <div class="chips">
+          <span>Вручную</span><span>Каждый час</span><span class="on">Каждый день в 03:00</span><span>По понедельникам</span><code>15 */6 * * *</code>
+        </div>
+      </article>
+
+      <article class="card c-verify reveal">
+        <p class="kicker">Проверка</p>
+        <h3>Каждый файл распаковывается до конца</h3>
+        <ul class="checks">
+          <li><i>✓</i><span>mysql-shop.sql.zst</span><code>-- Dump completed</code></li>
+          <li><i>✓</i><span>dir-uploads.tar.gz</span><code>конечный маркер tar</code></li>
+          <li><i>✓</i><span>размер</span><code>не упал больше чем на 30%</code></li>
+        </ul>
+      </article>
+
+      <article class="card c-notify reveal">
+        <p class="kicker">Уведомления</p>
+        <h3>Пишет, только когда есть повод</h3>
+        <div class="notes">
+          <div class="note"><img src="assets/favicon-64.png" alt=""><div><b>Бекап «Лендинги»: проверьте размер</b><span>Снимок на 42% меньше прошлого</span></div><time>сейчас</time></div>
+          <div class="note dim"><img src="assets/favicon-64.png" alt=""><div><b>CopyHome</b><span>Магазин: бекап готов, проверен и выгружен</span></div><time>03:04</time></div>
+        </div>
+      </article>
+
+      <article class="card c-menubar reveal">
+        <p class="kicker">Строка меню</p>
+        <h3>Работает в фоне и&nbsp;не&nbsp;мешает</h3>
+        <p>Закрыли окно, а расписание продолжает работать. Стартует при входе в систему.</p>
+        <div class="menubar-wrap" aria-hidden="true"><div class="menubar">
+          <div class="mb-strip"><span></span><span class="mb-ic"><svg><use href="#mark"/></svg></span><span>Пт 17 окт. 9:41</span></div>
+          <div class="mb-menu">
+            <div class="mi muted">CopyHome</div>
+            <div class="sep"></div>
+            <div class="mi"><span class="dot"></span>Магазин — ✓ 17.10.2026, 03:04 <i>›</i></div>
+            <div class="mi"><span class="dot"></span>CRM — ✓ 17.10.2026, 04:02 <i>›</i></div>
+            <div class="mi"><span class="dot run"></span>Блог — выполняется… <i>›</i></div>
+            <div class="sep"></div>
+            <div class="mi hl">Запустить все бекапы</div>
+            <div class="mi">Открыть окно</div>
+            <div class="mi">Открыть папку бекапов</div>
+            <div class="sep"></div>
+            <div class="mi">✓ Запускать при входе в систему</div>
+          </div>
+        </div></div>
+      </article>
+
+      <article class="card c-rotate reveal">
+        <p class="kicker">Ротация</p>
+        <h3>Хранит последние N копий</h3>
+        <p>Старые снимки удаляются сами, на Mac и в облаке отдельно.</p>
+        <div class="stack" aria-hidden="true">
+          <i class="gone"></i><i class="gone"></i><i></i><i></i><i></i><i></i><i></i><i class="new"></i>
+        </div>
+      </article>
+
+      <article class="card c-local reveal">
+        <p class="kicker">И локально</p>
+        <h3>MySQL в Docker на этом Mac</h3>
+        <p>Проект «На этом компьютере» снимает дамп без SSH. Клиент MySQL найдётся сам в Homebrew или MAMP.</p>
+        <code class="pill">127.0.0.1:3307</code>
+      </article>
+
+      <article class="card c-compress reveal">
+        <p class="kicker">Параметры дампа</p>
+        <h3>Сжатие и таблицы без данных</h3>
+        <div class="seg" aria-hidden="true"><span class="on">авто</span><span>zstd</span><span>pigz</span><span>gzip</span></div>
+        <p class="small">CopyHome сам выберет самое быстрое сжатие на сервере. Логи и сессии можно забирать только структурой.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW ============ -->
+<section class="section how" id="how">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Как устроено</p>
+      <h2>Три шага до <em>спокойного сна</em></h2>
+    </div>
+    <ol class="steps">
+      <li class="reveal">
+        <span class="num">01</span>
+        <h3>Добавьте сервер</h3>
+        <p>Хост и пользователь, вход по ключу или паролю. Работают ваши <code>~/.ssh/config</code> и&nbsp;<code>ssh-agent</code>. Кнопка «Проверить SSH» покажет, есть ли на сервере всё нужное.</p>
+      </li>
+      <li class="reveal">
+        <span class="num">02</span>
+        <h3>Выберите, что беречь</h3>
+        <p>Базы MySQL и каталоги с исключениями вроде <code>cache/</code> или <code>node_modules</code>. Каждый источник можно забекапить отдельно.</p>
+      </li>
+      <li class="reveal">
+        <span class="num">03</span>
+        <h3>Задайте расписание</h3>
+        <p>Сколько копий хранить и нужна ли копия в облаке. Дальше CopyHome всё делает сам и пишет, если что-то не так.</p>
+      </li>
+    </ol>
+
+    <div class="terminal reveal" id="terminal">
+      <div class="term-bar"><i></i><i></i><i></i><span>Что происходит во время бекапа</span></div>
+      <pre class="term-body" id="term-body"></pre>
+    </div>
+    <p class="term-note reveal">Дамп идёт потоком прямо в файл на Mac и не ложится на диск сервера. Логин и пароль MySQL передаются через stdin, поэтому их не видно в <code>ps</code>.</p>
+  </div>
+</section>
+
+<!-- ============ CLOUD ============ -->
+<section class="section cloud" id="cloud">
+  <div class="wrap cloud-inner">
+    <div class="cloud-copy reveal">
+      <p class="kicker">Копия в облаке</p>
+      <h2>Одна копия дома, <em>ещё одна</em> в&nbsp;облаке</h2>
+      <p class="sub">Правило «3-2-1» без ручной работы. После каждого бекапа CopyHome выгружает снимок в ваше хранилище и сверяет контрольные суммы.</p>
+      <ul class="ticks">
+        <li>Файлы больше лимита аккаунта режутся на части без лишнего места на Mac</li>
+        <li>Связь оборвалась, Mac уснул? Выгрузка продолжится сама</li>
+        <li>Удалили копию с Mac? Скачайте её обратно из Истории</li>
+        <li>CopyHome трогает только свою папку на Диске</li>
+      </ul>
+    </div>
+    <div class="cloud-side reveal">
+      <div class="providers">
+        <div class="prov live"><span class="p-logo ya" aria-hidden="true">Я</span><div><b>Яндекс Диск</b><span>Вход через страницу Яндекса</span></div><em>Готово</em></div>
+        <div class="prov"><span class="p-logo gd" aria-hidden="true">G</span><div><b>Google Drive</b><span>Следующим</span></div><em>Скоро</em></div>
+        <div class="prov"><span class="p-logo s3" aria-hidden="true">S3</span><div><b>S3-совместимые</b><span>Yandex Object Storage, Selectel, Backblaze</span></div><em>В планах</em></div>
+        <div class="prov"><span class="p-logo wd" aria-hidden="true">⇅</span><div><b>WebDAV</b><span>Nextcloud и свои серверы</span></div><em>В планах</em></div>
+      </div>
+      <pre class="tree" aria-label="Раскладка папок в облаке"><span class="t-dim">Диск /</span> CopyHome/
+└─ Магазин/
+   └─ 2026-10-17T03-00-00/
+      ├─ mysql-shop.sql.zst
+      ├─ dir-uploads.tar.gz.part001
+      ├─ dir-uploads.tar.gz.part002
+      └─ .copyhome.json  <span class="t-ok">✓ sha256</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECURITY ============ -->
+<section class="section security" id="security">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Безопасность</p>
+      <h2>Ключи от серверов <em>остаются у вас</em></h2>
+    </div>
+    <div class="sec-grid">
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8m-3 3l2 2m-4 0l2 2"/></svg></span><h3>Связка ключей macOS</h3><p>Пароли MySQL, SSH и токены облаков шифруются ключом из связки ключей. В открытом виде они не лежат нигде.</p></div>
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9l3 3-3 3m5 0h5"/></svg></span><h3>Системный ssh</h3><p>Никаких своих реализаций протокола. Ваши ключи, конфиг и агент. Смена ключа хоста блокирует подключение.</p></div>
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.5"/><path d="M4 20L20 4"/></svg></span><h3>Не видно в ps</h3><p>Пароль базы уходит на сервер через stdin, а не в аргументах команды, поэтому соседи по серверу его не увидят.</p></div>
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.6-8 6 6 0 0 1 11.4 1.5A3.3 3.3 0 0 1 17.5 18z"/><path d="M12 11v4m-2-2h4"/></svg></span><h3>OAuth с PKCE</h3><p>Вход в облако через страницу Яндекса. Секрет приложения не нужен и не хранится в коде.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section faq" id="faq">
+  <div class="wrap faq-inner">
+    <div class="section-head left reveal">
+      <p class="kicker">Вопросы</p>
+      <h2>Коротко о&nbsp;главном</h2>
+    </div>
+    <div class="faq-list">
+      <details class="reveal" open>
+        <summary>Нужно ли что-то устанавливать на сервер?</summary>
+        <p>Нет. Нужны только <code>bash</code>, <code>gzip</code>, <code>tar</code> и <code>mysqldump</code>, которые почти всегда уже есть. Если пароль базы не задан, CopyHome возьмёт его из <code>~/.my.cnf</code> на сервере.</p>
+      </details>
+      <details class="reveal">
+        <summary>Где хранятся бекапы на Mac?</summary>
+        <p>В <code>~/Backups/fast-backup/&lt;Проект&gt;/&lt;дата-время&gt;/</code>: обычные <code>.sql.gz</code>, <code>.sql.zst</code> и <code>.tar.gz</code>, которые открываются без CopyHome. Никаких закрытых форматов.</p>
+      </details>
+      <details class="reveal">
+        <summary>Что если окно закрыто?</summary>
+        <p>CopyHome остаётся в строке меню и продолжает работать по расписанию. Можно включить запуск при входе в систему, тогда окно даже не откроется.</p>
+      </details>
+      <details class="reveal">
+        <summary>А если база огромная?</summary>
+        <p>Дамп снимается с <code>--single-transaction</code> и не блокирует таблицы InnoDB, а сжатие zstd или pigz работает на всех ядрах сервера. Большие таблицы логов можно забирать только структурой.</p>
+      </details>
+      <details class="reveal">
+        <summary>PostgreSQL поддерживается?</summary>
+        <p>Пока нет. PostgreSQL следующий в планах, вместе с инкрементальными бекапами каталогов через rsync и восстановлением в один клик.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="final" id="download">
+  <div class="hero-glow small" aria-hidden="true"></div>
+  <div class="wrap final-inner reveal">
+    <img class="final-icon" src="assets/icon-512.png" width="160" height="160" alt="Иконка CopyHome">
+    <h2>Пусть копии <em>едут домой</em> сами</h2>
+    <p class="lead">Приложение для macOS. Ваши бекапы хранятся у вас.</p>
+    <div class="cta-row center">
+      <a class="btn btn-primary" href="#" data-download>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>
+        <span>Скачать CopyHome</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap foot-inner">
+    <a class="brand" href="#top" aria-label="CopyHome"><svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg><span class="brand-word">Copy<b>Home</b></span></a>
+    <div class="foot-links"><a href="en/index.html" hreflang="en" lang="en">English</a><span>Бекапы серверов на ваш Mac · © 2026</span></div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

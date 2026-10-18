@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CopyHome — server backups, delivered to your Mac</title>
+  <meta name="description" content="CopyHome dumps MySQL databases and archives folders over SSH, downloads them to your Mac, verifies every file and uploads a copy to Yandex Disk. On schedule, from the menu bar.">
+  <meta property="og:title" content="CopyHome — server backups, delivered to your Mac">
+  <meta property="og:description" content="MySQL dumps and folders over SSH, every file verified, a copy in the cloud. Quietly, on schedule, from the menu bar.">
+  <meta property="og:image" content="../assets/og-en.png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <link rel="alternate" hreflang="ru" href="../">
+  <link rel="alternate" hreflang="en" href="./">
+  <meta name="theme-color" content="#F3F7F6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#061A18" media="(prefers-color-scheme: dark)">
+  <script>
+    document.documentElement.classList.add('js');
+    try { var t = localStorage.getItem('copyhome-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <link rel="icon" type="image/png" href="../assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="../assets/icon-512.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <mask id="ch-arrow" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="#fff"/>
+      <path transform="translate(0 6)" d="M500.69,678.69 A16,16 0 0 0 523.31,678.69 L601.51,600.49 A12,12 0 0 0 593.03,580.00 L567.00,580.00 A5,5 0 0 1 562.00,575.00 L562.00,462.00 A14,14 0 0 0 548.00,448.00 L476.00,448.00 A14,14 0 0 0 462.00,462.00 L462.00,575.00 A5,5 0 0 1 457.00,580.00 L430.97,580.00 A12,12 0 0 0 422.49,600.49Z" fill="#000"/>
+    </mask>
+    <symbol id="mark" viewBox="236 240 552 524">
+      <path d="M258.0 478.0 L512.0 262.0 L626.0 358.9 L626.0 316.0 L674.0 316.0 L674.0 399.8 L766.0 478.0 L720.0 478.0 L720.0 742.0 L304.0 742.0 L304.0 478.0 Z" fill="currentColor" stroke="currentColor" stroke-width="40" stroke-linejoin="round" mask="url(#ch-arrow)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="nav" id="top">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="CopyHome">
+      <svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg>
+      <span class="brand-word">Copy<b>Home</b></span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#cloud">Cloud</a>
+      <a href="#security">Security</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-tools">
+      <a class="tool" href="../index.html" hreflang="ru" lang="ru" title="Русская версия" aria-label="Русская версия">RU</a>
+      <button class="tool" type="button" data-theme-toggle title="Change theme" aria-label="Change theme">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+      <a class="btn btn-small btn-nav" href="#download">Download</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="wrap hero-copy">
+    <p class="eyebrow reveal"><span class="pulse"></span> Server backups for macOS</p>
+    <h1 class="reveal">Every night, your servers <em>come home</em></h1>
+    <p class="lead reveal">CopyHome dumps your MySQL databases and archives folders over SSH, downloads them to your Mac, verifies every file and puts a copy in the cloud. Quietly, on schedule, from the menu bar.</p>
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="#download">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>
+        Download for macOS
+      </a>
+      <a class="btn btn-ghost" href="#how">See how it works</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="flow reveal" id="flow" role="img" aria-label="Three servers send backups to a Mac, and every file gets verified">
+      <svg class="flow-lines" id="flow-lines" aria-hidden="true"></svg>
+      <div class="flow-servers">
+        <div class="srv" data-files='[["mysql-shop.sql.zst","412 MB"],["mysql-shop_logs.sql.zst","38 MB"],["dir-var-www-shop-uploads.tar.gz","1.1 GB"]]'>
+          <div class="srv-top"><span class="dot"></span><b>Shop</b><span class="srv-host">shop.example.com</span></div>
+          <div class="srv-tags"><span>MySQL · 2 databases</span><span>/var/www/uploads</span></div>
+        </div>
+        <div class="srv" data-files='[["mysql-crm.sql.zst","96 MB"],["dir-srv-crm-storage.tar.gz","240 MB"]]'>
+          <div class="srv-top"><span class="dot"></span><b>CRM</b><span class="srv-host">crm.internal</span></div>
+          <div class="srv-tags"><span>MySQL</span><span>/srv/crm/storage</span></div>
+        </div>
+        <div class="srv" data-files='[["mysql-blog.sql.gz","21 MB"],["dir-var-www-blog.tar.gz","580 MB"]]'>
+          <div class="srv-top"><span class="dot"></span><b>Blog</b><span class="srv-host">blog.example.org</span></div>
+          <div class="srv-tags"><span>MySQL</span><span>/var/www/blog</span></div>
+        </div>
+      </div>
+      <div class="flow-home">
+        <div class="home-head">
+          <div class="home-icon"><svg aria-hidden="true"><use href="#mark"/></svg></div>
+          <div>
+            <b>Your Mac</b>
+            <span>~/Backups/fast-backup</span>
+          </div>
+        </div>
+        <ul class="home-files" id="home-files">
+          <li><span class="f-name">mysql-shop.sql.zst</span><span class="f-size">412 MB</span><span class="f-ok">verified</span></li>
+          <li><span class="f-name">dir-srv-crm-storage.tar.gz</span><span class="f-size">240 MB</span><span class="f-ok">verified</span></li>
+          <li><span class="f-name">mysql-blog.sql.gz</span><span class="f-size">21 MB</span><span class="f-ok">verified</span></li>
+        </ul>
+        <div class="home-cloud"><span class="cloud-dot"></span> A copy goes to Yandex Disk</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STRIP ============ -->
+<section class="strip" aria-label="At a glance">
+  <div class="wrap strip-inner">
+    <div class="fact reveal"><b>0</b><span>agents or scripts on the server: just ssh, mysqldump and tar</span></div>
+    <div class="fact reveal"><b>100%</b><span>of files are verified after download by default</span></div>
+    <div class="fact reveal"><b>1&nbsp;click</b><span>in the menu bar to take a backup right now</span></div>
+    <div class="fact reveal"><b>sha256</b><span>checked for every file that goes to the cloud</span></div>
+  </div>
+</section>
+
+<!-- ============ APP WINDOW ============ -->
+<section class="section showcase" id="features">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Your whole project on one screen</p>
+      <h2>Know the backup <em>exists</em>, don't just hope</h2>
+      <p class="sub">Last run status, the next backup, disk usage and how fast your database grows. If something goes wrong, CopyHome tells you in plain words.</p>
+    </div>
+
+    <div class="mac reveal" role="img" aria-label="CopyHome window: overview of the Shop project with last backup status, stats, a chart and the list of sources">
+      <div class="mac-side" aria-hidden="true">
+        <div class="lights"><i></i><i></i><i></i></div>
+        <div class="side-label">Projects</div>
+        <div class="side-item active"><span class="av" style="--c:#0E8C82">S</span>Shop<span class="dot"></span></div>
+        <div class="side-item"><span class="av" style="--c:#5B6CF0">C</span>CRM<span class="dot"></span></div>
+        <div class="side-item"><span class="av" style="--c:#E08A1E">B</span>Blog<span class="dot run"></span></div>
+        <div class="side-item"><span class="av" style="--c:#C2457A">L</span>Landing pages<span class="dot warn"></span></div>
+        <div class="side-foot">Settings</div>
+      </div>
+      <div class="mac-main" aria-hidden="true">
+        <div class="mac-bar">
+          <div class="mac-title"><span class="av lg" style="--c:#0E8C82">S</span><div><b>Shop</b><span>deploy@shop.example.com</span></div></div>
+          <div class="mac-actions"><span class="mbtn">Open folder</span><span class="mbtn primary">Back up now ▾</span></div>
+        </div>
+        <div class="tabs"><span class="on">Overview</span><span>Sources</span><span>Schedule</span><span>History</span><span>Settings</span></div>
+        <div class="mac-body">
+          <div class="status-card">
+            <div class="status-ic">✓</div>
+            <div class="status-txt"><b>Last backup succeeded</b><span>Today at 3:00 AM · 4 min 12 s · all 3 files verified · uploaded to Yandex Disk</span></div>
+            <div class="status-next"><span>Next backup</span><b>Tomorrow at 3:00 AM</b></div>
+          </div>
+          <div class="tiles">
+            <div class="tile"><span>On disk</span><b>14 backups · 6.2 GB</b></div>
+            <div class="tile"><span>Average time</span><b>4 min 05 s</b></div>
+            <div class="tile"><span>Size growth, 30 days</span><b>+8%</b></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-head"><b>Size and time</b><span><i class="lg-a"></i>size <i class="lg-b"></i>time</span></div>
+            <div class="chart" id="chart"></div>
+          </div>
+          <div class="list-card">
+            <div class="list-head"><b>What we back up</b><span>Sources ›</span></div>
+            <div class="row"><span class="ty db">MySQL</span>shop<em>zstd · verify</em><b>412 MB</b></div>
+            <div class="row"><span class="ty db">MySQL</span>shop_logs<em>schema only: sessions</em><b>38 MB</b></div>
+            <div class="row"><span class="ty dir">Folder</span>/var/www/shop/uploads<em>except cache/</em><b>1.1 GB</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENTO ============ -->
+<section class="section bento-sec" aria-label="Features">
+  <div class="wrap">
+    <div class="bento">
+      <article class="card c-schedule reveal">
+        <p class="kicker">Schedule</p>
+        <h3>Your way, no cron in&nbsp;your head</h3>
+        <p>Manually, hourly, daily or weekly. Need more precision? Write your own cron expression.</p>
+        <div class="chips">
+          <span>Manually</span><span>Every hour</span><span class="on">Daily at 3:00 AM</span><span>Every Monday</span><code>15 */6 * * *</code>
+        </div>
+      </article>
+
+      <article class="card c-verify reveal">
+        <p class="kicker">Verification</p>
+        <h3>Every file is unpacked to the last byte</h3>
+        <ul class="checks">
+          <li><i>✓</i><span>mysql-shop.sql.zst</span><code>-- Dump completed</code></li>
+          <li><i>✓</i><span>dir-uploads.tar.gz</span><code>tar end marker</code></li>
+          <li><i>✓</i><span>size</span><code>dropped less than 30%</code></li>
+        </ul>
+      </article>
+
+      <article class="card c-notify reveal">
+        <p class="kicker">Notifications</p>
+        <h3>Speaks up only when it matters</h3>
+        <div class="notes">
+          <div class="note"><img src="../assets/favicon-64.png" alt=""><div><b>"Landing pages" backup: check the size</b><span>Snapshot is 42% smaller than the last one</span></div><time>now</time></div>
+          <div class="note dim"><img src="../assets/favicon-64.png" alt=""><div><b>CopyHome</b><span>Shop: backup done, verified and uploaded</span></div><time>3:04 AM</time></div>
+        </div>
+      </article>
+
+      <article class="card c-menubar reveal">
+        <p class="kicker">Menu bar</p>
+        <h3>Runs in the background, out of your way</h3>
+        <p>Close the window and the schedule keeps running. Starts when you log in.</p>
+        <div class="menubar-wrap" aria-hidden="true"><div class="menubar">
+          <div class="mb-strip"><span></span><span class="mb-ic"><svg><use href="#mark"/></svg></span><span>Fri Oct 17 9:41 AM</span></div>
+          <div class="mb-menu">
+            <div class="mi muted">CopyHome</div>
+            <div class="sep"></div>
+            <div class="mi"><span class="dot"></span>Shop — ✓ 10/17/26, 3:04 AM <i>›</i></div>
+            <div class="mi"><span class="dot"></span>CRM — ✓ 10/17/26, 4:02 AM <i>›</i></div>
+            <div class="mi"><span class="dot run"></span>Blog — running… <i>›</i></div>
+            <div class="sep"></div>
+            <div class="mi hl">Run all backups</div>
+            <div class="mi">Open window</div>
+            <div class="mi">Open backups folder</div>
+            <div class="sep"></div>
+            <div class="mi">✓ Open at login</div>
+          </div>
+        </div></div>
+      </article>
+
+      <article class="card c-rotate reveal">
+        <p class="kicker">Rotation</p>
+        <h3>Keeps the last N copies</h3>
+        <p>Old snapshots are removed automatically, on the Mac and in the cloud separately.</p>
+        <div class="stack" aria-hidden="true">
+          <i class="gone"></i><i class="gone"></i><i></i><i></i><i></i><i></i><i></i><i class="new"></i>
+        </div>
+      </article>
+
+      <article class="card c-local reveal">
+        <p class="kicker">Local too</p>
+        <h3>MySQL in Docker on this Mac</h3>
+        <p>An "On this computer" project dumps without SSH. CopyHome finds the MySQL client in Homebrew or MAMP by itself.</p>
+        <code class="pill">127.0.0.1:3307</code>
+      </article>
+
+      <article class="card c-compress reveal">
+        <p class="kicker">Dump options</p>
+        <h3>Compression and schema-only tables</h3>
+        <div class="seg" aria-hidden="true"><span class="on">auto</span><span>zstd</span><span>pigz</span><span>gzip</span></div>
+        <p class="small">CopyHome picks the fastest compressor available on the server. Logs and sessions can be saved as structure only.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW ============ -->
+<section class="section how" id="how">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">How it works</p>
+      <h2>Three steps to <em>peace of mind</em></h2>
+    </div>
+    <ol class="steps">
+      <li class="reveal">
+        <span class="num">01</span>
+        <h3>Add a server</h3>
+        <p>Host and user, sign in with a key or a password. Your <code>~/.ssh/config</code> and <code>ssh-agent</code> just work. "Check SSH" shows whether the server has everything needed.</p>
+      </li>
+      <li class="reveal">
+        <span class="num">02</span>
+        <h3>Pick what to keep</h3>
+        <p>MySQL databases and folders, with exclusions like <code>cache/</code> or <code>node_modules</code>. Each source can be backed up on its own.</p>
+      </li>
+      <li class="reveal">
+        <span class="num">03</span>
+        <h3>Set a schedule</h3>
+        <p>How many copies to keep and whether to send one to the cloud. From there CopyHome does the rest and tells you if anything is off.</p>
+      </li>
+    </ol>
+
+    <div class="terminal reveal" id="terminal">
+      <div class="term-bar"><i></i><i></i><i></i><span>What happens during a backup</span></div>
+      <pre class="term-body" id="term-body"></pre>
+    </div>
+    <p class="term-note reveal">The dump streams straight into a file on your Mac and never lands on the server's disk. The MySQL login and password go through stdin, so they never show up in <code>ps</code>.</p>
+  </div>
+</section>
+
+<!-- ============ CLOUD ============ -->
+<section class="section cloud" id="cloud">
+  <div class="wrap cloud-inner">
+    <div class="cloud-copy reveal">
+      <p class="kicker">Cloud copy</p>
+      <h2>One copy at home, <em>one more</em> in the cloud</h2>
+      <p class="sub">The 3-2-1 rule without the chores. After every backup CopyHome uploads the snapshot to your storage and checks the checksums.</p>
+      <ul class="ticks">
+        <li>Files over your account's limit are split into parts without extra space on the Mac</li>
+        <li>Connection dropped or the Mac went to sleep? The upload resumes by itself</li>
+        <li>Deleted a copy from the Mac? Download it back from History</li>
+        <li>CopyHome only touches its own folder on the Disk</li>
+      </ul>
+    </div>
+    <div class="cloud-side reveal">
+      <div class="providers">
+        <div class="prov live"><span class="p-logo ya" aria-hidden="true">Я</span><div><b>Yandex Disk</b><span>Sign in on Yandex's own page</span></div><em>Ready</em></div>
+        <div class="prov"><span class="p-logo gd" aria-hidden="true">G</span><div><b>Google Drive</b><span>Up next</span></div><em>Soon</em></div>
+        <div class="prov"><span class="p-logo s3" aria-hidden="true">S3</span><div><b>S3-compatible</b><span>Yandex Object Storage, Selectel, Backblaze</span></div><em>Planned</em></div>
+        <div class="prov"><span class="p-logo wd" aria-hidden="true">⇅</span><div><b>WebDAV</b><span>Nextcloud and your own servers</span></div><em>Planned</em></div>
+      </div>
+      <pre class="tree" aria-label="Folder layout in the cloud"><span class="t-dim">Disk /</span> CopyHome/
+└─ Shop/
+   └─ 2026-10-17T03-00-00/
+      ├─ mysql-shop.sql.zst
+      ├─ dir-uploads.tar.gz.part001
+      ├─ dir-uploads.tar.gz.part002
+      └─ .copyhome.json  <span class="t-ok">✓ sha256</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECURITY ============ -->
+<section class="section security" id="security">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Security</p>
+      <h2>Your server keys <em>stay with you</em></h2>
+    </div>
+    <div class="sec-grid">
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8m-3 3l2 2m-4 0l2 2"/></svg></span><h3>macOS Keychain</h3><p>MySQL and SSH passwords and cloud tokens are encrypted with a key from your Keychain. They are never stored in plain text.</p></div>
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9l3 3-3 3m5 0h5"/></svg></span><h3>System ssh</h3><p>No home-made protocol code. Your keys, your config, your agent. A changed host key blocks the connection.</p></div>
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.5"/><path d="M4 20L20 4"/></svg></span><h3>Invisible in ps</h3><p>The database password reaches the server through stdin, not command arguments, so other users on the server can't see it.</p></div>
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.6-8 6 6 0 0 1 11.4 1.5A3.3 3.3 0 0 1 17.5 18z"/><path d="M12 11v4m-2-2h4"/></svg></span><h3>OAuth with PKCE</h3><p>You sign in to the cloud on Yandex's page. No app secret is needed or kept in the code.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section faq" id="faq">
+  <div class="wrap faq-inner">
+    <div class="section-head left reveal">
+      <p class="kicker">FAQ</p>
+      <h2>The short answers</h2>
+    </div>
+    <div class="faq-list">
+      <details class="reveal" open>
+        <summary>Do I need to install anything on the server?</summary>
+        <p>No. It only needs <code>bash</code>, <code>gzip</code>, <code>tar</code> and <code>mysqldump</code>, which are almost always there already. If no database password is set, CopyHome uses <code>~/.my.cnf</code> on the server.</p>
+      </details>
+      <details class="reveal">
+        <summary>Where are backups stored on the Mac?</summary>
+        <p>In <code>~/Backups/fast-backup/&lt;Project&gt;/&lt;date-time&gt;/</code> as plain <code>.sql.gz</code>, <code>.sql.zst</code> and <code>.tar.gz</code> files that open without CopyHome. No proprietary formats.</p>
+      </details>
+      <details class="reveal">
+        <summary>What if the window is closed?</summary>
+        <p>CopyHome stays in the menu bar and keeps running on schedule. Turn on "Open at login" and the window won't even appear.</p>
+      </details>
+      <details class="reveal">
+        <summary>What about a huge database?</summary>
+        <p>The dump runs with <code>--single-transaction</code>, so InnoDB tables aren't locked, and zstd or pigz compression uses every core on the server. Large log tables can be saved as structure only.</p>
+      </details>
+      <details class="reveal">
+        <summary>Is PostgreSQL supported?</summary>
+        <p>Not yet. PostgreSQL is next on the roadmap, along with incremental folder backups via rsync and one-click restore.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="final" id="download">
+  <div class="hero-glow small" aria-hidden="true"></div>
+  <div class="wrap final-inner reveal">
+    <img class="final-icon" src="../assets/icon-512.png" width="160" height="160" alt="CopyHome icon">
+    <h2>Let your backups <em>find their way home</em></h2>
+    <p class="lead">An app for macOS. Your backups stay with you.</p>
+    <div class="cta-row center">
+      <a class="btn btn-primary" href="#" data-download>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>
+        <span>Download CopyHome</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap foot-inner">
+    <a class="brand" href="#top" aria-label="CopyHome"><svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg><span class="brand-word">Copy<b>Home</b></span></a>
+    <div class="foot-links"><a href="../index.html" hreflang="ru" lang="ru">Русский</a><span>Server backups, delivered to your Mac · © 2026</span></div>
+  </div>
+</footer>
+
+<script src="../main.js"></script>
+</body>
+</html>
