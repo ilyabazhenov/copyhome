@@ -7,11 +7,12 @@
   <meta name="description" content="CopyHome dumps MySQL databases and archives folders over SSH, downloads them to your Mac, verifies every file and uploads a copy to Yandex Disk. On schedule, from the menu bar.">
   <meta property="og:title" content="CopyHome — server backups, delivered to your Mac">
   <meta property="og:description" content="MySQL dumps and folders over SSH, every file verified, a copy in the cloud. Quietly, on schedule, from the menu bar.">
-  <meta property="og:image" content="https://ilyabazhenov.github.io/copyhome/assets/og-en.png">
+  <meta property="og:image" content="https://copyhome.app/assets/og-en.png">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
-  <link rel="alternate" hreflang="ru" href="https://ilyabazhenov.github.io/copyhome/">
-  <link rel="alternate" hreflang="en" href="https://ilyabazhenov.github.io/copyhome/en/">
+  <link rel="alternate" hreflang="ru" href="https://copyhome.app/">
+  <link rel="alternate" hreflang="en" href="https://copyhome.app/en/">
+  <link rel="canonical" href="https://copyhome.app/en/">
   <meta name="theme-color" content="#F3F7F6" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#061A18" media="(prefers-color-scheme: dark)">
   <script>
@@ -85,10 +86,13 @@
   <div class="wrap">
     <div class="flow reveal" id="flow" role="img" aria-label="Three servers send backups to a Mac, every file gets verified, and a copy goes on to Yandex Disk">
       <svg class="flow-lines" id="flow-lines" aria-hidden="true"></svg>
+      <p class="flow-label fl-1" aria-hidden="true">Servers</p>
+      <p class="flow-label fl-2" aria-hidden="true">Copy at home</p>
+      <p class="flow-label fl-3" aria-hidden="true">Copy in the cloud</p>
       <div class="flow-servers">
         <div class="srv" data-files='[["mysql-shop.sql.zst","412 MB"],["mysql-shop_logs.sql.zst","38 MB"],["dir-var-www-shop-uploads.tar.gz","1.1 GB"]]'>
           <div class="srv-top"><span class="dot"></span><b>Shop</b><span class="srv-host">shop.example.com</span></div>
-          <div class="srv-tags"><span>MySQL · 2 databases</span><span>/var/www/uploads</span></div>
+          <div class="srv-tags"><span>MySQL · 2 DBs</span><span>/var/www/uploads</span></div>
         </div>
         <div class="srv" data-files='[["mysql-crm.sql.zst","96 MB"],["dir-srv-crm-storage.tar.gz","240 MB"]]'>
           <div class="srv-top"><span class="dot"></span><b>CRM</b><span class="srv-host">crm.internal</span></div>
@@ -112,9 +116,9 @@
           <li><span class="f-name">dir-srv-crm-storage.tar.gz</span><span class="f-size">240 MB</span><span class="f-ok">verified</span></li>
           <li><span class="f-name">mysql-blog.sql.gz</span><span class="f-size">21 MB</span><span class="f-ok">verified</span></li>
         </ul>
+        <p class="home-foot"><span class="dot"></span>3 projects · next run at 3:00 AM</p>
       </div>
       <div class="flow-clouds">
-        <p class="clouds-label">Cloud copy</p>
         <div class="cl live"><span class="p-logo ya">Я</span><div><b>Yandex Disk</b><span class="cl-stat">sha256 ✓</span></div></div>
         <div class="cl"><span class="p-logo gd">G</span><div><b>Google Drive</b><span>soon</span></div></div>
         <div class="cl"><span class="p-logo s3">S3</span><div><b>S3 and WebDAV</b><span>planned</span></div></div>

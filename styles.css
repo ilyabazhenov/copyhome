@@ -302,7 +302,8 @@ p { margin: 0; }
 /* flow visual */
 .flow {
   position: relative; margin-top: 72px;
-  display: grid; grid-template-columns: minmax(0, 1fr) minmax(40px, .5fr) minmax(0, 1.12fr) minmax(36px, .3fr) minmax(0, .66fr); align-items: center;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(40px, .4fr) minmax(0, 1.08fr) minmax(40px, .4fr) minmax(0, .86fr);
+  grid-template-rows: auto 1fr; align-items: stretch; row-gap: 14px;
   padding: 34px; border-radius: 30px;
   background: var(--flow-bg);
   box-shadow: 0 0 0 1px var(--line) inset, 0 40px 120px -50px rgba(5, 40, 36, .55);
@@ -313,7 +314,12 @@ p { margin: 0; }
 @keyframes dash { to { stroke-dashoffset: -16; } }
 .flow.paused .ln { animation-play-state: paused; }
 .flow-lines .ln-glow { fill: none; stroke: url(#lnGrad); stroke-width: 2; opacity: 0; }
-.flow-servers { display: grid; gap: 14px; position: relative; z-index: 1; grid-column: 1; }
+/* one caption per column, all on one line above the cards */
+.flow-label { grid-row: 1; margin: 0 0 0 4px; font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); }
+.fl-1 { grid-column: 1; }
+.fl-2 { grid-column: 3; }
+.fl-3 { grid-column: 5; }
+.flow-servers { display: grid; grid-template-rows: repeat(3, 1fr); gap: 14px; position: relative; z-index: 1; grid-column: 1; grid-row: 2; }
 .srv {
   padding: 14px 16px; border-radius: 16px;
   background: var(--srv-bg); box-shadow: 0 0 0 1px var(--line) inset, 0 10px 30px -22px rgba(5,40,36,.5);
@@ -332,7 +338,8 @@ p { margin: 0; }
 
 /* the "home" card is the brand moment: dark teal in both themes */
 .flow-home {
-  grid-column: 3; position: relative; z-index: 1; color: #E6FFFB;
+  grid-column: 3; grid-row: 2; position: relative; z-index: 1; color: #E6FFFB;
+  display: flex; flex-direction: column;
   padding: 20px; border-radius: 22px;
   background: linear-gradient(180deg, #0F4A45, #082A27);
   box-shadow: 0 0 0 1px rgba(79,216,200,.3) inset, 0 30px 80px -30px rgba(43,198,180,.45);
@@ -362,20 +369,20 @@ p { margin: 0; }
 .home-files li.checking .f-ok::before { content: '◌ '; }
 @keyframes fileIn { from { opacity: 0; transform: translateY(-8px) scale(.98); background: rgba(79,216,200,.25); } }
 .home-files { margin-bottom: 0; }
+.home-foot { display: flex; align-items: center; gap: 8px; margin: auto 0 0; padding-top: 14px; font: 12px var(--mono); color: rgba(230,255,251,.6); }
 
 /* clouds: where the Mac sends its copy next */
-.flow-clouds { grid-column: 5; position: relative; z-index: 1; display: grid; gap: 10px; }
-.clouds-label { font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); margin: 0 0 2px 2px; }
+.flow-clouds { grid-column: 5; grid-row: 2; position: relative; z-index: 1; display: grid; grid-template-rows: repeat(3, 1fr); gap: 14px; }
 .cl {
-  display: flex; align-items: center; gap: 10px; min-width: 0;
-  padding: 11px 12px; border-radius: 14px;
+  display: flex; align-items: center; gap: 12px; min-width: 0;
+  padding: 14px 16px; border-radius: 16px;
   background: var(--srv-bg); box-shadow: 0 0 0 1px var(--line) inset, 0 10px 30px -22px rgba(5,40,36,.5);
   transition: box-shadow .4s, transform .4s var(--ease);
 }
 .cl > div { min-width: 0; }
-.cl b { display: block; font-size: 13.5px; color: var(--heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cl span:not(.p-logo) { display: block; font: 11.5px/1.4 var(--mono); color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cl .p-logo { width: 30px; height: 30px; border-radius: 9px; font-size: 13px; }
+.cl b { display: block; font-size: 15px; color: var(--heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cl span:not(.p-logo) { display: block; margin-top: 3px; font: 12px/1.4 var(--mono); color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cl .p-logo { width: 36px; height: 36px; border-radius: 10px; font-size: 14px; }
 .cl:not(.live) { opacity: .6; }
 .cl.live { box-shadow: 0 0 0 1px rgba(43,198,180,.55) inset, 0 14px 34px -22px rgba(14,140,130,.7); }
 .cl.live .cl-stat { color: var(--ok-text); }
@@ -639,11 +646,15 @@ details p { padding: 0 0 22px; color: var(--text-2); font-size: 16px; }
 @media (max-width: 1080px) {
   .nav-links { display: none; }
   .nav-tools { margin-left: auto; }
-  .flow { grid-template-columns: 1fr; gap: 90px 0; padding: 22px; }
-  .flow-servers { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .flow { grid-template-columns: 1fr; grid-template-rows: none; gap: 90px 0; padding: 22px; }
+  .flow-label { display: none; }
+  .flow-servers, .flow-home, .flow-clouds { grid-row: auto; }
+  .flow-servers { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0,1fr)); grid-template-rows: none; }
   .flow-home { grid-column: 1 / -1; max-width: 460px; width: 100%; margin: 0 auto; }
-  .flow-clouds { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 620px; width: 100%; margin: 0 auto; }
-  .clouds-label { display: none; }
+  .flow-clouds { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: none; max-width: 620px; width: 100%; margin: 0 auto; }
+  .cl { padding: 11px 12px; }
+  .cl b { font-size: 13.5px; }
+  .cl .p-logo { width: 30px; height: 30px; font-size: 13px; }
   .strip-inner { grid-template-columns: repeat(2, 1fr); }
   .mac { grid-template-columns: 1fr; }
   .mac-side { display: none; }
@@ -665,6 +676,7 @@ details p { padding: 0 0 22px; color: var(--text-2); font-size: 16px; }
   .srv-tags { display: none; }
   .flow-clouds { gap: 8px; }
   .cl { flex-direction: column; text-align: center; gap: 6px; padding: 10px 6px; }
+  .cl > div { width: 100%; }
   .cl b { font-size: 12px; }
   .cl span:not(.p-logo) { font-size: 10.5px; }
   .srv { padding: 12px 14px; }

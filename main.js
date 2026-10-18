@@ -139,7 +139,7 @@
         d = `M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}`;
       } else {
         const x1 = r.right - box.left, y1 = r.top + r.height / 2 - box.top;
-        const x2 = h.left - box.left, y2 = h.top + h.height * (0.32 + 0.12 * i) - box.top;
+        const x2 = h.left - box.left, y2 = h.top + h.height * (0.36 + 0.14 * i) - box.top;
         const mx = (x1 + x2) / 2;
         d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
       }
@@ -166,7 +166,7 @@
         const my = (y1 + y2) / 2;
         d = `M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}`;
       } else {
-        const x1 = h.right - box.left, y1 = h.top + h.height * (0.42 + 0.1 * i) - box.top;
+        const x1 = h.right - box.left, y1 = h.top + h.height * (0.36 + 0.14 * i) - box.top;
         const x2 = r.left - box.left, y2 = r.top + r.height / 2 - box.top;
         const mx = (x1 + x2) / 2;
         d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;

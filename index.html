@@ -7,11 +7,12 @@
   <meta name="description" content="CopyHome снимает дампы MySQL и архивы каталогов по SSH, скачивает их на Mac, проверяет каждый файл и выгружает копию в Яндекс Диск. По расписанию, из строки меню.">
   <meta property="og:title" content="CopyHome — бекапы серверов на ваш Mac">
   <meta property="og:description" content="Дампы MySQL и каталоги по SSH, проверка каждого файла, копия в облаке. Тихо, по расписанию, из строки меню.">
-  <meta property="og:image" content="https://ilyabazhenov.github.io/copyhome/assets/og.png">
+  <meta property="og:image" content="https://copyhome.app/assets/og.png">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
-  <link rel="alternate" hreflang="ru" href="https://ilyabazhenov.github.io/copyhome/">
-  <link rel="alternate" hreflang="en" href="https://ilyabazhenov.github.io/copyhome/en/">
+  <link rel="alternate" hreflang="ru" href="https://copyhome.app/">
+  <link rel="alternate" hreflang="en" href="https://copyhome.app/en/">
+  <link rel="canonical" href="https://copyhome.app/">
   <meta name="theme-color" content="#F3F7F6" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#061A18" media="(prefers-color-scheme: dark)">
   <script>
@@ -85,6 +86,9 @@
   <div class="wrap">
     <div class="flow reveal" id="flow" role="img" aria-label="Три сервера отправляют бекапы на Mac, каждый файл проходит проверку, а копия уходит в Яндекс Диск">
       <svg class="flow-lines" id="flow-lines" aria-hidden="true"></svg>
+      <p class="flow-label fl-1" aria-hidden="true">Серверы</p>
+      <p class="flow-label fl-2" aria-hidden="true">Копия дома</p>
+      <p class="flow-label fl-3" aria-hidden="true">Копия в облаке</p>
       <div class="flow-servers">
         <div class="srv" data-files='[["mysql-shop.sql.zst","412 МБ"],["mysql-shop_logs.sql.zst","38 МБ"],["dir-var-www-shop-uploads.tar.gz","1,1 ГБ"]]'>
           <div class="srv-top"><span class="dot"></span><b>Магазин</b><span class="srv-host">shop.example.ru</span></div>
@@ -112,9 +116,9 @@
           <li><span class="f-name">dir-srv-crm-storage.tar.gz</span><span class="f-size">240 МБ</span><span class="f-ok">проверен</span></li>
           <li><span class="f-name">mysql-blog.sql.gz</span><span class="f-size">21 МБ</span><span class="f-ok">проверен</span></li>
         </ul>
+        <p class="home-foot"><span class="dot"></span>3 проекта · следующий запуск в 03:00</p>
       </div>
       <div class="flow-clouds">
-        <p class="clouds-label">Копия в облаке</p>
         <div class="cl live"><span class="p-logo ya">Я</span><div><b>Яндекс Диск</b><span class="cl-stat">sha256 ✓</span></div></div>
         <div class="cl"><span class="p-logo gd">G</span><div><b>Google Drive</b><span>скоро</span></div></div>
         <div class="cl"><span class="p-logo s3">S3</span><div><b>S3 и WebDAV</b><span>в планах</span></div></div>
