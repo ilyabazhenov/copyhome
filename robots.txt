@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://copyhome.app/sitemap.xml

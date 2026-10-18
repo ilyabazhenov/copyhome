@@ -13,6 +13,11 @@
       checking: 'проверка',
       verified: 'проверен',
       soon: 'Сборка скоро появится',
+      sendLink: 'Отправить ссылку на Mac',
+      sendShort: 'На Mac',
+      phoneNote: 'CopyHome работает на macOS 13 и новее. Отправьте ссылку себе и скачайте приложение уже на Mac.',
+      copied: 'Ссылка скопирована. Откройте её на Mac, и загрузка начнётся с этой страницы.',
+      shareText: 'CopyHome: бекапы серверов на Mac. Скачать:',
       toLight: 'Включить светлую тему',
       toDark: 'Включить тёмную тему',
       terminal: [
@@ -37,6 +42,11 @@
       checking: 'checking',
       verified: 'verified',
       soon: 'Build coming soon',
+      sendLink: 'Send the link to my Mac',
+      sendShort: 'Send to Mac',
+      phoneNote: 'CopyHome runs on macOS 13 and later. Send yourself the link and download the app on your Mac.',
+      copied: 'Link copied. Open it on your Mac to download from this page.',
+      shareText: 'CopyHome: server backups to your Mac. Download:',
       toLight: 'Switch to light theme',
       toDark: 'Switch to dark theme',
       terminal: [
@@ -87,10 +97,44 @@
   systemDark.addEventListener?.('change', syncTheme);
   syncTheme();
 
+  // A .dmg is no use on a phone or tablet: there the buttons share the page link instead, so it can be opened on the Mac.
+  const ua = navigator.userAgent;
+  const handheld = /Android|iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  const pageUrl = document.querySelector('link[rel="canonical"]')?.href || location.href;
+  const phoneNote = document.querySelector('.phone-note');
+  async function shareLink() {
+    try {
+      if (navigator.share) { await navigator.share({ title: document.title, text: T.shareText, url: pageUrl }); return; }
+    } catch (e) { if (e.name === 'AbortError') return; }
+    try { await navigator.clipboard.writeText(pageUrl); } catch (e) { /* no clipboard: the note still says what to do */ }
+    if (phoneNote) { phoneNote.textContent = T.copied; phoneNote.hidden = false; }
+  }
+
   document.querySelectorAll('a[data-download]').forEach((a) => {
-    if (DOWNLOAD_URL) a.href = DOWNLOAD_URL;
-    else a.addEventListener('click', (e) => { e.preventDefault(); a.querySelector('span').textContent = T.soon; });
+    const label = a.querySelector('span');
+    if (handheld) {
+      if (label) label.textContent = a.closest('.mbar') ? T.sendShort : T.sendLink;
+      a.addEventListener('click', (e) => { e.preventDefault(); shareLink(); });
+    } else if (DOWNLOAD_URL) a.href = DOWNLOAD_URL;
+    else a.addEventListener('click', (e) => { e.preventDefault(); if (label) label.textContent = T.soon; });
   });
+  if (handheld && phoneNote) { phoneNote.textContent = T.phoneNote; phoneNote.hidden = false; }
+
+  // Phones: a slim download bar once the hero button has scrolled away, hidden again at the final call to action.
+  const mbar = document.querySelector('.mbar');
+  const heroCta = document.querySelector('.hero .cta-row');
+  const finalSec = document.getElementById('download');
+  if (mbar && heroCta && finalSec && 'IntersectionObserver' in window) {
+    mbar.hidden = false;
+    const seen = new Map();
+    const mo = new IntersectionObserver((entries) => {
+      entries.forEach((en) => seen.set(en.target, en.isIntersecting));
+      const heroPassed = !seen.get(heroCta) && heroCta.getBoundingClientRect().bottom < 0;
+      mbar.classList.toggle('show', heroPassed && !seen.get(finalSec));
+    });
+    mo.observe(heroCta);
+    mo.observe(finalSec);
+  }
 
   const nav = document.querySelector('.nav');
   const onScroll = () => nav.classList.toggle('scrolled', scrollY > 20);

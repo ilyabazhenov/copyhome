@@ -18,8 +18,8 @@
   --sys: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
   --ease: cubic-bezier(.2, .7, .2, 1);
 
-  /* light theme */
-  color-scheme: light;
+  /* light theme; "only" keeps Android browsers from auto-darkening it */
+  color-scheme: only light;
   --bg: #F3F7F6;
   --bg-alt: #E7F0EE;
   --surface: #FFFFFF;
@@ -628,6 +628,10 @@ details p { padding: 0 0 22px; color: var(--text-2); font-size: 16px; }
 .final h2 { margin-top: 34px; font-size: clamp(38px, 5.6vw, 72px); }
 .final .lead { margin-top: 18px; }
 .cta-row.center { justify-content: center; }
+.phone-note { max-width: 420px; margin: 18px auto 0; font-size: 14.5px; line-height: 1.55; color: var(--text-3); }
+
+/* phones: slim download bar, slides in once the hero button is off screen */
+.mbar { display: none; }
 
 .footer { color: var(--text-3); border-top: 1px solid var(--line); font-size: 14px; }
 .foot-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 28px 0; }
@@ -659,7 +663,7 @@ details p { padding: 0 0 22px; color: var(--text-2); font-size: 16px; }
   .mac { grid-template-columns: 1fr; }
   .mac-side { display: none; }
   .sec-grid { grid-template-columns: repeat(2, 1fr); }
-  .cloud-inner, .faq-inner { grid-template-columns: 1fr; gap: 40px; }
+  .cloud-inner, .faq-inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
   .faq-inner .section-head { position: static; }
   .c-schedule, .c-verify, .c-notify, .c-menubar { grid-column: span 6; grid-row: auto; }
   .c-rotate, .c-local { grid-column: span 3; }
@@ -669,6 +673,7 @@ details p { padding: 0 0 22px; color: var(--text-2); font-size: 16px; }
   body { font-size: 16px; }
   .wrap, .nav-inner { width: calc(100% - 32px); }
   .nav-inner { gap: 12px; }
+  .nav-inner { min-width: 0; }
   .btn-nav { display: none; }
   .hero { padding: 116px 0 56px; }
   .flow { margin-top: 56px; gap: 70px 0; padding: 14px; border-radius: 22px; }
@@ -704,11 +709,33 @@ details p { padding: 0 0 22px; color: var(--text-2); font-size: 16px; }
   .checks li { grid-template-columns: auto 1fr; }
   .checks code { grid-column: 2; }
   .foot-inner { flex-direction: column; }
+  .foot-links { flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .foot-links a { padding: 10px 14px; }
   .btn { height: 52px; }
+  .tool { width: 44px; height: 44px; }
+  .section { padding: 72px 0; }
+  .final { padding: 96px 0 110px; }
+  .mbar {
+    display: flex; align-items: center; gap: 12px; position: fixed; z-index: 60;
+    left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom));
+    padding: 10px 10px 10px 18px; border-radius: 20px;
+    background: var(--nav-bg); backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: 0 0 0 1px var(--line-strong) inset, 0 18px 40px -16px rgba(0,0,0,.45);
+    transform: translateY(calc(100% + 30px)); transition: transform .35s var(--ease);
+  }
+  .mbar.show { transform: none; }
+  .mbar > div { min-width: 0; margin-right: auto; }
+  .mbar b { display: block; font-size: 15px; color: var(--heading); }
+  .mbar > div span { display: block; font-size: 12.5px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mbar .btn { height: 44px; padding: 0 18px; font-size: 15px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .js .reveal, .js .mac.reveal { opacity: 1; transform: none; }
   html { scroll-behavior: auto; }
+}
+@media (max-width: 360px) {
+  .brand-word { font-size: 19px; }
+  .nav-inner { gap: 8px; }
 }

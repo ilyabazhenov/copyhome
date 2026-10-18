@@ -3,16 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CopyHome — server backups, delivered to your Mac</title>
-  <meta name="description" content="CopyHome dumps MySQL databases and archives folders over SSH, downloads them to your Mac, verifies every file and uploads a copy to Yandex Disk. On schedule, from the menu bar.">
+  <title>CopyHome — MySQL and server backups to your Mac over SSH</title>
+  <meta name="description" content="A macOS app that backs up MySQL databases and server folders over SSH straight to your Mac, verifies every file and keeps a copy in the cloud. On schedule, from the menu bar.">
   <meta property="og:title" content="CopyHome — server backups, delivered to your Mac">
   <meta property="og:description" content="MySQL dumps and folders over SSH, every file verified, a copy in the cloud. Quietly, on schedule, from the menu bar.">
   <meta property="og:image" content="https://copyhome.app/assets/og-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="CopyHome: server backups, delivered to your Mac">
+  <meta property="og:url" content="https://copyhome.app/en/">
+  <meta property="og:site_name" content="CopyHome">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="alternate" hreflang="ru" href="https://copyhome.app/">
   <link rel="alternate" hreflang="en" href="https://copyhome.app/en/">
+  <link rel="alternate" hreflang="x-default" href="https://copyhome.app/">
   <link rel="canonical" href="https://copyhome.app/en/">
+  <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#F3F7F6" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#061A18" media="(prefers-color-scheme: dark)">
   <script>
@@ -24,6 +34,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "CopyHome", "url": "https://copyhome.app/en/", "description": "A macOS app that dumps MySQL databases and archives folders over SSH, downloads them to your Mac, verifies every file and uploads a copy to Yandex Disk.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "macOS 13 or later", "inLanguage": "en", "image": "https://copyhome.app/assets/icon-512.png", "downloadUrl": "https://github.com/ilyabazhenov/copyhome/releases/latest/download/CopyHome.dmg"}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I need to install anything on the server?", "acceptedAnswer": {"@type": "Answer", "text": "No. It only needs bash, gzip, tar and mysqldump, which are almost always there already. If no database password is set, CopyHome uses ~/.my.cnf on the server."}}, {"@type": "Question", "name": "Where are backups stored on the Mac?", "acceptedAnswer": {"@type": "Answer", "text": "In ~/Backups/fast-backup/<Project>/<date-time>/ as plain .sql.gz, .sql.zst and .tar.gz files that open without CopyHome. No proprietary formats."}}, {"@type": "Question", "name": "What if the Mac was asleep or off?", "acceptedAnswer": {"@type": "Answer", "text": "A missed scheduled backup (from the last 7 days) runs right away once the Mac wakes up or CopyHome starts. A failed scheduled backup is retried automatically after 15 and 60 minutes. And if there has been no good copy for too long, you get a \"No recent backup\" notification."}}, {"@type": "Question", "name": "What if the window is closed?", "acceptedAnswer": {"@type": "Answer", "text": "CopyHome stays in the menu bar and keeps running on schedule. Turn on \"Open at login\" and the window won't even appear."}}, {"@type": "Question", "name": "What about a huge database?", "acceptedAnswer": {"@type": "Answer", "text": "The dump runs with --single-transaction, so InnoDB tables aren't locked, and zstd or pigz compression uses every core on the server. Large log tables can be saved as structure only."}}, {"@type": "Question", "name": "Is PostgreSQL supported?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet. PostgreSQL is next on the roadmap, along with incremental folder backups via rsync and one-click restore."}}]}</script>
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -54,7 +66,7 @@
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-tools">
-      <a class="tool" href="../index.html" hreflang="ru" lang="ru" title="Русская версия" aria-label="Русская версия">RU</a>
+      <a class="tool" href="../" hreflang="ru" lang="ru" title="Русская версия" aria-label="Русская версия">RU</a>
       <button class="tool" type="button" data-theme-toggle title="Change theme" aria-label="Change theme">
         <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
         <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
@@ -75,9 +87,9 @@
     <h1 class="reveal">Servers fail. <em>Your copy is already home.</em></h1>
     <p class="lead reveal">CopyHome dumps your MySQL databases and archives folders over SSH, downloads them to your Mac, verifies every file and puts a copy in the cloud. Quietly, on schedule, from the menu bar.</p>
     <div class="cta-row reveal">
-      <a class="btn btn-primary" href="#download">
+      <a class="btn btn-primary" href="#download" data-download>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>
-        Download for macOS
+        <span>Download for macOS</span>
       </a>
       <a class="btn btn-ghost" href="#how">See how it works</a>
     </div>
@@ -216,9 +228,9 @@
         <p class="kicker">Notifications</p>
         <h3>Speaks up only when it matters</h3>
         <div class="notes">
-          <div class="note"><img src="../assets/favicon-64.png" alt=""><div><b>No recent backup of "Blog"</b><span>Last good copy: October 14 at 3:00 AM</span></div><time>now</time></div>
-          <div class="note"><img src="../assets/favicon-64.png" alt=""><div><b>"Landing pages" backup: check the size</b><span>Snapshot is 42% smaller than the last one</span></div><time>9:12 AM</time></div>
-          <div class="note dim"><img src="../assets/favicon-64.png" alt=""><div><b>CopyHome</b><span>Shop: backup done, verified and uploaded</span></div><time>3:04 AM</time></div>
+          <div class="note"><img src="../assets/favicon-64.png" alt="" width="64" height="64" loading="lazy" decoding="async"><div><b>No recent backup of "Blog"</b><span>Last good copy: October 14 at 3:00 AM</span></div><time>now</time></div>
+          <div class="note"><img src="../assets/favicon-64.png" alt="" width="64" height="64" loading="lazy" decoding="async"><div><b>"Landing pages" backup: check the size</b><span>Snapshot is 42% smaller than the last one</span></div><time>9:12 AM</time></div>
+          <div class="note dim"><img src="../assets/favicon-64.png" alt="" width="64" height="64" loading="lazy" decoding="async"><div><b>CopyHome</b><span>Shop: backup done, verified and uploaded</span></div><time>3:04 AM</time></div>
         </div>
       </article>
 
@@ -393,7 +405,7 @@
 <section class="final" id="download">
   <div class="hero-glow small" aria-hidden="true"></div>
   <div class="wrap final-inner reveal">
-    <img class="final-icon" src="../assets/icon-512.png" width="160" height="160" alt="CopyHome icon">
+    <img class="final-icon" src="../assets/icon-512.png" width="160" height="160" alt="CopyHome icon" loading="lazy" decoding="async">
     <h2>Let your backups <em>find their way home</em></h2>
     <p class="lead">An app for macOS. Your backups stay with you.</p>
     <div class="cta-row center">
@@ -402,15 +414,18 @@
         <span>Download CopyHome</span>
       </a>
     </div>
+    <p class="phone-note" hidden></p>
   </div>
 </section>
 
 </main>
 
+<div class="mbar" hidden><div><b>CopyHome</b><span>for macOS 13 and later</span></div><a class="btn btn-primary btn-small" href="#download" data-download><span>Download</span></a></div>
+
 <footer class="footer">
   <div class="wrap foot-inner">
     <a class="brand" href="#top" aria-label="CopyHome"><svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg><span class="brand-word">Copy<b>Home</b></span></a>
-    <div class="foot-links"><a href="../index.html" hreflang="ru" lang="ru">Русский</a><span>Server backups, delivered to your Mac · © 2026</span></div>
+    <div class="foot-links"><a href="../" hreflang="ru" lang="ru">Русский</a><span>Server backups, delivered to your Mac · © 2026</span></div>
   </div>
 </footer>
 
