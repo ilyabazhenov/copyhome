@@ -246,7 +246,7 @@ p { margin: 0; }
 .brand-word { font-weight: 700; font-size: 21px; letter-spacing: -0.03em; }
 .brand-word b { font-weight: 700; color: var(--teal-500); }
 .nav-links { display: flex; gap: 26px; margin-left: auto; font-size: 14.5px; font-weight: 600; color: var(--text-2); }
-.nav-links a:hover { color: var(--heading); }
+.nav-links a:hover, .nav-links a.active { color: var(--heading); }
 .nav-tools { display: flex; align-items: center; gap: 8px; }
 .tool {
   height: 38px; min-width: 38px; padding: 0 10px; border-radius: 999px; border: 0;
@@ -644,7 +644,7 @@ details p { padding: 0 0 22px; color: var(--text-2); font-size: 16px; }
 
 /* ---------- guides: article pages ---------- */
 .article-wrap { padding: 120px 0 40px; }
-.article { width: min(760px, 100% - 40px); margin: 0 auto; font-size: 17.5px; line-height: 1.7; color: var(--text-2); }
+.article { width: min(920px, 100% - 40px); margin: 0 auto; font-size: 17.5px; line-height: 1.7; color: var(--text-2); }
 .crumbs { display: flex; gap: 8px; font: 600 13px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--text-3); }
 .crumbs a { color: var(--accent-text); }
 .article h1 { margin-top: 22px; font-size: clamp(32px, 4.6vw, 50px); line-height: 1.1; }
