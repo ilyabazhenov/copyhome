@@ -71,7 +71,7 @@
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="wrap hero-copy">
     <p class="eyebrow reveal"><span class="pulse"></span> Бекапы серверов для macOS</p>
-    <h1 class="reveal">Каждую ночь ваши серверы <em>возвращаются домой</em></h1>
+    <h1 class="reveal">Сервер может упасть. <em>Копия уже дома.</em></h1>
     <p class="lead reveal">CopyHome по&nbsp;SSH снимает дампы MySQL и&nbsp;архивы каталогов, скачивает их на&nbsp;Mac, проверяет каждый файл и&nbsp;кладёт копию в&nbsp;облако. Тихо, по&nbsp;расписанию, из&nbsp;строки меню.</p>
     <div class="cta-row reveal">
       <a class="btn btn-primary" href="#download">
@@ -192,7 +192,7 @@
       <article class="card c-schedule reveal">
         <p class="kicker">Расписание</p>
         <h3>Как вам удобно, без&nbsp;cron в голове</h3>
-        <p>Вручную, каждый час, день или неделю. Если хочется точнее, есть своё cron-выражение.</p>
+        <p>Вручную, каждый час, день или неделю. Если хочется точнее, есть своё cron-выражение. Mac спал в&nbsp;03:00? Пропущенный бекап выполнится, как только он проснётся, а неудачный повторится через 15 и&nbsp;60 минут.</p>
         <div class="chips">
           <span>Вручную</span><span>Каждый час</span><span class="on">Каждый день в 03:00</span><span>По понедельникам</span><code>15 */6 * * *</code>
         </div>
@@ -212,7 +212,8 @@
         <p class="kicker">Уведомления</p>
         <h3>Пишет, только когда есть повод</h3>
         <div class="notes">
-          <div class="note"><img src="assets/favicon-64.png" alt=""><div><b>Бекап «Лендинги»: проверьте размер</b><span>Снимок на 42% меньше прошлого</span></div><time>сейчас</time></div>
+          <div class="note"><img src="assets/favicon-64.png" alt=""><div><b>Давно не было бекапа «Блог»</b><span>Последняя хорошая копия — 14 октября в 03:00</span></div><time>сейчас</time></div>
+          <div class="note"><img src="assets/favicon-64.png" alt=""><div><b>Бекап «Лендинги»: проверьте размер</b><span>Снимок на 42% меньше прошлого</span></div><time>09:12</time></div>
           <div class="note dim"><img src="assets/favicon-64.png" alt=""><div><b>CopyHome</b><span>Магазин: бекап готов, проверен и выгружен</span></div><time>03:04</time></div>
         </div>
       </article>
@@ -242,7 +243,7 @@
       <article class="card c-rotate reveal">
         <p class="kicker">Ротация</p>
         <h3>Хранит последние N копий</h3>
-        <p>Старые снимки удаляются сами, на Mac и в облаке отдельно.</p>
+        <p>Старые снимки удаляются сами, на Mac и в облаке отдельно. И только после удачной полной копии, так что упавший сервер не съест хорошие бекапы.</p>
         <div class="stack" aria-hidden="true">
           <i class="gone"></i><i class="gone"></i><i></i><i></i><i></i><i></i><i></i><i class="new"></i>
         </div>
@@ -335,9 +336,11 @@
   <div class="wrap">
     <div class="section-head reveal">
       <p class="kicker">Безопасность</p>
-      <h2>Ключи от серверов <em>остаются у вас</em></h2>
+      <h2>Ваши данные <em>остаются у вас</em></h2>
     </div>
     <div class="sec-grid">
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="7" height="6" rx="1.5"/><path d="M5.5 10v4.5a2 2 0 0 0 2 2H14"/><path d="M12 14l2.5 2.5L12 19"/><path d="M15 13h7v7h-7z"/></svg></span><h3>Без посредников</h3><p>Копии идут с сервера прямо на ваш Mac. Ни наш сервис, ни чужой не видит ваши данные. В облако копия уходит, только если вы подключили своё хранилище.</p></div>
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.5"/></svg></span><h3>Шифрование age</h3><p>Включите шифрование, и дамп шифруется ещё по пути в файл: открытой копии на диске нет, в облако уходит уже зашифрованная. Файл <code>.age</code> открывается стандартной утилитой <code>age</code>, без CopyHome.</p></div>
       <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8m-3 3l2 2m-4 0l2 2"/></svg></span><h3>Связка ключей macOS</h3><p>Пароли MySQL, SSH и токены облаков шифруются ключом из связки ключей. В открытом виде они не лежат нигде.</p></div>
       <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9l3 3-3 3m5 0h5"/></svg></span><h3>Системный ssh</h3><p>Никаких своих реализаций протокола. Ваши ключи, конфиг и агент. Смена ключа хоста блокирует подключение.</p></div>
       <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.5"/><path d="M4 20L20 4"/></svg></span><h3>Не видно в ps</h3><p>Пароль базы уходит на сервер через stdin, а не в аргументах команды, поэтому соседи по серверу его не увидят.</p></div>
@@ -361,6 +364,10 @@
       <details class="reveal">
         <summary>Где хранятся бекапы на Mac?</summary>
         <p>В <code>~/Backups/fast-backup/&lt;Проект&gt;/&lt;дата-время&gt;/</code>: обычные <code>.sql.gz</code>, <code>.sql.zst</code> и <code>.tar.gz</code>, которые открываются без CopyHome. Никаких закрытых форматов.</p>
+      </details>
+      <details class="reveal">
+        <summary>А если Mac спал или был выключен?</summary>
+        <p>Пропущенный по расписанию бекап (за последние 7 дней) выполнится сразу, как только Mac проснётся или CopyHome запустится. Неудачный бекап по расписанию CopyHome сам повторит через 15 и через 60 минут. А если хорошей копии давно нет, придёт уведомление «Давно не было бекапа».</p>
       </details>
       <details class="reveal">
         <summary>Что если окно закрыто?</summary>

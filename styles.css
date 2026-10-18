@@ -595,7 +595,7 @@ p { margin: 0; }
 
 /* ---------- security ---------- */
 .security { background: var(--bg-alt); }
-.sec-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.sec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .sec { padding: 28px; border-radius: var(--radius); background: var(--surface); box-shadow: var(--card-shadow); }
 .sec-ic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: var(--accent-soft); }
 .sec-ic svg { width: 24px; height: 24px; fill: none; stroke: var(--accent); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }

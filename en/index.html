@@ -71,7 +71,7 @@
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="wrap hero-copy">
     <p class="eyebrow reveal"><span class="pulse"></span> Server backups for macOS</p>
-    <h1 class="reveal">Every night, your servers <em>come home</em></h1>
+    <h1 class="reveal">Servers fail. <em>Your copy is already home.</em></h1>
     <p class="lead reveal">CopyHome dumps your MySQL databases and archives folders over SSH, downloads them to your Mac, verifies every file and puts a copy in the cloud. Quietly, on schedule, from the menu bar.</p>
     <div class="cta-row reveal">
       <a class="btn btn-primary" href="#download">
@@ -192,7 +192,7 @@
       <article class="card c-schedule reveal">
         <p class="kicker">Schedule</p>
         <h3>Your way, no cron in&nbsp;your head</h3>
-        <p>Manually, hourly, daily or weekly. Need more precision? Write your own cron expression.</p>
+        <p>Manually, hourly, daily or weekly. Need more precision? Write your own cron expression. Was the Mac asleep at 3:00 AM? The missed backup runs as soon as it wakes up, and a failed one is retried after 15 and 60&nbsp;minutes.</p>
         <div class="chips">
           <span>Manually</span><span>Every hour</span><span class="on">Daily at 3:00 AM</span><span>Every Monday</span><code>15 */6 * * *</code>
         </div>
@@ -212,7 +212,8 @@
         <p class="kicker">Notifications</p>
         <h3>Speaks up only when it matters</h3>
         <div class="notes">
-          <div class="note"><img src="../assets/favicon-64.png" alt=""><div><b>"Landing pages" backup: check the size</b><span>Snapshot is 42% smaller than the last one</span></div><time>now</time></div>
+          <div class="note"><img src="../assets/favicon-64.png" alt=""><div><b>No recent backup of "Blog"</b><span>Last good copy: October 14 at 3:00 AM</span></div><time>now</time></div>
+          <div class="note"><img src="../assets/favicon-64.png" alt=""><div><b>"Landing pages" backup: check the size</b><span>Snapshot is 42% smaller than the last one</span></div><time>9:12 AM</time></div>
           <div class="note dim"><img src="../assets/favicon-64.png" alt=""><div><b>CopyHome</b><span>Shop: backup done, verified and uploaded</span></div><time>3:04 AM</time></div>
         </div>
       </article>
@@ -242,7 +243,7 @@
       <article class="card c-rotate reveal">
         <p class="kicker">Rotation</p>
         <h3>Keeps the last N copies</h3>
-        <p>Old snapshots are removed automatically, on the Mac and in the cloud separately.</p>
+        <p>Old snapshots are removed automatically, on the Mac and in the cloud separately. And only after a successful full backup, so a server that goes down never eats your good copies.</p>
         <div class="stack" aria-hidden="true">
           <i class="gone"></i><i class="gone"></i><i></i><i></i><i></i><i></i><i></i><i class="new"></i>
         </div>
@@ -335,9 +336,11 @@
   <div class="wrap">
     <div class="section-head reveal">
       <p class="kicker">Security</p>
-      <h2>Your server keys <em>stay with you</em></h2>
+      <h2>Your data <em>stays yours</em></h2>
     </div>
     <div class="sec-grid">
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="7" height="6" rx="1.5"/><path d="M5.5 10v4.5a2 2 0 0 0 2 2H14"/><path d="M12 14l2.5 2.5L12 19"/><path d="M15 13h7v7h-7z"/></svg></span><h3>No middleman</h3><p>Copies go from the server straight to your Mac. Neither our service nor anyone else's sees your data. A copy goes to the cloud only if you connect your own storage.</p></div>
+      <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.5"/></svg></span><h3>age encryption</h3><p>Turn on encryption and the dump is encrypted on its way to the file: there is no plain copy on disk, and the cloud gets the encrypted one. A <code>.age</code> file opens with the standard <code>age</code> tool, no CopyHome needed.</p></div>
       <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8m-3 3l2 2m-4 0l2 2"/></svg></span><h3>macOS Keychain</h3><p>MySQL and SSH passwords and cloud tokens are encrypted with a key from your Keychain. They are never stored in plain text.</p></div>
       <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9l3 3-3 3m5 0h5"/></svg></span><h3>System ssh</h3><p>No home-made protocol code. Your keys, your config, your agent. A changed host key blocks the connection.</p></div>
       <div class="sec reveal"><span class="sec-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.5"/><path d="M4 20L20 4"/></svg></span><h3>Invisible in ps</h3><p>The database password reaches the server through stdin, not command arguments, so other users on the server can't see it.</p></div>
@@ -361,6 +364,10 @@
       <details class="reveal">
         <summary>Where are backups stored on the Mac?</summary>
         <p>In <code>~/Backups/fast-backup/&lt;Project&gt;/&lt;date-time&gt;/</code> as plain <code>.sql.gz</code>, <code>.sql.zst</code> and <code>.tar.gz</code> files that open without CopyHome. No proprietary formats.</p>
+      </details>
+      <details class="reveal">
+        <summary>What if the Mac was asleep or off?</summary>
+        <p>A missed scheduled backup (from the last 7 days) runs right away once the Mac wakes up or CopyHome starts. A failed scheduled backup is retried automatically after 15 and 60 minutes. And if there has been no good copy for too long, you get a "No recent backup" notification.</p>
       </details>
       <details class="reveal">
         <summary>What if the window is closed?</summary>
