@@ -111,7 +111,7 @@ gunzip -c shop-2026-10-18.sql.gz | tail -n 1</code></pre>
 
 <h2>Как восстановить базу</h2>
 <pre><code>gunzip -c shop-2026-10-18.sql.gz | mysql shop</code></pre>
-<p>Для <code>.sql.zst</code> вместо <code>gunzip -c</code> используйте <code>zstd -dc</code>. Восстанавливать удобнее сначала в тестовую базу, чтобы не затереть рабочую.</p>
+<p>Для <code>.sql.zst</code> вместо <code>gunzip -c</code> используйте <code>zstd -dc</code>. Восстанавливать удобнее сначала в тестовую базу, чтобы не затереть рабочую. Как сделать это в Docker на Mac, рассказано в инструкции <a href="/guides/restore-dump-docker/">«Как проверить бекап базы»</a>.</p>
 
 <h2>По расписанию</h2>
 <p>Команду можно поставить в <code>launchd</code> на Mac или в cron. Но у самодельного расписания быстро набирается список дел: что делать, если Mac спал в 03:00, как удалять старые копии, кто проверит файл и кто сообщит о сбое. Подробнее об этом в инструкции <a href="/guides/mysqldump-cron/">«mysqldump по расписанию: cron или бекап на Mac»</a>.</p>
@@ -130,8 +130,12 @@ gunzip -c shop-2026-10-18.sql.gz | tail -n 1</code></pre>
     <nav class="article-more" aria-label="Другие инструкции">
       <h2>Другие инструкции</h2>
       <ul>
+      <li><a href="/guides/postgresql-backup-ssh/">Бекап PostgreSQL по SSH на Mac</a></li>
+      <li><a href="/guides/docker-database-backup/">Бекап базы из Docker-контейнера</a></li>
       <li><a href="/guides/website-backup/">Бекап сайта на свой компьютер</a></li>
+      <li><a href="/guides/restore-dump-docker/">Как проверить бекап базы</a></li>
       <li><a href="/guides/mysqldump-cron/">mysqldump по расписанию</a></li>
+      <li><a href="/guides/rsync-incremental-backup/">Инкрементальный бекап через rsync</a></li>
       </ul>
     </nav>
   </article>

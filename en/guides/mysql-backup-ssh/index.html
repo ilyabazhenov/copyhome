@@ -111,7 +111,7 @@ gunzip -c shop-2026-10-18.sql.gz | tail -n 1</code></pre>
 
 <h2>Restore the database</h2>
 <pre><code>gunzip -c shop-2026-10-18.sql.gz | mysql shop</code></pre>
-<p>For <code>.sql.zst</code> use <code>zstd -dc</code> instead of <code>gunzip -c</code>. It's safer to restore into a test database first so you don't overwrite the live one.</p>
+<p>For <code>.sql.zst</code> use <code>zstd -dc</code> instead of <code>gunzip -c</code>. It's safer to restore into a test database first so you don't overwrite the live one. Doing that in Docker on your Mac is covered in <a href="/en/guides/restore-dump-docker/">"How to test a database backup"</a>.</p>
 
 <h2>On schedule</h2>
 <p>You can put the command into <code>launchd</code> on the Mac or into cron. But a home-made schedule quickly grows a to-do list: what if the Mac was asleep at 3:00 AM, how to delete old copies, who checks the file and who tells you it failed. More on that in <a href="/en/guides/mysqldump-cron/">"mysqldump on a schedule: cron or backups to your Mac"</a>.</p>
@@ -130,8 +130,12 @@ gunzip -c shop-2026-10-18.sql.gz | tail -n 1</code></pre>
     <nav class="article-more" aria-label="More guides">
       <h2>More guides</h2>
       <ul>
+      <li><a href="/en/guides/postgresql-backup-ssh/">PostgreSQL backup over SSH to a Mac</a></li>
+      <li><a href="/en/guides/docker-database-backup/">Database backup from a Docker container</a></li>
       <li><a href="/en/guides/website-backup/">Back up a website to your computer</a></li>
+      <li><a href="/en/guides/restore-dump-docker/">How to test a database backup</a></li>
       <li><a href="/en/guides/mysqldump-cron/">mysqldump on a schedule</a></li>
+      <li><a href="/en/guides/rsync-incremental-backup/">Incremental backups with rsync</a></li>
       </ul>
     </nav>
   </article>

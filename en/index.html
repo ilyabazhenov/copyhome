@@ -393,8 +393,12 @@
     </div>
     <div class="guide-grid">
       <a class="guide-card reveal" href="/en/guides/mysql-backup-ssh/"><h3>MySQL backup over SSH to a Mac</h3><p>One Terminal command dumps the database on the server and writes it straight into a file on your Mac. Nothing stays on the server, and nothing needs installing there.</p><span class="guide-more">Read →</span></a>
+      <a class="guide-card reveal" href="/en/guides/postgresql-backup-ssh/"><h3>PostgreSQL backup over SSH to a Mac</h3><p>pg_dump dumps the database on the server, and the compressed stream goes over SSH straight into a file on your Mac. Nothing stays on the server, and all it needs there is pg_dump itself.</p><span class="guide-more">Read →</span></a>
+      <a class="guide-card reveal" href="/en/guides/docker-database-backup/"><h3>Database backup from a Docker container</h3><p>When the database runs in Docker, you dump it with its own tool inside the container through docker exec. The server itself needs no database client.</p><span class="guide-more">Read →</span></a>
       <a class="guide-card reveal" href="/en/guides/website-backup/"><h3>Back up a website to your computer</h3><p>A website has two parts: a database and a folder of files. A full website backup is a copy of both, taken at the same time and kept somewhere other than the same server.</p><span class="guide-more">Read →</span></a>
+      <a class="guide-card reveal" href="/en/guides/restore-dump-docker/"><h3>How to test a database backup</h3><p>A backup you have never restored from is a hope, not a backup. The easiest way to test one is a temporary database in Docker on your own Mac, far from the production server.</p><span class="guide-more">Read →</span></a>
       <a class="guide-card reveal" href="/en/guides/mysqldump-cron/"><h3>mysqldump on a schedule</h3><p>The most common way to automate MySQL backups is a mysqldump script in cron. It works until it breaks, and it usually breaks silently.</p><span class="guide-more">Read →</span></a>
+      <a class="guide-card reveal" href="/en/guides/rsync-incremental-backup/"><h3>Incremental backups with rsync</h3><p>Archiving 20 GB of uploads every night is slow and eats disk space. rsync downloads only the files that changed, and hard links turn every run into a full snapshot of the folder.</p><span class="guide-more">Read →</span></a>
     </div>
   </div>
 </section>

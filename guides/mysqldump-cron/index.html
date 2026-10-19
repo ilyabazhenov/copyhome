@@ -111,7 +111,7 @@ find /var/backups -name 'shop-*.sql.gz' -mtime +14 -delete</code></pre>
 <li>Старые копии удаляются только после удачной новой.</li>
 <li>Неудачный запуск повторяется, а о сбое приходит сообщение.</li>
 <li>Есть ещё одна копия в облаке.</li>
-<li>Вы хотя бы раз восстановили базу из копии.</li>
+<li>Вы хотя бы раз восстановили базу из копии (<a href="/guides/restore-dump-docker/">как проверить бекап</a>).</li>
 </ul>
     <aside class="article-cta">
       <img src="/assets/icon-512.png" width="72" height="72" alt="" decoding="async">
@@ -129,7 +129,11 @@ find /var/backups -name 'shop-*.sql.gz' -mtime +14 -delete</code></pre>
       <h2>Другие инструкции</h2>
       <ul>
       <li><a href="/guides/mysql-backup-ssh/">Бекап MySQL по SSH на Mac</a></li>
+      <li><a href="/guides/postgresql-backup-ssh/">Бекап PostgreSQL по SSH на Mac</a></li>
+      <li><a href="/guides/docker-database-backup/">Бекап базы из Docker-контейнера</a></li>
       <li><a href="/guides/website-backup/">Бекап сайта на свой компьютер</a></li>
+      <li><a href="/guides/restore-dump-docker/">Как проверить бекап базы</a></li>
+      <li><a href="/guides/rsync-incremental-backup/">Инкрементальный бекап через rsync</a></li>
       </ul>
     </nav>
   </article>

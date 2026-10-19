@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Бекап PostgreSQL по SSH на Mac: pg_dump вручную и по расписанию · CopyHome</title>
+  <meta name="description" content="Как снять дамп PostgreSQL с удалённого сервера по SSH прямо на Mac, не светить пароль, проверить, что дамп целый, и восстановить базу. Про версии pg_dump и форматы дампа.">
+  <meta property="og:title" content="Бекап PostgreSQL по SSH на Mac: pg_dump вручную и по расписанию">
+  <meta property="og:description" content="Как снять дамп PostgreSQL с удалённого сервера по SSH прямо на Mac, не светить пароль, проверить, что дамп целый, и восстановить базу. Про версии pg_dump и форматы дампа.">
+  <meta property="og:image" content="https://copyhome.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://copyhome.app/guides/postgresql-backup-ssh/">
+  <meta property="og:site_name" content="CopyHome">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/postgresql-backup-ssh/">
+  <link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/postgresql-backup-ssh/">
+  <link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/postgresql-backup-ssh/">
+  <link rel="canonical" href="https://copyhome.app/guides/postgresql-backup-ssh/">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#F3F7F6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#061A18" media="(prefers-color-scheme: dark)">
+  <script>
+    document.documentElement.classList.add('js');
+    try { var t = localStorage.getItem('copyhome-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="/assets/icon-512.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Бекап PostgreSQL по SSH на Mac: pg_dump вручную и по расписанию", "description": "Как снять дамп PostgreSQL с удалённого сервера по SSH прямо на Mac, не светить пароль, проверить, что дамп целый, и восстановить базу. Про версии pg_dump и форматы дампа.", "inLanguage": "ru", "datePublished": "2026-10-18", "dateModified": "2026-10-18", "url": "https://copyhome.app/guides/postgresql-backup-ssh/", "image": "https://copyhome.app/assets/og.png", "publisher": {"@type": "Organization", "name": "CopyHome", "logo": {"@type": "ImageObject", "url": "https://copyhome.app/assets/icon-512.png"}}, "about": {"@type": "SoftwareApplication", "name": "CopyHome", "operatingSystem": "macOS 13 or later", "applicationCategory": "UtilitiesApplication"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CopyHome", "item": "https://copyhome.app/"}, {"@type": "ListItem", "position": 2, "name": "Бекап PostgreSQL по SSH на Mac", "item": "https://copyhome.app/guides/postgresql-backup-ssh/"}]}</script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="guide">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <mask id="ch-arrow" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="#fff"/>
+      <path transform="translate(0 6)" d="M500.69,678.69 A16,16 0 0 0 523.31,678.69 L601.51,600.49 A12,12 0 0 0 593.03,580.00 L567.00,580.00 A5,5 0 0 1 562.00,575.00 L562.00,462.00 A14,14 0 0 0 548.00,448.00 L476.00,448.00 A14,14 0 0 0 462.00,462.00 L462.00,575.00 A5,5 0 0 1 457.00,580.00 L430.97,580.00 A12,12 0 0 0 422.49,600.49Z" fill="#000"/>
+    </mask>
+    <symbol id="mark" viewBox="236 240 552 524">
+      <path d="M258.0 478.0 L512.0 262.0 L626.0 358.9 L626.0 316.0 L674.0 316.0 L674.0 399.8 L766.0 478.0 L720.0 478.0 L720.0 742.0 L304.0 742.0 L304.0 478.0 Z" fill="currentColor" stroke="currentColor" stroke-width="40" stroke-linejoin="round" mask="url(#ch-arrow)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="nav scrolled" id="top">
+  <div class="nav-inner">
+    <a class="brand" href="/" aria-label="CopyHome">
+      <svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg>
+      <span class="brand-word">Copy<b>Home</b></span>
+    </a>
+    <nav class="nav-links" aria-label="Разделы">
+      <a href="/#features">Возможности</a>
+      <a href="/#how">Как устроено</a>
+      <a href="/#cloud">Облако</a>
+      <a href="/#security">Безопасность</a>
+      <a href="/#guides" class="active">Инструкции</a>
+      <a href="/#faq">Вопросы</a>
+    </nav>
+    <div class="nav-tools">
+      <a class="tool" href="/en/guides/postgresql-backup-ssh/" hreflang="en" lang="en" title="English version" aria-label="English version">EN</a>
+      <button class="tool" type="button" data-theme-toggle title="Сменить тему" aria-label="Сменить тему">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+      <a class="btn btn-small btn-nav" href="/#download">Скачать</a>
+    </div>
+  </div>
+</header>
+
+<main class="article-wrap">
+  <article class="article">
+    <nav class="crumbs" aria-label="Разделы"><a href="/">CopyHome</a><span aria-hidden="true">/</span><a href="/#guides">Инструкции</a></nav>
+    <h1>Бекап PostgreSQL по SSH на Mac: pg_dump вручную и по расписанию</h1>
+    <p class="article-lead">pg_dump снимает базу на сервере, а сжатый поток по SSH сразу пишется в файл на вашем Mac. На сервере ничего не остаётся, а нужен там только сам pg_dump.</p>
+    <p class="article-meta">Обновлено 18 октября 2026</p>
+<h2>Одна команда</h2>
+<pre><code>ssh deploy@example.com "set -o pipefail; pg_dump -h localhost -U shop shop | gzip" \
+  &gt; pgsql-shop-$(date +%F).sql.gz</code></pre>
+<p><code>pg_dump</code> и&nbsp;<code>gzip</code> работают на сервере, на Mac приходит уже сжатый дамп. <code>set -o pipefail</code> нужен, чтобы ошибка <code>pg_dump</code> не потерялась: без него команда вернёт код <code>gzip</code>, а он почти всегда успешный. Если на сервере есть <code>zstd</code>, замените <code>gzip</code> на <code>zstd -T0</code>: так быстрее и файл меньше.</p>
+<p>Если база пускает системного пользователя <code>postgres</code> без пароля, как в стандартной установке на Ubuntu и Debian, пароль не нужен вовсе:</p>
+<pre><code>ssh deploy@example.com "set -o pipefail; sudo -u postgres pg_dump shop | gzip" &gt; pgsql-shop.sql.gz</code></pre>
+
+<h2>Пароль без командной строки</h2>
+<p>Пароль в переменной <code>PGPASSWORD</code> или в адресе подключения легко засветить в истории и списке процессов. Положите его в файл <code>~/.pgpass</code> на сервере:</p>
+<pre><code>localhost:5432:shop:shop:ваш-пароль</code></pre>
+<p>Формат такой: <code>хост:порт:база:пользователь:пароль</code>, вместо любого поля можно поставить <code>*</code>. Файл нужно закрыть от других: <code>chmod 600 ~/.pgpass</code>, иначе PostgreSQL его проигнорирует.</p>
+
+<h2>Версия pg_dump</h2>
+<p><code>pg_dump</code> должен быть той же версии, что и сервер PostgreSQL, или новее. Иначе он остановится с ошибкой <code>server version mismatch</code>. Проверить обе версии можно так:</p>
+<pre><code>ssh deploy@example.com "pg_dump --version; psql -h localhost -U shop -d shop -Atc 'show server_version'"</code></pre>
+<p>Если клиент старее, поставьте на сервер пакет <code>postgresql-client</code> нужной версии из репозитория PostgreSQL.</p>
+
+<h2>Какой формат выбрать</h2>
+<ul>
+<li><b>Обычный SQL</b> (по умолчанию, <code>-Fp</code>) читается глазами, сжимается чем угодно и восстанавливается через <code>psql</code>.</li>
+<li><b>Custom</b> (<code>-Fc</code>) уже сжат и восстанавливается через <code>pg_restore</code>. Его плюс в том, что из дампа можно достать одну таблицу.</li>
+</ul>
+<p>Для бекапа небольшого проекта хватает обычного SQL: такой файл откроется на любом компьютере с <code>psql</code>.</p>
+<p>Если базу будут восстанавливать на другом сервере, добавьте <code>--no-owner --no-privileges</code>. Тогда дамп не потребует тех же ролей, что были на исходном сервере.</p>
+
+<h2>Проверьте, что дамп целый</h2>
+<p>В конце полного дампа в обычном формате стоит строка <code>-- PostgreSQL database dump complete</code>. Если её нет, дамп оборвался:</p>
+<pre><code>gzip -t pgsql-shop-2026-10-18.sql.gz
+gunzip -c pgsql-shop-2026-10-18.sql.gz | tail -n 8 | grep "dump complete"</code></pre>
+
+<h2>Как восстановить</h2>
+<pre><code>createdb shop_test
+gunzip -c pgsql-shop-2026-10-18.sql.gz | psql -X -1 -v ON_ERROR_STOP=1 -d shop_test</code></pre>
+<p><code>-1</code> загружает дамп одной транзакцией, а <code>ON_ERROR_STOP</code> останавливает её на первой ошибке. Если что-то пошло не так, база останется пустой, а не наполовину заполненной. На Mac <code>psql</code> и&nbsp;<code>createdb</code> ставятся командой <code>brew install libpq</code>. Ещё проще восстановить дамп в Docker, об этом инструкция <a href="/guides/restore-dump-docker/">«Как проверить бекап базы»</a>.</p>
+
+<h2>Роли и настройки сервера</h2>
+<p><code>pg_dump</code> сохраняет одну базу. Пользователи и их права живут на уровне сервера, и их снимает отдельная команда:</p>
+<pre><code>ssh deploy@example.com "sudo -u postgres pg_dumpall --globals-only" &gt; pg-globals.sql</code></pre>
+    <aside class="article-cta">
+      <img src="/assets/icon-512.png" width="72" height="72" alt="" decoding="async">
+      <div>
+        <h2>Пусть бекапы <em>делаются сами</em></h2>
+        <p>CopyHome снимает дамп PostgreSQL по SSH тем же потоком, проверяет, что он дописан до последней строки, и сразу говорит, если pg_dump на сервере старее PostgreSQL. Пароль не попадает в командную строку, старые копии удаляются только после удачной новой, а раз в неделю дамп можно пробно загружать в Docker на Mac.</p>
+        <a class="btn btn-primary" href="/#download" data-download>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>
+          <span>Скачать CopyHome</span>
+        </a>
+        <p class="phone-note" hidden></p>
+      </div>
+    </aside>
+    <nav class="article-more" aria-label="Другие инструкции">
+      <h2>Другие инструкции</h2>
+      <ul>
+      <li><a href="/guides/mysql-backup-ssh/">Бекап MySQL по SSH на Mac</a></li>
+      <li><a href="/guides/docker-database-backup/">Бекап базы из Docker-контейнера</a></li>
+      <li><a href="/guides/website-backup/">Бекап сайта на свой компьютер</a></li>
+      <li><a href="/guides/restore-dump-docker/">Как проверить бекап базы</a></li>
+      <li><a href="/guides/mysqldump-cron/">mysqldump по расписанию</a></li>
+      <li><a href="/guides/rsync-incremental-backup/">Инкрементальный бекап через rsync</a></li>
+      </ul>
+    </nav>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap foot-inner">
+    <a class="brand" href="/" aria-label="CopyHome"><svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg><span class="brand-word">Copy<b>Home</b></span></a>
+    <div class="foot-links"><a href="/privacy/">Конфиденциальность</a><a href="/en/guides/postgresql-backup-ssh/" hreflang="en" lang="en">English</a><span>Бекапы серверов на ваш Mac · © 2026</span></div>
+  </div>
+</footer>
+
+<script src="/main.js"></script>
+</body>
+</html>

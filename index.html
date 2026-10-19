@@ -393,8 +393,12 @@
     </div>
     <div class="guide-grid">
       <a class="guide-card reveal" href="/guides/mysql-backup-ssh/"><h3>Бекап MySQL по SSH на Mac</h3><p>Одна команда в Терминале снимает дамп базы на сервере и сразу пишет его в файл на вашем Mac. На сервере ничего не остаётся, и ставить туда ничего не нужно.</p><span class="guide-more">Читать →</span></a>
+      <a class="guide-card reveal" href="/guides/postgresql-backup-ssh/"><h3>Бекап PostgreSQL по SSH на Mac</h3><p>pg_dump снимает базу на сервере, а сжатый поток по SSH сразу пишется в файл на вашем Mac. На сервере ничего не остаётся, а нужен там только сам pg_dump.</p><span class="guide-more">Читать →</span></a>
+      <a class="guide-card reveal" href="/guides/docker-database-backup/"><h3>Бекап базы из Docker-контейнера</h3><p>Если база работает в Docker, дамп снимается её же утилитой внутри контейнера через docker exec. Ставить клиент базы на сам сервер не нужно.</p><span class="guide-more">Читать →</span></a>
       <a class="guide-card reveal" href="/guides/website-backup/"><h3>Бекап сайта на свой компьютер</h3><p>Сайт состоит из двух частей: базы данных и папки с файлами. Полный бекап сайта — это копия обеих, снятая в одно время и сохранённая не на том же сервере.</p><span class="guide-more">Читать →</span></a>
+      <a class="guide-card reveal" href="/guides/restore-dump-docker/"><h3>Как проверить бекап базы</h3><p>Бекап, из которого вы ни разу не восстанавливались, — это надежда, а не бекап. Проверить его проще всего во временной базе в Docker на своём Mac, не трогая рабочий сервер.</p><span class="guide-more">Читать →</span></a>
       <a class="guide-card reveal" href="/guides/mysqldump-cron/"><h3>mysqldump по расписанию</h3><p>Самый частый способ автоматизировать бекап MySQL — скрипт с mysqldump в cron. Он работает, пока не сломается, и обычно ломается молча.</p><span class="guide-more">Читать →</span></a>
+      <a class="guide-card reveal" href="/guides/rsync-incremental-backup/"><h3>Инкрементальный бекап через rsync</h3><p>Архивировать 20 ГБ загрузок каждую ночь долго и дорого по месту. rsync скачивает только изменившиеся файлы, а жёсткие ссылки превращают каждый запуск в полный снимок папки.</p><span class="guide-more">Читать →</span></a>
     </div>
   </div>
 </section>

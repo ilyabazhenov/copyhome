@@ -111,7 +111,7 @@ find /var/backups -name 'shop-*.sql.gz' -mtime +14 -delete</code></pre>
 <li>Old copies are deleted only after a good new one.</li>
 <li>A failed run is retried, and a failure sends you a message.</li>
 <li>There's one more copy in the cloud.</li>
-<li>You've restored a database from a copy at least once.</li>
+<li>You've restored a database from a copy at least once (<a href="/en/guides/restore-dump-docker/">how to test a backup</a>).</li>
 </ul>
     <aside class="article-cta">
       <img src="/assets/icon-512.png" width="72" height="72" alt="" decoding="async">
@@ -129,7 +129,11 @@ find /var/backups -name 'shop-*.sql.gz' -mtime +14 -delete</code></pre>
       <h2>More guides</h2>
       <ul>
       <li><a href="/en/guides/mysql-backup-ssh/">MySQL backup over SSH to a Mac</a></li>
+      <li><a href="/en/guides/postgresql-backup-ssh/">PostgreSQL backup over SSH to a Mac</a></li>
+      <li><a href="/en/guides/docker-database-backup/">Database backup from a Docker container</a></li>
       <li><a href="/en/guides/website-backup/">Back up a website to your computer</a></li>
+      <li><a href="/en/guides/restore-dump-docker/">How to test a database backup</a></li>
+      <li><a href="/en/guides/rsync-incremental-backup/">Incremental backups with rsync</a></li>
       </ul>
     </nav>
   </article>

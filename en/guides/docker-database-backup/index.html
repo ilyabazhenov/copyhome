@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Back up a database in a Docker container: MySQL, MariaDB and PostgreSQL · CopyHome</title>
+  <meta name="description" content="How to dump MySQL, MariaDB or PostgreSQL from a Docker container with docker exec and download it over SSH straight to your Mac. And why copying the data volume is a bad idea.">
+  <meta property="og:title" content="Back up a database in a Docker container: MySQL, MariaDB and PostgreSQL">
+  <meta property="og:description" content="How to dump MySQL, MariaDB or PostgreSQL from a Docker container with docker exec and download it over SSH straight to your Mac. And why copying the data volume is a bad idea.">
+  <meta property="og:image" content="https://copyhome.app/assets/og-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://copyhome.app/en/guides/docker-database-backup/">
+  <meta property="og:site_name" content="CopyHome">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/docker-database-backup/">
+  <link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/docker-database-backup/">
+  <link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/docker-database-backup/">
+  <link rel="canonical" href="https://copyhome.app/en/guides/docker-database-backup/">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#F3F7F6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#061A18" media="(prefers-color-scheme: dark)">
+  <script>
+    document.documentElement.classList.add('js');
+    try { var t = localStorage.getItem('copyhome-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <link rel="icon" type="image/png" href="/assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="/assets/icon-512.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Back up a database in a Docker container: MySQL, MariaDB and PostgreSQL", "description": "How to dump MySQL, MariaDB or PostgreSQL from a Docker container with docker exec and download it over SSH straight to your Mac. And why copying the data volume is a bad idea.", "inLanguage": "en", "datePublished": "2026-10-18", "dateModified": "2026-10-18", "url": "https://copyhome.app/en/guides/docker-database-backup/", "image": "https://copyhome.app/assets/og-en.png", "publisher": {"@type": "Organization", "name": "CopyHome", "logo": {"@type": "ImageObject", "url": "https://copyhome.app/assets/icon-512.png"}}, "about": {"@type": "SoftwareApplication", "name": "CopyHome", "operatingSystem": "macOS 13 or later", "applicationCategory": "UtilitiesApplication"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "CopyHome", "item": "https://copyhome.app/en/"}, {"@type": "ListItem", "position": 2, "name": "Database backup from a Docker container", "item": "https://copyhome.app/en/guides/docker-database-backup/"}]}</script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="guide">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <mask id="ch-arrow" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="#fff"/>
+      <path transform="translate(0 6)" d="M500.69,678.69 A16,16 0 0 0 523.31,678.69 L601.51,600.49 A12,12 0 0 0 593.03,580.00 L567.00,580.00 A5,5 0 0 1 562.00,575.00 L562.00,462.00 A14,14 0 0 0 548.00,448.00 L476.00,448.00 A14,14 0 0 0 462.00,462.00 L462.00,575.00 A5,5 0 0 1 457.00,580.00 L430.97,580.00 A12,12 0 0 0 422.49,600.49Z" fill="#000"/>
+    </mask>
+    <symbol id="mark" viewBox="236 240 552 524">
+      <path d="M258.0 478.0 L512.0 262.0 L626.0 358.9 L626.0 316.0 L674.0 316.0 L674.0 399.8 L766.0 478.0 L720.0 478.0 L720.0 742.0 L304.0 742.0 L304.0 478.0 Z" fill="currentColor" stroke="currentColor" stroke-width="40" stroke-linejoin="round" mask="url(#ch-arrow)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="nav scrolled" id="top">
+  <div class="nav-inner">
+    <a class="brand" href="/en/" aria-label="CopyHome">
+      <svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg>
+      <span class="brand-word">Copy<b>Home</b></span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="/en/#features">Features</a>
+      <a href="/en/#how">How it works</a>
+      <a href="/en/#cloud">Cloud</a>
+      <a href="/en/#security">Security</a>
+      <a href="/en/#guides" class="active">Guides</a>
+      <a href="/en/#faq">FAQ</a>
+    </nav>
+    <div class="nav-tools">
+      <a class="tool" href="/guides/docker-database-backup/" hreflang="ru" lang="ru" title="Русская версия" aria-label="Русская версия">RU</a>
+      <button class="tool" type="button" data-theme-toggle title="Toggle theme" aria-label="Toggle theme">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+      <a class="btn btn-small btn-nav" href="/en/#download">Download</a>
+    </div>
+  </div>
+</header>
+
+<main class="article-wrap">
+  <article class="article">
+    <nav class="crumbs" aria-label="Sections"><a href="/en/">CopyHome</a><span aria-hidden="true">/</span><a href="/en/#guides">Guides</a></nav>
+    <h1>Back up a database in a Docker container: MySQL, MariaDB and PostgreSQL</h1>
+    <p class="article-lead">When the database runs in Docker, you dump it with its own tool inside the container through docker exec. The server itself needs no database client.</p>
+    <p class="article-meta">Updated October 18, 2026</p>
+<h2>Find the container</h2>
+<pre><code>ssh deploy@example.com "docker ps --format '{{.Names}}\t{{.Image}}'"</code></pre>
+<p>This lists running containers with their images, such as <code>shop-db  mysql:8.4</code> or <code>crm-db  postgres:16</code>. The server user must be in the <code>docker</code> group, or the commands need <code>sudo</code>.</p>
+
+<h2>PostgreSQL</h2>
+<p>In the official <code>postgres</code> image, connecting from inside the container usually needs no password:</p>
+<pre><code>ssh deploy@example.com "set -o pipefail; docker exec crm-db pg_dump -U postgres crm | gzip" \
+  &gt; pgsql-crm-$(date +%F).sql.gz</code></pre>
+<p>Use the user from <code>POSTGRES_USER</code> instead of <code>postgres</code> if you set it.</p>
+
+<h2>MySQL and MariaDB</h2>
+<p>The root password is already in the container’s environment, so you don’t have to copy it into the command. Because of the quoting, the command is easier to keep in a script on the server, say <code>~/dump-shop.sh</code>:</p>
+<pre><code>#!/bin/bash
+set -euo pipefail
+docker exec shop-db sh -c 'exec mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" \
+  --single-transaction --routines --triggers --events shop' | gzip</code></pre>
+<p>Make it executable (<code>chmod 700 ~/dump-shop.sh</code>) and run it from the Mac:</p>
+<pre><code>ssh deploy@example.com ./dump-shop.sh &gt; mysql-shop-$(date +%F).sql.gz</code></pre>
+<p>In MariaDB 11 images the tool is called <code>mariadb-dump</code> and the password is in <code>$MARIADB_ROOT_PASSWORD</code>. Keep in mind that a password passed with <code>-p</code> shows up in the server’s process list while the dump runs. If other people use the server, pass it through a temporary options file.</p>
+
+<h2>No -t</h2>
+<p>Don’t add <code>-t</code> to <code>docker exec</code>. With a terminal attached, Docker rewrites line endings and the dump gets corrupted. For the same reason <code>docker compose</code> needs <code>-T</code>:</p>
+<pre><code>docker compose exec -T db pg_dump -U postgres crm | gzip &gt; crm.sql.gz</code></pre>
+
+<h2>Why not copy the data volume</h2>
+<p>The folder where a running database keeps its files changes all the time. A copy taken on the fly may not start, or may start with damaged tables. A dump is a consistent snapshot that restores into any compatible version. Files the app keeps in other volumes, such as user uploads, can go into a regular archive, as in <a href="/en/guides/website-backup/">"Back up a website to your computer"</a>.</p>
+
+<h2>Check the result</h2>
+<p>A MySQL dump ends with <code>-- Dump completed on …</code>, and a PostgreSQL one with <code>-- PostgreSQL database dump complete</code>:</p>
+<pre><code>gunzip -c mysql-shop-2026-10-18.sql.gz | tail -n 1
+gunzip -c pgsql-crm-2026-10-18.sql.gz | tail -n 8 | grep "dump complete"</code></pre>
+    <aside class="article-cta">
+      <img src="/assets/icon-512.png" width="72" height="72" alt="" decoding="async">
+      <div>
+        <h2>Let backups <em>happen by themselves</em></h2>
+        <p>In CopyHome you pick the container from a list, and the dump runs through docker exec on the server or right on this Mac. The password never appears on a command line, MariaDB 11 with mariadb-dump works too, every dump is checked to its last line, and a copy goes to Yandex Disk, Google Drive, S3 or a NAS.</p>
+        <a class="btn btn-primary" href="/en/#download" data-download>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>
+          <span>Download CopyHome</span>
+        </a>
+        <p class="phone-note" hidden></p>
+      </div>
+    </aside>
+    <nav class="article-more" aria-label="More guides">
+      <h2>More guides</h2>
+      <ul>
+      <li><a href="/en/guides/mysql-backup-ssh/">MySQL backup over SSH to a Mac</a></li>
+      <li><a href="/en/guides/postgresql-backup-ssh/">PostgreSQL backup over SSH to a Mac</a></li>
+      <li><a href="/en/guides/website-backup/">Back up a website to your computer</a></li>
+      <li><a href="/en/guides/restore-dump-docker/">How to test a database backup</a></li>
+      <li><a href="/en/guides/mysqldump-cron/">mysqldump on a schedule</a></li>
+      <li><a href="/en/guides/rsync-incremental-backup/">Incremental backups with rsync</a></li>
+      </ul>
+    </nav>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap foot-inner">
+    <a class="brand" href="/en/" aria-label="CopyHome"><svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg><span class="brand-word">Copy<b>Home</b></span></a>
+    <div class="foot-links"><a href="/en/privacy/">Privacy</a><a href="/guides/docker-database-backup/" hreflang="ru" lang="ru">Русский</a><span>Server backups, delivered to your Mac · © 2026</span></div>
+  </div>
+</footer>
+
+<script src="/main.js"></script>
+</body>
+</html>

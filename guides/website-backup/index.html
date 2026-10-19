@@ -99,7 +99,7 @@
 <p><code>tar</code> упаковывает папку сайта на сервере, а архив сразу приходит на Mac:</p>
 <pre><code>ssh deploy@example.com "tar -czf - --exclude='site/wp-content/cache' -C /var/www site" \
   &gt; site-files-$(date +%F).tar.gz</code></pre>
-<p><code>-C /var/www site</code> сохраняет в архиве короткие пути вида <code>site/…</code>, а <code>--exclude</code> пропускает кеш. Путь к сайту и папку кеша поменяйте на свои.</p>
+<p><code>-C /var/www site</code> сохраняет в архиве короткие пути вида <code>site/…</code>, а <code>--exclude</code> пропускает кеш. Путь к сайту и папку кеша поменяйте на свои. Если загрузок много, вместо архива каждый раз удобнее забирать только изменения, см. <a href="/guides/rsync-incremental-backup/">«Инкрементальный бекап через rsync»</a>.</p>
 
 <h2>Шаг 3. Проверьте копию</h2>
 <pre><code>tar -tzf site-files-2026-10-18.tar.gz &gt; /dev/null &amp;&amp; echo "архив целый"
@@ -127,7 +127,11 @@ gunzip -c site-db-2026-10-18.sql.gz | tail -n 1</code></pre>
       <h2>Другие инструкции</h2>
       <ul>
       <li><a href="/guides/mysql-backup-ssh/">Бекап MySQL по SSH на Mac</a></li>
+      <li><a href="/guides/postgresql-backup-ssh/">Бекап PostgreSQL по SSH на Mac</a></li>
+      <li><a href="/guides/docker-database-backup/">Бекап базы из Docker-контейнера</a></li>
+      <li><a href="/guides/restore-dump-docker/">Как проверить бекап базы</a></li>
       <li><a href="/guides/mysqldump-cron/">mysqldump по расписанию</a></li>
+      <li><a href="/guides/rsync-incremental-backup/">Инкрементальный бекап через rsync</a></li>
       </ul>
     </nav>
   </article>

@@ -70,4 +70,60 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/privacy/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/privacy/"/>
   </url>
+  <url>
+    <loc>https://copyhome.app/guides/postgresql-backup-ssh/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/postgresql-backup-ssh/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/postgresql-backup-ssh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/postgresql-backup-ssh/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/en/guides/postgresql-backup-ssh/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/postgresql-backup-ssh/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/postgresql-backup-ssh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/postgresql-backup-ssh/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/guides/docker-database-backup/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/docker-database-backup/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/docker-database-backup/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/docker-database-backup/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/en/guides/docker-database-backup/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/docker-database-backup/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/docker-database-backup/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/docker-database-backup/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/guides/restore-dump-docker/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/restore-dump-docker/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/restore-dump-docker/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/restore-dump-docker/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/en/guides/restore-dump-docker/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/restore-dump-docker/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/restore-dump-docker/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/restore-dump-docker/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/guides/rsync-incremental-backup/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/rsync-incremental-backup/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/rsync-incremental-backup/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/rsync-incremental-backup/"/>
+  </url>
+  <url>
+    <loc>https://copyhome.app/en/guides/rsync-incremental-backup/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://copyhome.app/guides/rsync-incremental-backup/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://copyhome.app/en/guides/rsync-incremental-backup/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://copyhome.app/guides/rsync-incremental-backup/"/>
+  </url>
 </urlset>

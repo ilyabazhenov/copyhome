@@ -99,7 +99,7 @@
 <p><code>tar</code> packs the site folder on the server and the archive streams straight to your Mac:</p>
 <pre><code>ssh deploy@example.com "tar -czf - --exclude='site/wp-content/cache' -C /var/www site" \
   &gt; site-files-$(date +%F).tar.gz</code></pre>
-<p><code>-C /var/www site</code> keeps short paths like <code>site/…</code> inside the archive, and <code>--exclude</code> skips the cache. Change the site path and cache folder to yours.</p>
+<p><code>-C /var/www site</code> keeps short paths like <code>site/…</code> inside the archive, and <code>--exclude</code> skips the cache. Change the site path and cache folder to yours. If there are lots of uploads, fetching only the changes beats a full archive every time, see <a href="/en/guides/rsync-incremental-backup/">"Incremental backups with rsync"</a>.</p>
 
 <h2>Step 3. Check the copy</h2>
 <pre><code>tar -tzf site-files-2026-10-18.tar.gz &gt; /dev/null &amp;&amp; echo "archive OK"
@@ -127,7 +127,11 @@ gunzip -c site-db-2026-10-18.sql.gz | tail -n 1</code></pre>
       <h2>More guides</h2>
       <ul>
       <li><a href="/en/guides/mysql-backup-ssh/">MySQL backup over SSH to a Mac</a></li>
+      <li><a href="/en/guides/postgresql-backup-ssh/">PostgreSQL backup over SSH to a Mac</a></li>
+      <li><a href="/en/guides/docker-database-backup/">Database backup from a Docker container</a></li>
+      <li><a href="/en/guides/restore-dump-docker/">How to test a database backup</a></li>
       <li><a href="/en/guides/mysqldump-cron/">mysqldump on a schedule</a></li>
+      <li><a href="/en/guides/rsync-incremental-backup/">Incremental backups with rsync</a></li>
       </ul>
     </nav>
   </article>
