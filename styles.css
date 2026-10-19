@@ -621,6 +621,8 @@ summary::-webkit-details-marker { display: none; }
 summary::after { content: '+'; font-weight: 500; font-size: 26px; line-height: .9; color: var(--accent); transition: rotate .3s var(--ease); }
 details[open] summary::after { rotate: 45deg; }
 details p { padding: 0 0 22px; color: var(--text-2); font-size: 16px; }
+.faq-list { grid-template-columns: minmax(0, 1fr); }
+details p code { white-space: normal; overflow-wrap: anywhere; }
 
 /* ---------- final ---------- */
 .final { position: relative; overflow: hidden; isolation: isolate; padding: 130px 0 140px; text-align: center; }
@@ -696,6 +698,30 @@ details p { padding: 0 0 22px; color: var(--text-2); font-size: 16px; }
 .js .mac.reveal.in { transform: perspective(2200px) rotateX(0) scale(1); }
 
 /* ---------- responsive ---------- */
+/* trial restore card: text and checks side by side */
+.c-trial { grid-column: span 6; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.c-trial .checks { margin: 0; }
+.c-trial div > p:not(.kicker) { margin-top: 10px; color: var(--text-2); font-size: 15.5px; line-height: 1.55; }
+
+/* trust line under the download buttons */
+.trust { margin-top: 18px; font: 13px/1.5 var(--mono); color: var(--text-3); }
+.final .trust { text-align: center; }
+
+/* comparison table */
+.cmp-wrap { overflow-x: auto; border-radius: 24px; background: var(--surface); box-shadow: var(--card-shadow); }
+.cmp-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.cmp { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 15px; line-height: 1.45; }
+.cmp th, .cmp td { padding: 16px 18px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.cmp tbody tr:last-child th, .cmp tbody tr:last-child td { border-bottom: 0; }
+.cmp thead th { font-size: 14px; font-weight: 700; color: var(--heading); white-space: nowrap; }
+.cmp tbody th { width: 22%; font-weight: 600; color: var(--heading); }
+.cmp td { color: var(--text-2); }
+.cmp .us { background: var(--accent-soft); color: var(--heading); font-weight: 600; }
+.cmp thead .us { color: var(--accent-text); }
+.cmp code { font-size: 13px; }
+.cmp-note { max-width: 780px; margin: 22px auto 0; text-align: center; font-size: 14px; color: var(--text-3); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
 @media (max-width: 1080px) {
   .nav-links { display: none; }
   .nav-tools { margin-left: auto; }
@@ -719,6 +745,12 @@ details p { padding: 0 0 22px; color: var(--text-2); font-size: 16px; }
   .c-compress { grid-column: span 6; }
 }
 @media (max-width: 720px) {
+  .c-trial { grid-template-columns: 1fr; gap: 20px; }
+  .cmp { font-size: 14px; }
+  .cmp th, .cmp td { padding: 12px 14px; }
+  .cmp-wrap { border-radius: 18px; }
+  .cmp { min-width: 680px; }
+  .cmp tbody th, .cmp thead td { position: sticky; left: 0; z-index: 1; width: 132px; min-width: 132px; background: var(--surface); box-shadow: 1px 0 0 var(--line); }
   body { font-size: 16px; }
   .wrap, .nav-inner { width: calc(100% - 32px); }
   .nav-inner { gap: 12px; }
